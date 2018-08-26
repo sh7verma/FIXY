@@ -7,7 +7,6 @@ import com.app.fixy.R;
 
 public class ServiceDetailActivity extends BaseActivity {
 
-
     @Override
     protected int getContentView() {
         return R.layout.activity_service_detail;
