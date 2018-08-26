@@ -121,5 +121,11 @@
     <string name="time_left_title">Time left to accept the request</string>
     <string name="time_left_mess">Your request would be auto expired when time will be complete and your deducted coin would be credit to your coin.</string>
     <string name="looking_for">Looking For</string>
+    <string name="car_wash">CAR WASH</string>
+    <string name="_20_coins_will_be_spent_to_request_this_service">20 Coins will be spent to request this service</string>
+    <string name="_7_offers_available">7 Offers Available</string>
+    <string name="please_note">Please note:</string>
+    <string name="it_will_take_maximum_upto_8_hours_to_accept_request">It will take maximum upto 8 hours to accept request.</string>
+    <string name="request_service">REQUEST SERVICE</string>
 
 </resources>

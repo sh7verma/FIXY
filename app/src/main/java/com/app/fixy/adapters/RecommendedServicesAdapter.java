@@ -1,6 +1,8 @@
 package com.app.fixy.adapters;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.GradientDrawable;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -11,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.app.fixy.R;
+import com.app.fixy.activities.ServiceDetailActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -58,6 +61,18 @@ public class RecommendedServicesAdapter extends RecyclerView.Adapter<Recommended
 //                .into(holder.imgService);
 //            }
 
+
+        holder.llBackground.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+
+                Intent intent = new Intent(mContext, ServiceDetailActivity.class);
+                mContext.startActivity(intent);
+                ((Activity) mContext).overridePendingTransition(R.anim.in, R.anim.out);
+
+            }
+        });
     }
 
     @Override
