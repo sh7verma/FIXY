@@ -57,7 +57,7 @@ public class PendingDetailActivity extends BaseActivity {
         overridePendingTransition(R.anim.slide_right, R.anim.slide_out_right);
     }
 
-    @OnClick(R.id.ic_back)
+    @OnClick(R.id.img_back)
     void back() {
         onBackPressed();
     }

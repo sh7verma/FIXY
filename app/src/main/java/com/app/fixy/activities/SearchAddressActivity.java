@@ -3,7 +3,6 @@ package com.app.fixy.activities;
 import android.content.Context;
 import android.content.Intent;
 import android.location.Location;
-import android.os.Build;
 import android.os.Handler;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -52,7 +51,7 @@ public class SearchAddressActivity extends BaseActivity implements AddressInterf
     RecyclerView recycleView;
     @BindView(R.id.img_cancel)
     ImageView imgCancel;
-    @BindView(R.id.ic_back)
+    @BindView(R.id.img_back)
     ImageView icBack;
     @BindView(R.id.ll_current_location)
     LinearLayout llCurrentLocation;
@@ -145,7 +144,7 @@ public class SearchAddressActivity extends BaseActivity implements AddressInterf
             case R.id.img_cancel:
                 etSearch.setText("");
                 break;
-            case R.id.ic_back:
+            case R.id.img_back:
                 finish();
                 overridePendingTransition(R.anim.slide_right, R.anim.slide_out_right);
                 break;

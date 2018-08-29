@@ -2,10 +2,17 @@ package com.app.fixy.activities;
 
 import android.content.Context;
 import android.view.View;
+import android.widget.ImageView;
 
 import com.app.fixy.R;
 
+import butterknife.BindView;
+
 public class SettingsActivity extends BaseActivity {
+
+    @BindView(R.id.img_back)
+    ImageView imgBack;
+
 
     @Override
     protected int getContentView() {
@@ -24,7 +31,7 @@ public class SettingsActivity extends BaseActivity {
 
     @Override
     protected void initListener() {
-
+        imgBack.setOnClickListener(this);
     }
 
     @Override
@@ -34,6 +41,16 @@ public class SettingsActivity extends BaseActivity {
 
     @Override
     public void onClick(View view) {
-
+        switch (view.getId()) {
+            case R.id.img_back:
+                moveBack();
+                break;
+        }
     }
+
+    void moveBack() {
+        finish();
+        overridePendingTransition(R.anim.in, R.anim.out);
+    }
+
 }

@@ -8,7 +8,6 @@ import android.location.Location;
 import android.os.Handler;
 import android.os.ResultReceiver;
 import android.support.v4.app.ActivityCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -20,20 +19,15 @@ import com.app.fixy.helper.GoogleMapInitiate;
 import com.app.fixy.interfaces.InterConst;
 import com.app.fixy.interfaces.InterfacesCall;
 import com.app.fixy.service.FetchAddressIntentService;
-import com.app.fixy.utils.Consts;
 import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
 
 import butterknife.BindView;
-
-import static com.app.fixy.activities.AddAddressActivity.locationInterface;
 
 public class MapAddressActivity extends BaseActivity implements OnMapReadyCallback, InterfacesCall.MapInterface {
 
@@ -41,7 +35,7 @@ public class MapAddressActivity extends BaseActivity implements OnMapReadyCallba
     MaterialEditText etAddress;
     @BindView(R.id.txt_done)
     TextView txtDone;
-    @BindView(R.id.ic_back)
+    @BindView(R.id.img_back)
     ImageView icBack;
     Location myLocation;
     String addressName;
@@ -175,7 +169,7 @@ public class MapAddressActivity extends BaseActivity implements OnMapReadyCallba
                 finish();
                 overridePendingTransition(R.anim.slide_right ,R.anim.slide_out_right);
                 break;
-            case R.id.ic_back:
+            case R.id.img_back:
                 finish();
                 overridePendingTransition(R.anim.slide_right ,R.anim.slide_out_right);
                 break;

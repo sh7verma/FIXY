@@ -2,8 +2,6 @@ package com.app.fixy.activities;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
-import android.support.design.widget.Snackbar;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -24,7 +22,7 @@ import butterknife.BindView;
 
 public class ShowAddressActivity extends BaseActivity implements RecyclerItemTouchHelper.RecyclerItemTouchHelperListener {
 
-    @BindView(R.id.ic_back)
+    @BindView(R.id.img_back)
     ImageView icBack;
     @BindView(R.id.txt_title)
     TextView txtTitle;
@@ -96,7 +94,7 @@ public class ShowAddressActivity extends BaseActivity implements RecyclerItemTou
     public void onClick(View v) {
         Intent intent;
         switch (v.getId()) {
-            case R.id.ic_back:
+            case R.id.img_back:
 
                 finish();
                 overridePendingTransition(R.anim.slide_right,

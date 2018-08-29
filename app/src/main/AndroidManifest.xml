@@ -97,7 +97,8 @@
         <activity android:name=".activities.PendingDetailActivity" />
         <activity android:name=".activities.SearchServiceActivity" />
         <activity android:name=".activities.ServiceDetailActivity" />
-        <activity android:name=".activities.WorkersAdsDetailActivity"></activity>
+        <activity android:name=".activities.WorkersAdsDetailActivity"/>
+        <activity android:name=".activities.SettingsActivity"/>
     </application>
 
 </manifest>

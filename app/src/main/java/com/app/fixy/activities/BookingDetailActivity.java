@@ -54,14 +54,13 @@ public class BookingDetailActivity extends BaseActivity {
         overridePendingTransition(R.anim.slide_right, R.anim.slide_out_right);
     }
 
-    @OnClick(R.id.ic_back)
+    @OnClick(R.id.img_back)
     void back() {
         onBackPressed();
     }
 
     @OnClick(R.id.ic_info)
     void infoClick() {
-
         showCustomSnackBar(llMain, getString(R.string.otp), getString(R.string.provide_otp_to_worker));
     }
 }

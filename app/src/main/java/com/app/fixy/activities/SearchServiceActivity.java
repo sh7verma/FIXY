@@ -1,18 +1,13 @@
 package com.app.fixy.activities;
 
 import android.content.Context;
-import android.media.Image;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.app.fixy.R;
-import com.app.fixy.adapters.BookingAdapter;
 import com.app.fixy.adapters.SearchCategoryAdapter;
 import com.app.fixy.adapters.SearchServiceAdapter;
 import com.app.fixy.customviews.MaterialEditText;
@@ -91,7 +86,7 @@ public class SearchServiceActivity extends BaseActivity {
         overridePendingTransition(R.anim.slide_right, R.anim.slide_out_right);
     }
 
-    @OnClick(R.id.ic_back)
+    @OnClick(R.id.img_back)
     void back() {
         onBackPressed();
     }
