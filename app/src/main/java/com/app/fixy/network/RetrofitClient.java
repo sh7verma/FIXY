@@ -19,7 +19,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class RetrofitClient {
 
 //        private static final String BASE_URL = "http://13.228.223.105:3032/";// Client
-    private static final String BASE_URL = "http://13.126.29.41:3050/";// Development
+    private static final String BASE_URL = "http://medusu.com/fixy/index.php/";// Development
     private static Retrofit retrofit = null;
     private static final String CACHE_CONTROL = "Cache-Control";
     private static Retrofit retrofitGoogle=null;
@@ -108,7 +108,7 @@ public class RetrofitClient {
 
     public static final String GOOGLEPLACE = "https://maps.googleapis.com/maps/api/place/autocomplete/";
 
-    public static Retrofit getClient() {
+    public static Retrofit getGoogleClient() {
         if (retrofitGoogle == null) {
             retrofitGoogle = new Retrofit.Builder()
                     .baseUrl(GOOGLEPLACE)

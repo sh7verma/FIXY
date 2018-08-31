@@ -128,4 +128,40 @@
     <string name="it_will_take_maximum_upto_8_hours_to_accept_request">It will take maximum upto 8 hours to accept request.</string>
     <string name="request_service">REQUEST SERVICE</string>
 
+
+    <string name="email_not_empty">Email field cannot be empty</string>
+    <string name="email_not_valid">Please enter valid Email</string>
+    <string name="password_empty">Password field cannot be empty</string>
+    <string name="confirm_password_validation">New Password and Re-Enter New Password doesn\'t match.</string>
+    <string name="password_min_char">Password must be of minimum 8 characters</string>
+    <string name="invalid_password">Invalid Password</string>
+    <string name="email_not_fetch">Email is mandatory to continue. Please grant email permission or choose other signup option.</string>
+    <string name="enter_phone_number">Please enter phone number</string>
+    <string name="start_with_zero">Phone number cannot start with zero</string>
+    <string name="invalid_phone_number">Please enter a valid phone number to continue</string>
+    <string name="register_number">Register Number</string>
+    <string name="verify_number_header_txt">Enter your Verification code we sent to</string>
+    <string name="invalid_OTP">Invalid OTP</string>
+    <string name="full_name_empty">Full Name cannot be Empty</string>
+    <string name="set_your_bday">Please Select Date of Birth</string>
+    <string name="fullname_length"> Name must be minimum 2 characters</string>
+    <string name="error_card_no">Enter card number</string>
+    <string name="error_valid_card_no">Enter valid card number</string>
+    <string name="error_month">Enter expiry month</string>
+    <string name="error_year">Enter expiry year</string>
+    <string name="error_valid_account">Enter valid account number</string>
+    <string name="enter_otp">Enter OTP</string>
+    <string name="enter_valid_otp">Enter Valid OTP</string>
+    <string name="not_alphabet">Please enter valid name</string>
+    <string name="choose_a_country">Choose a country</string>
+
+    <string name="add_card_successfully"> Card added successfully</string>
+    <string name="invalid_month">Invalid expiry month</string>
+    <string name="file_deleted">file deleted</string>
+    <string name="delete_Attachement_confirm">Are you sure you want to remove this?</string>
+    <string name="invalid_cvv">Invalid cvv number</string>
+    <string name="invalid_card">Invalid Card</string>
+    <string name="invalid_expiry_date">Invalid expiry date</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
 </resources>

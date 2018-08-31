@@ -295,4 +295,10 @@ public class Animations {
     public static void AnimatedClick(Context context, View v){
         v.startAnimation(AnimationUtils.loadAnimation(context, R.anim.click));
     }
+
+    public static void ShakeAnimation(Context context, View v){
+
+        Animation shake = AnimationUtils.loadAnimation(context, R.anim.shake);
+        v.startAnimation(shake);
+    }
 }

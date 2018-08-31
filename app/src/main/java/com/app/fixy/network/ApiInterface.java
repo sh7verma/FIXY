@@ -1,10 +1,14 @@
 package com.app.fixy.network;
 
 import com.app.fixy.models.GooglePlaceModal;
+import com.app.fixy.models.LoginModel;
 import com.app.fixy.models.NearbyPlaceModel;
 
 import retrofit2.Call;
+import retrofit2.http.Field;
+import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.POST;
 import retrofit2.http.Url;
 
 public interface ApiInterface {
@@ -18,17 +22,15 @@ public interface ApiInterface {
     @GET
     public Call<NearbyPlaceModel> getGoogleNearByPlaces(@Url String url);
 
-//    @FormUrlEncoded
-//    @POST("/users/signup")
-//    Call<SignupModel> userSignup(@Field("email") String email,
-//                                 @Field("password") String password,
-//                                 @Field("platform_status") String platform_status,
-//                                 @Field("user_type") String user_type,
-//                                 @Field("device_token") String device_token,
-//                                 @Field("facebook_id") String facebook_id,
-//                                 @Field("facebook_url") String facebook_url,
-//                                 @Field("first_name") String first_name,
-//                                 @Field("last_name") String last_name);
+    @FormUrlEncoded
+    @POST("phone_auth")
+    Call<LoginModel> userSignup(@Field("country_code") String country_code,
+                                @Field("phone") String phone,
+                                @Field("action") String action);
+    @FormUrlEncoded
+    @POST("verify_otp")
+    Call<LoginModel> verify_otp(@Field("otp") String otp,
+                                @Field("action") String action);
 //
 //    @FormUrlEncoded
 //    @POST("/users/signin")

@@ -34,7 +34,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".activities.LandingActivity"
+            android:name=".activities.SplashActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme">
             <intent-filter>
@@ -89,7 +89,7 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/mapKey" />
 
-        <activity android:name=".activities.SplashActivity" />
+        <!--<activity android:name=".activities.SplashActivity" />-->
         <activity android:name=".activities.MapAddressActivity" />
         <activity android:name=".activities.AddAddressActivity" />
         <activity android:name=".activities.ShowAddressActivity" />

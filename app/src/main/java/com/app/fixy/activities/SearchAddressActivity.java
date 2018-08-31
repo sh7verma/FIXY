@@ -165,7 +165,7 @@ public class SearchAddressActivity extends BaseActivity implements AddressInterf
         //autocomplete
 //        https://maps.googleapis.com/maps/api/place/autocomplete/json?input=ncm+
 // &location=30.6577781,76.7327138&radius=1000&types=geocode&language=en&key=AIzaSyBAPTeUV-04HFtCIt3Ac8MtVFqim9CDlV4
-        ApiInterface apiInterface = RetrofitClient.getClient().create(ApiInterface.class);
+        ApiInterface apiInterface = RetrofitClient.getGoogleClient().create(ApiInterface.class);
         ;
         StringBuilder urlString = new StringBuilder();
         urlString.append("json?input=");
