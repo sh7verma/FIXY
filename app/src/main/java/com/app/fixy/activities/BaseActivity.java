@@ -32,6 +32,8 @@ import butterknife.ButterKnife;
 public abstract class BaseActivity extends AppCompatActivity implements View.OnClickListener {
 
     public MarshMallowPermission mPermission;
+    public Typeface typefaceRegular, typefaceBold, typefaceMedium;
+    public AddressInterface addressInterface;
     protected int mWidth, mHeight;
     protected Context mContext;
     protected String errorInternet;
@@ -39,12 +41,12 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
     protected String errorAPI;
     protected String errorAccessToken;
     protected String terminateAccount;
-        protected Db db;
+    protected Db db;
+    public String TAG;
     Utils utils;
     Gson mGson = new Gson();
     Encode encode;
     private Snackbar mSnackbar;
-    public Typeface typefaceRegular,typefaceBold,typefaceMedium;
 
     public static void hideKeyboard(Activity mContext) {
         // Check if no view has focus:
@@ -55,15 +57,6 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
         }
     }
 
-    public AddressInterface addressInterface;
-
-    public void setInterface(AddressInterface name) {
-        addressInterface = name;
-    }
-
-    public AddressInterface getAddressInterface() {
-        return addressInterface;
-    }
     public static void hideKeyboardDialog(Activity mContext) {
         // Check if no view has focus:
         View view = mContext.getCurrentFocus();
@@ -71,6 +64,14 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
             InputMethodManager imm = (InputMethodManager) mContext.getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
         }
+    }
+
+    public void setInterface(AddressInterface name) {
+        addressInterface = name;
+    }
+
+    public AddressInterface getAddressInterface() {
+        return addressInterface;
     }
 
     @Override
@@ -83,6 +84,7 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
         ButterKnife.bind(this);
         db = new Db(this);
         encode = new Encode();
+        TAG=getClass().getName();
         getDefaults();
         onCreateStuff();
         mPermission = new MarshMallowPermission(this);
@@ -188,7 +190,7 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
 //        }
 //    }
 
-    protected void showCustomSnackBar(View containerLayout,String header,String message ) {
+    protected void showCustomSnackBar(View containerLayout, String header, String message) {
         LayoutInflater mInflater = LayoutInflater.from(containerLayout.getContext());
 
         // Create the Snackbar

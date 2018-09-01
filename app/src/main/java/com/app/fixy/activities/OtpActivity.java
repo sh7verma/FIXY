@@ -2,7 +2,6 @@ package com.app.fixy.activities;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Typeface;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;

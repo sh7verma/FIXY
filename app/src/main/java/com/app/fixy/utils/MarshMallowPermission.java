@@ -5,6 +5,7 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.net.Uri;
 import android.provider.Settings;
 import android.support.design.widget.Snackbar;
@@ -136,6 +137,25 @@ public class MarshMallowPermission {
 
 
     }
+
+    public void snackBarStorage() {
+        Snackbar.make(activity.findViewById(android.R.id.content), "Enable Storage Permissions from settings",
+                Snackbar.LENGTH_LONG ).setAction("ENABLE",
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent();
+                        intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                        intent.addCategory(Intent.CATEGORY_DEFAULT);
+                        intent.setData(Uri.parse("package:" + activity.getPackageName()));
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
+                        activity.startActivity(intent);
+                    }
+                }).setActionTextColor(Color.GRAY).show();
+    }
+
     public boolean checkPermissionForCall() {
         int result = ContextCompat.checkSelfPermission(activity, Manifest.permission.CALL_PHONE);
         if (result == PackageManager.PERMISSION_GRANTED) {
