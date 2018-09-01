@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.app.fixy">
     <!--853654727978-3bdk9ntfvpf5qjcirrjs1s2760esbm7n.apps.googleusercontent.com-->
     <!-- <uses-permission android:name="android.permission.INTERACT_ACROSS_USERS_FULL" /> -->
@@ -30,6 +31,8 @@
         android:allowBackup="true"
         android:icon="@mipmap/ic_logo_login"
         android:label="@string/app_name"
+        tools:replace="android:icon"
+
         android:roundIcon="@mipmap/ic_logo_login"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
