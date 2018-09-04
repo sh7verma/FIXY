@@ -184,6 +184,61 @@ public class OtpActivity extends BaseActivity {
 
             }
         });
+        edFirst.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                //You can identify which key pressed buy checking keyCode value with KeyEvent.KEYCODE_
+                if (keyCode == KeyEvent.KEYCODE_DEL) {
+                    //this is for backspace
+                }
+                return false;
+            }
+        });
+
+        edSecond.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                //You can identify which key pressed buy checking keyCode value with KeyEvent.KEYCODE_
+                if (keyCode == KeyEvent.KEYCODE_DEL) {
+                    //this is for backspace
+                    if (edSecond.getText().toString().length() == 0) {
+                        edFirst.setSelection(edFirst.getText().toString().length());
+                        edFirst.requestFocus();
+                    }
+                }
+                return false;
+            }
+        });
+
+        edThird.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                //You can identify which key pressed buy checking keyCode value with KeyEvent.KEYCODE_
+                if (keyCode == KeyEvent.KEYCODE_DEL) {
+                    //this is for backspace
+                    if (edThird.getText().toString().length() == 0) {
+                        edSecond.setSelection(edSecond.getText().toString().length());
+                        edSecond.requestFocus();
+                    }
+                }
+                return false;
+            }
+        });
+
+        edFourth.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                //You can identify which key pressed buy checking keyCode value with KeyEvent.KEYCODE_
+                if (keyCode == KeyEvent.KEYCODE_DEL) {
+                    //this is for backspace
+                    if (edFourth.getText().toString().length() == 0) {
+                        edThird.setSelection(edThird.getText().toString().length());
+                        edThird.requestFocus();
+                    }
+                }
+                return false;
+            }
+        });
     }
 
     @Override
@@ -232,17 +287,19 @@ public class OtpActivity extends BaseActivity {
     public void hitOTPapi() {
         ApiInterface apiInterface = RetrofitClient.getInstance();
 
-        Call<LoginModel> call = apiInterface.verify_otp(makeOTP().toString(),
-                "verify_otp");
+        Call<LoginModel> call = apiInterface.verify_otp(utils.getString(InterConst.ACCESS_TOKEN,""),makeOTP().toString());
         call.enqueue(new Callback<LoginModel>() {
             @Override
             public void onResponse(Call<LoginModel> call, Response<LoginModel> response) {
 
-                if (response.body().getStatus() == InterConst.SUCCESS_RESULT){
+                if ((response.body().getResponse() != null) && (response.body().getResponse().getCode() == InterConst.SUCCESS_RESULT)){
                     Intent intent = new Intent(OtpActivity.this, CreateProfileActivity.class);
                     startActivity(intent);
                     finish();
                     overridePendingTransition(R.anim.enter_from_right, R.anim.exit_to_left);
+                }
+                else if (response.body().getError().getCode() == InterConst.ERROR_RESULT){
+                    showAlert(llNext,response.body().getError().getMessage());
                 }
             }
 

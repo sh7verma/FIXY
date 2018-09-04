@@ -25,12 +25,10 @@ public interface ApiInterface {
     @FormUrlEncoded
     @POST("phone_auth")
     Call<LoginModel> userSignup(@Field("country_code") String country_code,
-                                @Field("phone") String phone,
-                                @Field("action") String action);
+                                @Field("phone") String phone);
     @FormUrlEncoded
     @POST("verify_otp")
-    Call<LoginModel> verify_otp(@Field("otp") String otp,
-                                @Field("action") String action);
+    Call<LoginModel> verify_otp(@Field("auth_token") String auth_token,@Field("otp") String otp);
 //
 //    @FormUrlEncoded
 //    @POST("/users/signin")

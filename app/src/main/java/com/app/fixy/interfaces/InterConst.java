@@ -21,6 +21,17 @@ public interface InterConst {
     int WORK= 2;
     int DEFAULT= -1;
     int OTHER = 3;
+    String ACCESS_TOKEN = "access_token";
+    String COUNTRY_CODE = "country_code";
+    String PHONE_NUMBER = "phone_number";
+    String GENDER = "gender";
+    String PROFILE_STATUS = "profile_status";
+    String PROFILE_IMAGE = "profile_image";
+    String EMAIL = "email";
+    String USER_NAME = "username";
+    String USER_ID = "user_id";
+    int ERROR_RESULT =404 ;
+    int CAMERA_PERMISSION_REQUEST_CODE = 1;
 
     public enum WEBVIEW{
         TERM_CONDITION;

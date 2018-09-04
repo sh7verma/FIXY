@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
@@ -37,8 +38,9 @@ import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 public class CreateProfileActivity extends BaseActivity {
 
     private static final int RC_SIGN_IN = 1;
-        private static final int GALLERY = 2;
+    private static final int GALLERY = 2;
     private static final int CAMERA = 3;
+    private static final int CAMERA_PERMISSION = 1;
     @BindView(R.id.rv_main)
     RelativeLayout rvMain;
 
@@ -51,6 +53,7 @@ public class CreateProfileActivity extends BaseActivity {
     @BindView(R.id.img_profile)
     ImageView imgProfile;
 
+    MarshMallowPermission marshMallowPermission;
     GoogleSignInClient mGoogleSignInClient;
 
     public void choosePhotoFromGallary() {
@@ -62,11 +65,40 @@ public class CreateProfileActivity extends BaseActivity {
 
     }
 
+
     private void takePhotoFromCamera() {
-        Intent intent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-        startActivityForResult(intent, CAMERA);
+        if (marshMallowPermission.checkPermissionForCamera()){
+
+            Intent intent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+            startActivityForResult(intent, CAMERA);
+        }
+        else {
+            marshMallowPermission.requestPermissionForCamera();
+        }
     }
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        switch (requestCode){
+            case CAMERA_PERMISSION:
+            {
+                if (grantResults.length == 2) {
+                    if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED
+                            && grantResults.length > 0 && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
+                        // permissions granted.
+//                        startCameraActivity();
+                    }
+                } else if (grantResults.length == 1) {
+                    if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                        // permissions granted.
+//                        startCameraActivity();
+                    }
+                }
+            }
+            break;
+        }
+    }
 
     @Override
     protected int getContentView() {
@@ -75,16 +107,18 @@ public class CreateProfileActivity extends BaseActivity {
 
     @Override
     protected void onCreateStuff() {
-
+        marshMallowPermission = new MarshMallowPermission(this);
+        signInGmail();
+    }
+    private void signInGmail() {
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()
-                .requestProfile()
                 .build();
-
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
-        signIn();
+        GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
+        Intent signInIntent = mGoogleSignInClient.getSignInIntent();
+        startActivityForResult(signInIntent, RC_SIGN_IN);
     }
-
     @Override
     protected void initUI() {
         edName.setTypeface(typefaceMedium);
@@ -104,9 +138,10 @@ public class CreateProfileActivity extends BaseActivity {
 
     @OnClick(R.id.txt_done)
     void done() {
-        Intent intent = new Intent(mContext, CongratulationActivity.class);
+        signInGmail();
+        /*Intent intent = new Intent(mContext, CongratulationActivity.class);
         finish();
-        startActivity(intent);
+        startActivity(intent);*/
     }
 
     @OnClick(R.id.ll_background)
@@ -135,46 +170,45 @@ public class CreateProfileActivity extends BaseActivity {
 
     }
 
-    private void signIn() {
-        Intent signInIntent = mGoogleSignInClient.getSignInIntent();
-        startActivityForResult(signInIntent, RC_SIGN_IN);
-    }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        // Result returned from launching the Intent from GoogleSignInClient.getSignInIntent(...);
-        if (requestCode == RC_SIGN_IN) {
-            // The Task returned from this call is always completed, no need to attach
-            // a listener.
-            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
-            handleSignInResult(task);
-        }
+            switch (requestCode) {
+                case RC_SIGN_IN:
 
-        if (resultCode == RESULT_CANCELED) {
-            return;
-        }
-        if (requestCode == GALLERY) {
-            if (data != null) {
-                Uri selectedImage = data.getData();
-                cropImage(selectedImage);
+                    // The Task returned from this call is always completed, no need to attach
+                    // a listener.
+                    Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
+                    handleSignInResult(task);
+                    break;
+                case RESULT_CANCELED:
 
+                    break;
+                case GALLERY:
+                    if (data != null) {
+                        Uri selectedImage = data.getData();
+                        cropImage(selectedImage);
+
+                    }
+                    break;
+                case CAMERA:
+                    Uri selectedImage = data.getData();
+                    cropImage(selectedImage);
+                    break;
+                case CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE:
+                    CropImage.ActivityResult result = CropImage.getActivityResult(data);
+                    if (resultCode == RESULT_OK) {
+                        Uri resultUri = result.getUri();
+                        showImage(resultUri);
+                    } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
+                        Exception error = result.getError();
+                    }
+                    break;
             }
-        } else if (requestCode == CAMERA) {
-            Uri selectedImage = data.getData();
-            cropImage(selectedImage);
-        }
 
-        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
-            CropImage.ActivityResult result = CropImage.getActivityResult(data);
-            if (resultCode == RESULT_OK) {
-                Uri resultUri = result.getUri();
-                showImage(resultUri);
-            } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
-                Exception error = result.getError();
-            }
-        }
+
     }
 
     private void handleSignInResult(Task<GoogleSignInAccount> completedTask) {
@@ -183,6 +217,7 @@ public class CreateProfileActivity extends BaseActivity {
 
             // Signed in successfully, show authenticated UI.
             Log.w(TAG, "signInResult: code=" + account);
+            mGoogleSignInClient.signOut();
 
             updateUI(account);
         } catch (ApiException e) {

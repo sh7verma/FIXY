@@ -19,7 +19,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class RetrofitClient {
 
 //        private static final String BASE_URL = "http://13.228.223.105:3032/";// Client
-    private static final String BASE_URL = "http://medusu.com/fixy/index.php/";// Development
+    private static final String BASE_URL = "http://medusu.com/fixy/v1/";// Development
     private static Retrofit retrofit = null;
     private static final String CACHE_CONTROL = "Cache-Control";
     private static Retrofit retrofitGoogle=null;
