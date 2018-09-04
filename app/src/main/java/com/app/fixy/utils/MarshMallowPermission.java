@@ -16,6 +16,8 @@ import android.widget.Toast;
 
 import com.app.fixy.R;
 
+import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
+
 
 public class MarshMallowPermission {
 
@@ -31,8 +33,8 @@ public class MarshMallowPermission {
         this.activity = activity;
     }
 
-    private void showSnackbar(final int mainTextStringId, final int actionStringId,View.OnClickListener listener) {
-        Snackbar.make(activity.findViewById(android.R.id.content),activity.getString(mainTextStringId),
+    private void showSnackbar(final int mainTextStringId, final int actionStringId, View.OnClickListener listener) {
+        Snackbar.make(activity.findViewById(android.R.id.content), activity.getString(mainTextStringId),
                 Snackbar.LENGTH_INDEFINITE)
 
                 .setActionTextColor(ContextCompat.getColor(activity, R.color.red))
@@ -67,6 +69,7 @@ public class MarshMallowPermission {
             return false;
         }
     }
+
     public boolean checkPermissionForAudio() {
         int result = ContextCompat.checkSelfPermission(activity, Manifest.permission.RECORD_AUDIO);
         if (result == PackageManager.PERMISSION_GRANTED) {
@@ -75,12 +78,14 @@ public class MarshMallowPermission {
             return false;
         }
     }
+
     public void requestPermissionForExternalStorage() {
         if (ActivityCompat.shouldShowRequestPermissionRationale(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
 //            Toast.makeText(activity, "External Storage permission needed. Please allow in App Settings for additional functionality.", Toast.LENGTH_LONG).show();
 
-            ActivityCompat.requestPermissions(activity,new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
-                    EXTERNAL_STORAGE_PERMISSION_REQUEST_CODE);
+//            ActivityCompat.requestPermissions(activity,new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+//                    EXTERNAL_STORAGE_PERMISSION_REQUEST_CODE);
+            snackBarStorage();
         } else {
             ActivityCompat.requestPermissions(activity, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, EXTERNAL_STORAGE_PERMISSION_REQUEST_CODE);
         }
@@ -140,7 +145,25 @@ public class MarshMallowPermission {
 
     public void snackBarStorage() {
         Snackbar.make(activity.findViewById(android.R.id.content), "Enable Storage Permissions from settings",
-                Snackbar.LENGTH_LONG ).setAction("ENABLE",
+                Snackbar.LENGTH_LONG).setAction("ENABLE",
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent();
+                        intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                        intent.addCategory(Intent.CATEGORY_DEFAULT);
+                        intent.setData(Uri.parse("package:" + activity.getPackageName()));
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
+                        activity.startActivity(intent);
+                    }
+                }).setActionTextColor(Color.GRAY).show();
+    }
+
+    public void snackEnablePermission() {
+        Snackbar.make(activity.findViewById(android.R.id.content), "Enable Permissions from settings",
+                Snackbar.LENGTH_LONG).setAction("ENABLE",
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -172,6 +195,21 @@ public class MarshMallowPermission {
             ActivityCompat.requestPermissions(activity, new String[]{Manifest.permission.CALL_PHONE}, CALL_PERMISSION_REQUEST_CODE);
         }
     }
+
+    public void requestCameraStoragePermission(){
+        if (ContextCompat.checkSelfPermission(activity, WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED ||
+                ContextCompat.checkSelfPermission(activity, Manifest.permission.CAMERA) == PackageManager.PERMISSION_DENIED) {
+            if (ActivityCompat.shouldShowRequestPermissionRationale(activity,
+                    WRITE_EXTERNAL_STORAGE) || ActivityCompat.shouldShowRequestPermissionRationale(activity,
+                    Manifest.permission.CAMERA)) {
+                snackEnablePermission();
+            } else {
+                ActivityCompat.requestPermissions(activity, new String[]{WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA}, MarshMallowPermission.EXTERNAL_STORAGE_PERMISSION_REQUEST_CODE);
+            }
+
+        }
+    }
+
     public boolean checkPermissionForPhoneState() {
         int result = ContextCompat.checkSelfPermission(activity, Manifest.permission.READ_PHONE_STATE);
         if (result == PackageManager.PERMISSION_GRANTED) {

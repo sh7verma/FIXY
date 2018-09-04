@@ -19,6 +19,8 @@ import android.widget.Toast;
 import com.app.fixy.R;
 import com.app.fixy.database.Db;
 import com.app.fixy.interfaces.AddressInterface;
+import com.app.fixy.network.ApiInterface;
+import com.app.fixy.network.RetrofitClient;
 import com.app.fixy.utils.Connection_Detector;
 import com.app.fixy.utils.Encode;
 import com.app.fixy.utils.LoadingDialog;
@@ -26,7 +28,12 @@ import com.app.fixy.utils.MarshMallowPermission;
 import com.app.fixy.utils.Utils;
 import com.google.gson.Gson;
 
+import java.io.File;
+
 import butterknife.ButterKnife;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 
 
 public abstract class BaseActivity extends AppCompatActivity implements View.OnClickListener {
@@ -34,6 +41,7 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
     public MarshMallowPermission mPermission;
     public Typeface typefaceRegular, typefaceBold, typefaceMedium;
     public AddressInterface addressInterface;
+    public String TAG;
     protected int mWidth, mHeight;
     protected Context mContext;
     protected String errorInternet;
@@ -42,10 +50,10 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
     protected String errorAccessToken;
     protected String terminateAccount;
     protected Db db;
-    public String TAG;
     Utils utils;
     Gson mGson = new Gson();
     Encode encode;
+    ApiInterface apiInterface;
     private Snackbar mSnackbar;
 
     public static void hideKeyboard(Activity mContext) {
@@ -84,9 +92,11 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
         ButterKnife.bind(this);
         db = new Db(this);
         encode = new Encode();
-        TAG=getClass().getName();
+        TAG = getClass().getName();
         getDefaults();
         onCreateStuff();
+        apiInterface = RetrofitClient.getInstance();
+
         mPermission = new MarshMallowPermission(this);
         errorInternet = getResources().getString(R.string.internet);
         errorAPI = getResources().getString(R.string.error);
@@ -100,7 +110,17 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
         initUI();
         initListener();
         onStarted();
+    }
 
+
+    protected RequestBody createPartFromString(String data) {
+        return RequestBody.create(MediaType.parse("text/plain"), data);
+    }
+
+    protected MultipartBody.Part prepareFilePart(String path, String name) {
+        File mFile = new File(path);
+        RequestBody requestFile = RequestBody.create(MediaType.parse("image/*"), mFile);
+        return MultipartBody.Part.createFormData(name, mFile.getName(), requestFile);
     }
 
     @Override
