@@ -15,6 +15,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.app.fixy.R;
+import com.app.fixy.interfaces.InterConst;
 
 import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 
@@ -54,10 +55,10 @@ public class MarshMallowPermission {
         if (ActivityCompat.shouldShowRequestPermissionRationale(activity, Manifest.permission.CAMERA)) {
 //            Toast.makeText(activity, "Camera permission needed. Please allow in App Settings for additional functionality.", Toast.LENGTH_LONG).show();
 
-            ActivityCompat.requestPermissions(activity,new String[]{Manifest.permission.CAMERA},
+            ActivityCompat.requestPermissions(activity,new String[]{Manifest.permission.CAMERA,Manifest.permission.WRITE_EXTERNAL_STORAGE},
                     CAMERA_PERMISSION_REQUEST_CODE);
         } else {
-            ActivityCompat.requestPermissions(activity, new String[]{Manifest.permission.CAMERA}, CAMERA_PERMISSION_REQUEST_CODE);
+            ActivityCompat.requestPermissions(activity, new String[]{Manifest.permission.CAMERA}, InterConst.CAMERA_PERMISSION_REQUEST_CODE);
         }
     }
 

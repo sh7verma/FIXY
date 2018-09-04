@@ -37,7 +37,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".activities.CreateProfileActivity"
+            android:name=".activities.SplashActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme">
             <intent-filter>
@@ -61,11 +61,11 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="stateAlwaysVisible" />
-        <!--<activity-->
-        <!--android:name=".activities.CreateProfileActivity"-->
-        <!--android:screenOrientation="portrait"-->
-        <!--android:theme="@style/AppTheme"-->
-        <!--android:windowSoftInputMode="stateAlwaysVisible" />-->
+        <activity
+        android:name=".activities.CreateProfileActivity"
+        android:screenOrientation="portrait"
+        android:theme="@style/AppTheme"
+        android:windowSoftInputMode="stateAlwaysVisible" />
         <activity
             android:name=".activities.LandingActivity"
             android:screenOrientation="portrait"

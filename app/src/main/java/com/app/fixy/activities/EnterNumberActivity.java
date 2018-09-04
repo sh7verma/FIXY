@@ -51,18 +51,29 @@ public class EnterNumberActivity extends BaseActivity {
     public void hitUserSignup() {
         ApiInterface apiInterface = RetrofitClient.getInstance();
 
-        Call<LoginModel> call = apiInterface.userSignup(txtCountryCode.getText().toString(),edNumber.getText().toString().trim(),
-                "phone_auth");
+        Call<LoginModel> call = apiInterface.userSignup(txtCountryCode.getText().toString(),edNumber.getText().toString().trim());
         call.enqueue(new Callback<LoginModel>() {
             @Override
             public void onResponse(Call<LoginModel> call, Response<LoginModel> response) {
 
-                if (response.body().getStatus() == InterConst.SUCCESS_RESULT){
+                if (response.body().getResponse() != null && response.body().getResponse().getCode() == InterConst.SUCCESS_RESULT){
 
+                    utils.setString(InterConst.ACCESS_TOKEN,response.body().getResponse().getAuth_token());
+                    utils.setString(InterConst.USER_ID,response.body().getResponse().getUser_id());
+                    utils.setString(InterConst.USER_NAME,response.body().getResponse().getName());
+                    utils.setString(InterConst.PROFILE_STATUS,response.body().getResponse().getProfile_status());
+                    utils.setString(InterConst.GENDER,response.body().getResponse().getGender());
+                    utils.setString(InterConst.PROFILE_IMAGE,response.body().getResponse().getProfile_image());
+                    utils.setString(InterConst.EMAIL,response.body().getResponse().getEmail());
+                    utils.setString(InterConst.COUNTRY_CODE,response.body().getResponse().getCountry_code());
+                    utils.setString(InterConst.PHONE_NUMBER,response.body().getResponse().getPhone());
                     Intent intent = new Intent(EnterNumberActivity.this, OtpActivity.class);
                     startActivity(intent);
                     finish();
                     overridePendingTransition(R.anim.enter_from_right, R.anim.exit_to_left);
+                }
+                else if (response.body().getError().getCode() == InterConst.ERROR_RESULT){
+                    showAlert(llNext,response.body().getError().getMessage());
                 }
             }
 

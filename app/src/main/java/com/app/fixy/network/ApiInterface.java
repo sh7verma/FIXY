@@ -3,22 +3,19 @@ package com.app.fixy.network;
 import com.app.fixy.models.GooglePlaceModal;
 import com.app.fixy.models.LoginModel;
 import com.app.fixy.models.NearbyPlaceModel;
-import com.app.fixy.models.ProfileModel;
 
-import okhttp3.MultipartBody;
-import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
-import retrofit2.http.Multipart;
 import retrofit2.http.POST;
-import retrofit2.http.Part;
 import retrofit2.http.Url;
 
 public interface ApiInterface {
 
     //API Method to get Questions From API
+
+
     @GET
     public Call<GooglePlaceModal> getGooglePlaces(@Url String url);
 
@@ -30,22 +27,11 @@ public interface ApiInterface {
     Call<LoginModel> userSignup(@Field("country_code") String country_code,
                                 @Field("phone") String phone,
                                 @Field("action") String action);
-
     @FormUrlEncoded
     @POST("verify_otp")
     Call<LoginModel> verify_otp(@Field("otp") String otp,
                                 @Field("action") String action);
-
-
-    @Multipart
-    @POST("create_profile")
-    Call<ProfileModel> create_profile(@Part("auth_token") RequestBody access_token,
-                                      @Part("Name") RequestBody Name,
-                                      @Part("email") RequestBody email,
-                                      @Part("gender") RequestBody gender,
-                                      @Part("referral_code") RequestBody referral_code,
-                                      @Part MultipartBody.Part image);
-
+//
 //    @FormUrlEncoded
 //    @POST("/users/signin")
 //    Call<SignupModel> userSignin(@Field("email") String email,

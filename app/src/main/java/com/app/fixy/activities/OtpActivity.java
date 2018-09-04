@@ -230,6 +230,8 @@ public class OtpActivity extends BaseActivity {
     }
 
     public void hitOTPapi() {
+        ApiInterface apiInterface = RetrofitClient.getInstance();
+
         Call<LoginModel> call = apiInterface.verify_otp(makeOTP().toString(),
                 "verify_otp");
         call.enqueue(new Callback<LoginModel>() {
