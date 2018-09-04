@@ -93,6 +93,7 @@ public class CreateProfileActivity extends BaseActivity {
                     if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                         // permissions granted.
 //                        startCameraActivity();
+//                        startCameraActivity();
                     }
                 }
             }
