@@ -3,12 +3,17 @@ package com.app.fixy.network;
 import com.app.fixy.models.GooglePlaceModal;
 import com.app.fixy.models.LoginModel;
 import com.app.fixy.models.NearbyPlaceModel;
+import com.app.fixy.models.ProfileModel;
 
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.Multipart;
 import retrofit2.http.POST;
+import retrofit2.http.Part;
 import retrofit2.http.Url;
 
 public interface ApiInterface {
@@ -25,12 +30,23 @@ public interface ApiInterface {
     @FormUrlEncoded
     @POST("phone_auth")
     Call<LoginModel> userSignup(@Field("country_code") String country_code,
-                                @Field("phone") String phone,
-                                @Field("action") String action);
+                                @Field("phone") String phone);
+
     @FormUrlEncoded
     @POST("verify_otp")
-    Call<LoginModel> verify_otp(@Field("otp") String otp,
-                                @Field("action") String action);
+    Call<LoginModel> verify_otp(@Field("auth_token") String auth_token,@Field("otp") String otp);
+
+
+    @Multipart
+    @POST("create_profile")
+    Call<ProfileModel> create_profile(@Part("auth_token") String access_token,
+                                      @Part("name") String Name,
+                                      @Part("email") String email,
+                                      @Part("gender") String gender,
+                                      @Part("referral_code") String referral_code,
+                                      @Part MultipartBody.Part image);
+
+
 //
 //    @FormUrlEncoded
 //    @POST("/users/signin")

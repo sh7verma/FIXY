@@ -1,14 +1,10 @@
 package com.app.fixy.activities;
 
-import android.Manifest;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.net.Uri;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
@@ -18,7 +14,8 @@ import android.widget.RelativeLayout;
 
 import com.app.fixy.R;
 import com.app.fixy.customviews.CircleTransform;
-import com.app.fixy.utils.MarshMallowPermission;
+import com.app.fixy.interfaces.InterConst;
+import com.app.fixy.models.ProfileModel;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -31,13 +28,13 @@ import com.theartofdev.edmodo.cropper.CropImage;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-
-import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
+import retrofit2.Call;
+import retrofit2.Response;
 
 public class CreateProfileActivity extends BaseActivity {
 
     private static final int RC_SIGN_IN = 1;
-        private static final int GALLERY = 2;
+    private static final int GALLERY = 2;
     private static final int CAMERA = 3;
     @BindView(R.id.rv_main)
     RelativeLayout rvMain;
@@ -51,6 +48,7 @@ public class CreateProfileActivity extends BaseActivity {
     @BindView(R.id.img_profile)
     ImageView imgProfile;
 
+    String mPath;
     GoogleSignInClient mGoogleSignInClient;
 
     public void choosePhotoFromGallary() {
@@ -104,30 +102,26 @@ public class CreateProfileActivity extends BaseActivity {
 
     @OnClick(R.id.txt_done)
     void done() {
-        Intent intent = new Intent(mContext, CongratulationActivity.class);
-        finish();
-        startActivity(intent);
+//        Intent intent = new Intent(mContext, CongratulationActivity.class);
+//        finish();
+//        startActivity(intent);
+
+        hitApi();
     }
 
     @OnClick(R.id.ll_background)
     void pickImage() {
-        if (mPermission.checkPermissionForExternalStorage()) {
+        if (mPermission.checkPermissionForExternalStorage() && mPermission.checkPermissionForCamera()) {
             showPictureDialog();
         } else {
-            if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {
-                if (ActivityCompat.shouldShowRequestPermissionRationale(this,
-                        Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-                    mPermission.snackBarStorage();
-                } else {
-                    ActivityCompat.requestPermissions(this, new String[]{WRITE_EXTERNAL_STORAGE}, MarshMallowPermission.EXTERNAL_STORAGE_PERMISSION_REQUEST_CODE);
-                }
-            }
+            mPermission.requestCameraStoragePermission();
         }
     }
 
     @OnClick(R.id.img_referral)
     void imgReferral() {
-        showCustomSnackBar(rvMain, getString(R.string.referral_code), getString(R.string.enter_referral_code_detail));
+        showCustomSnackBar(rvMain, getString(R.string.referral_code),
+                getString(R.string.enter_referral_code_detail));
     }
 
     @Override
@@ -180,7 +174,6 @@ public class CreateProfileActivity extends BaseActivity {
     private void handleSignInResult(Task<GoogleSignInAccount> completedTask) {
         try {
             GoogleSignInAccount account = completedTask.getResult(ApiException.class);
-
             // Signed in successfully, show authenticated UI.
             Log.w(TAG, "signInResult: code=" + account);
 
@@ -214,7 +207,6 @@ public class CreateProfileActivity extends BaseActivity {
                 @Override
                 public void onError(Exception e) {
                     Log.w(TAG, "onError:failed code=" + e.getMessage());
-
                 }
             });
         } else {
@@ -231,8 +223,8 @@ public class CreateProfileActivity extends BaseActivity {
         AlertDialog.Builder pictureDialog = new AlertDialog.Builder(this);
         pictureDialog.setTitle("Select Action");
         String[] pictureDialogItems = {
-                "Select photo from gallery",
-                "Capture photo from camera"};
+                "Gallery",
+                "Camera"};
         pictureDialog.setItems(pictureDialogItems,
                 new DialogInterface.OnClickListener() {
                     @Override
@@ -253,11 +245,12 @@ public class CreateProfileActivity extends BaseActivity {
     void cropImage(Uri path) {
         CropImage.activity(path)
                 .start(this);
-
     }
 
     void showImage(Uri path) {
         if (path != null) {
+            mPath = String.valueOf(path);
+
             Picasso.get()
                     .load(path)
                     .transform(new CircleTransform())
@@ -283,6 +276,33 @@ public class CreateProfileActivity extends BaseActivity {
                     .resize((int) (mHeight * 0.13), (int) (mHeight * 0.13))
                     .into(imgProfile);
         }
+
+    }
+
+    void hitApi() {
+
+        prepareFilePart(mPath, "profile_image");
+
+        Call<ProfileModel> call = apiInterface.create_profile(
+                utils.getString(InterConst.ACCESS_TOKEN, ""),
+                edName.getText().toString(),
+                edEmail.getText().toString(), "m",
+                edName.getText().toString(),
+                prepareFilePart(mPath, "profile_image"));
+        call.enqueue(new retrofit2.Callback<ProfileModel>() {
+            @Override
+            public void onResponse(Call<ProfileModel> call, Response<ProfileModel> response) {
+                if (response.body().getResponse().getCode() == InterConst.SUCCESS_RESULT) {
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ProfileModel> call, Throwable t) {
+                t.printStackTrace();
+            }
+        });
+
 
     }
 

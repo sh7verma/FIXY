@@ -5,9 +5,7 @@ import android.content.Intent;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.LinearLayout;
 
 import com.app.fixy.R;
@@ -16,7 +14,6 @@ import com.app.fixy.interfaces.InterConst;
 import com.app.fixy.models.LoginModel;
 import com.app.fixy.network.ApiInterface;
 import com.app.fixy.network.RetrofitClient;
-import com.app.fixy.utils.Animations;
 import com.app.fixy.utils.Consts;
 import com.app.fixy.utils.Validations;
 
@@ -198,23 +195,19 @@ public class OtpActivity extends BaseActivity {
     @OnClick(R.id.ll_next)
     void next() {
         Consts.hideKeyboard(this);
-        if (edFirst.getText().toString().length()<1){
-            Validations.checkOTPValidation(this,edFirst);
+        if (edFirst.getText().toString().length() < 1) {
+            Validations.checkOTPValidation(this, edFirst);
 
-        }
-        else if (edSecond.getText().toString().length()<1){
-            Validations.checkOTPValidation(this,edSecond);
+        } else if (edSecond.getText().toString().length() < 1) {
+            Validations.checkOTPValidation(this, edSecond);
 
-        }
-        else if (edThird.getText().toString().length()<1){
-            Validations.checkOTPValidation(this,edThird);
+        } else if (edThird.getText().toString().length() < 1) {
+            Validations.checkOTPValidation(this, edThird);
 
-        }
-        else if (edFourth.getText().toString().length()<1){
-            Validations.checkOTPValidation(this,edFourth);
+        } else if (edFourth.getText().toString().length() < 1) {
+            Validations.checkOTPValidation(this, edFourth);
 
-        }
-        else {
+        } else {
             hitOTPapi();
         }
 
@@ -232,13 +225,13 @@ public class OtpActivity extends BaseActivity {
     public void hitOTPapi() {
         ApiInterface apiInterface = RetrofitClient.getInstance();
 
-        Call<LoginModel> call = apiInterface.verify_otp(makeOTP().toString(),
-                "verify_otp");
+        Call<LoginModel> call = apiInterface.verify_otp(utils.getString(InterConst.ACCESS_TOKEN, ""), makeOTP().toString()
+        );
         call.enqueue(new Callback<LoginModel>() {
             @Override
             public void onResponse(Call<LoginModel> call, Response<LoginModel> response) {
 
-                if (response.body().getStatus() == InterConst.SUCCESS_RESULT){
+                if (response.body().getResponse().getCode() == InterConst.SUCCESS_RESULT) {
                     Intent intent = new Intent(OtpActivity.this, CreateProfileActivity.class);
                     startActivity(intent);
                     finish();

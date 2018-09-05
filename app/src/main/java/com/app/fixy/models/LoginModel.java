@@ -1,6 +1,6 @@
 package com.app.fixy.models;
 
-public class LoginModel {
+public class LoginModel extends BaseModel {
     /**
      * response : {"code":200,"profile_status":0,"profile_image":"","user_id":3,"email":"","country_code":"+91","phone":9988639725,"gender":"","name":"","auth_token":"215216a1195f35436399314965632ad9"}
      */
@@ -9,10 +9,6 @@ public class LoginModel {
     /**
      * error : {"error":true,"message":"Required field(s) phone is missing or empty"}
      */
-
-    private ErrorBean error;
-
-
     public ResponseBean getResponse() {
         return response;
     }
@@ -21,13 +17,6 @@ public class LoginModel {
         this.response = response;
     }
 
-    public ErrorBean getError() {
-        return error;
-    }
-
-    public void setError(ErrorBean error) {
-        this.error = error;
-    }
 
     public static class ResponseBean {
         /**

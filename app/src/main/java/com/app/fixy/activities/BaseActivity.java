@@ -119,7 +119,7 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
 
     protected MultipartBody.Part prepareFilePart(String path, String name) {
         File mFile = new File(path);
-        RequestBody requestFile = RequestBody.create(MediaType.parse("image/*"), mFile);
+        RequestBody requestFile = RequestBody.create(MediaType.parse("image/*"), mFile.getAbsolutePath());
         return MultipartBody.Part.createFormData(name, mFile.getName(), requestFile);
     }
 
