@@ -225,17 +225,21 @@ public class OtpActivity extends BaseActivity {
     public void hitOTPapi() {
         ApiInterface apiInterface = RetrofitClient.getInstance();
 
-        Call<LoginModel> call = apiInterface.verify_otp(utils.getString(InterConst.ACCESS_TOKEN, ""), makeOTP().toString()
+        Call<LoginModel> call = apiInterface.verify_otp(utils.getString(InterConst.ACCESS_TOKEN, ""), makeOTP().toString(),
+                InterConst.USER
         );
         call.enqueue(new Callback<LoginModel>() {
             @Override
             public void onResponse(Call<LoginModel> call, Response<LoginModel> response) {
 
-                if (response.body().getResponse().getCode() == InterConst.SUCCESS_RESULT) {
+                if (response.body().getCode() == InterConst.SUCCESS_RESULT) {
                     Intent intent = new Intent(OtpActivity.this, CreateProfileActivity.class);
                     startActivity(intent);
                     finish();
                     overridePendingTransition(R.anim.enter_from_right, R.anim.exit_to_left);
+                }
+                else if (response.body().getCode() == InterConst.ERROR_RESULT){
+                    showAlert(llNext,response.body().getError().getMessage());
                 }
             }
 

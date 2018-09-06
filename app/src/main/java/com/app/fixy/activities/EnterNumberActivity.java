@@ -51,12 +51,14 @@ public class EnterNumberActivity extends BaseActivity {
     public void hitUserSignup() {
         ApiInterface apiInterface = RetrofitClient.getInstance();
 
-        Call<LoginModel> call = apiInterface.userSignup(txtCountryCode.getText().toString(),edNumber.getText().toString().trim());
+        Call<LoginModel> call = apiInterface.userSignup(txtCountryCode.getText().toString(),
+                edNumber.getText().toString().trim(),
+                InterConst.USER);
         call.enqueue(new Callback<LoginModel>() {
             @Override
             public void onResponse(Call<LoginModel> call, Response<LoginModel> response) {
 
-                if (response.body().getResponse() != null && response.body().getResponse().getCode() == InterConst.SUCCESS_RESULT){
+                if ( response.body().getCode() == InterConst.SUCCESS_RESULT){
 
                     utils.setString(InterConst.ACCESS_TOKEN,response.body().getResponse().getAuth_token());
                     utils.setString(InterConst.USER_ID,response.body().getResponse().getUser_id());
@@ -72,7 +74,7 @@ public class EnterNumberActivity extends BaseActivity {
                     finish();
                     overridePendingTransition(R.anim.enter_from_right, R.anim.exit_to_left);
                 }
-                else if (response.body().getError().getCode() == InterConst.ERROR_RESULT){
+                else if (response.body().getCode() == InterConst.ERROR_RESULT){
                     showAlert(llNext,response.body().getError().getMessage());
                 }
             }

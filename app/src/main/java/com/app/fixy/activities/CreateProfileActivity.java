@@ -1,21 +1,46 @@
 package com.app.fixy.activities;
 
+import android.Manifest;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
+import android.media.ExifInterface;
 import android.net.Uri;
+import android.os.Build;
+import android.provider.MediaStore;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.ActivityOptionsCompat;
+import android.support.v4.content.ContextCompat;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 
 import com.app.fixy.R;
 import com.app.fixy.customviews.CircleTransform;
+import com.app.fixy.customviews.MaterialEditText;
+import com.app.fixy.dialogs.PhotoSelectionDialog;
 import com.app.fixy.interfaces.InterConst;
+import com.app.fixy.models.LoginModel;
 import com.app.fixy.models.ProfileModel;
+import com.app.fixy.network.ApiInterface;
+import com.app.fixy.network.RetrofitClient;
+import com.app.fixy.utils.Connection_Detector;
+import com.app.fixy.utils.Consts;
+import com.app.fixy.utils.MarshMallowPermission;
+import com.app.fixy.utils.Validations;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -23,47 +48,53 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
 import com.squareup.picasso.Callback;
+import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.Picasso;
 import com.theartofdev.edmodo.cropper.CropImage;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
+
 import butterknife.BindView;
 import butterknife.OnClick;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Response;
+
+import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 
 public class CreateProfileActivity extends BaseActivity {
 
     private static final int RC_SIGN_IN = 1;
     private static final int GALLERY = 2;
     private static final int CAMERA = 3;
+    private static final int CAMERA_PERMISSION = 1;
+    private static final int PIC = 12;
     @BindView(R.id.rv_main)
     RelativeLayout rvMain;
 
     @BindView(R.id.ed_name)
-    EditText edName;
+    MaterialEditText edName;
+    @BindView(R.id.ll_no_photo)
+    LinearLayout llNoPhoto;
     @BindView(R.id.ed_email)
-    EditText edEmail;
+    MaterialEditText edEmail;
     @BindView(R.id.ed_referral_code)
-    EditText edReferralCode;
+    MaterialEditText edReferralCode;
     @BindView(R.id.img_profile)
     ImageView imgProfile;
+    @BindView(R.id.rd_group)
+    RadioGroup rdGroup;
 
-    String mPath;
+    MarshMallowPermission marshMallowPermission;
     GoogleSignInClient mGoogleSignInClient;
-
-    public void choosePhotoFromGallary() {
-
-        Intent galleryIntent = new Intent(Intent.ACTION_PICK,
-                android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-
-        startActivityForResult(galleryIntent, GALLERY);
-
-    }
-
-    private void takePhotoFromCamera() {
-        Intent intent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-        startActivityForResult(intent, CAMERA);
-    }
+    private File pathImageFile = null;
+    private String imagePath = "";
+    private String type;
+    private String gender;
 
 
     @Override
@@ -73,14 +104,90 @@ public class CreateProfileActivity extends BaseActivity {
 
     @Override
     protected void onCreateStuff() {
+        marshMallowPermission = new MarshMallowPermission(this);
+        type = InterConst.CREATE_PROFILE;
+//        signInGmail();
+        rdGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup radioGroup, int i) {
+                switch (i){
+                    case R.id.rd_male:
+                        gender = InterConst.MALE;
+                        break;
+                    case R.id.rd_female:
 
+                        gender = InterConst.FEMALE;
+                        break;
+                }
+            }
+        });
+    }
+
+    private void signInGmail() {
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()
-                .requestProfile()
                 .build();
-
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
-        signIn();
+        GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
+        Intent signInIntent = mGoogleSignInClient.getSignInIntent();
+        startActivityForResult(signInIntent, RC_SIGN_IN);
+    }
+
+    public void hitapi() {
+
+        Call<LoginModel> call;
+        if (pathImageFile != null) {// if remove profile pic that coming from social media
+            MultipartBody.Part imagePart = prepareFilePart(pathImageFile);
+            call = RetrofitClient.getInstance().create_profile(
+                    createPartFromString(utils.getString(InterConst.ACCESS_TOKEN, "")),
+                    createPartFromString(edName.getText().toString()),
+                    createPartFromString(edEmail.getText().toString()),
+                    createPartFromString(gender),
+                    createPartFromString(type),
+                    createPartFromString(edReferralCode.getText().toString()),
+                    imagePart
+            );
+        } else {// to send image from social media
+               /* call = RetrofitClient.getInstance().updateProfile(utils.getString(Consts.ACCESS_TOKEN, ""),
+                        edFullName.getText().toString().trim(),
+                        Consts.sendDate(edBday.getText().toString().trim()),
+                        edInvitaionCode.getText().toString().trim(),
+                        socialMediaImg);*/
+            MultipartBody.Part imagePart = prepareStringPart();
+            call = RetrofitClient.getInstance().create_profile(
+                    createPartFromString(utils.getString(InterConst.ACCESS_TOKEN, "")),
+                    createPartFromString(edName.getText().toString()),
+                    createPartFromString(edEmail.getText().toString()),
+                    createPartFromString(gender),
+                    createPartFromString(type),
+                    createPartFromString(edReferralCode.getText().toString()),
+                    createPartFromString(utils.getString(InterConst.PROFILE_IMAGE, ""))
+            );
+        }
+        call.enqueue(new retrofit2.Callback<LoginModel>() {
+            @Override
+            public void onResponse(Call<LoginModel> call, Response<LoginModel> response) {
+
+                if ((response.body().getCode() == InterConst.SUCCESS_RESULT)) {
+//                    Intent intent = new Intent(CreateProfileActivity.this, CreateProfileActivity.class);
+//                    startActivity(intent);
+//                    finish();
+//                    overridePendingTransition(R.anim.enter_from_right, R.anim.exit_to_left);
+                    if (pathImageFile!=null){
+
+                        pathImageFile.deleteOnExit();
+                    }
+                } else if (response.body().getCode() == InterConst.ERROR_RESULT) {
+                    showAlert(edEmail, response.body().getError().getMessage());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<LoginModel> call, Throwable t) {
+                t.printStackTrace();
+            }
+        });
+
     }
 
     @Override
@@ -102,26 +209,42 @@ public class CreateProfileActivity extends BaseActivity {
 
     @OnClick(R.id.txt_done)
     void done() {
-//        Intent intent = new Intent(mContext, CongratulationActivity.class);
-//        finish();
-//        startActivity(intent);
+        Consts.hideKeyboard(this);
+        if (TextUtils.isEmpty(imagePath)){
 
-        hitApi();
+            showAlert(llNoPhoto,getString(R.string.profile_pic_validation));
+        }
+       else if (TextUtils.isEmpty(gender)){
+
+            showAlert(llNoPhoto,getString(R.string.gender_validation));
+        }
+        else if (Validations.checkNameValidation(this,edName)
+                && Validations.checkEmailValidation(this,edEmail))
+        {
+            hitapi();
+        }
     }
 
-    @OnClick(R.id.ll_background)
+    @OnClick(R.id.img_profile)
+    void pickImageProfile() {
+
+        Intent inProfileno = new Intent(this, PhotoSelectionDialog.class);
+        inProfileno.putExtra(InterConst.TYPE, "2");// for add photo
+        startActivityForResult(inProfileno, PIC);
+    }
+
+    @OnClick(R.id.ll_no_photo)
     void pickImage() {
-        if (mPermission.checkPermissionForExternalStorage() && mPermission.checkPermissionForCamera()) {
-            showPictureDialog();
-        } else {
-            mPermission.requestCameraStoragePermission();
-        }
+
+        Intent inProfileno = new Intent(this, PhotoSelectionDialog.class);
+        inProfileno.putExtra(InterConst.TYPE, "1");// for add photo
+        startActivityForResult(inProfileno, PIC);
+
     }
 
     @OnClick(R.id.img_referral)
     void imgReferral() {
-        showCustomSnackBar(rvMain, getString(R.string.referral_code),
-                getString(R.string.enter_referral_code_detail));
+        showCustomSnackBar(rvMain, getString(R.string.referral_code), getString(R.string.enter_referral_code_detail));
     }
 
     @Override
@@ -129,53 +252,82 @@ public class CreateProfileActivity extends BaseActivity {
 
     }
 
-    private void signIn() {
-        Intent signInIntent = mGoogleSignInClient.getSignInIntent();
-        startActivityForResult(signInIntent, RC_SIGN_IN);
-    }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        // Result returned from launching the Intent from GoogleSignInClient.getSignInIntent(...);
-        if (requestCode == RC_SIGN_IN) {
-            // The Task returned from this call is always completed, no need to attach
-            // a listener.
-            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
-            handleSignInResult(task);
-        }
+        if (resultCode == RESULT_OK) {
+            switch (requestCode) {
+                case PIC:
+                    if ((new Connection_Detector(this)).isConnectingToInternet()) {
+                        if (data.getStringExtra(InterConst.RESULT_DATA_KEY).equalsIgnoreCase(InterConst.NULL)) {
+                            hideProfilePic();//remove pic
+                            pathImageFile = null;
+                            utils.setString(InterConst.PROFILE_IMAGE,"");
+                        } else if (data.getStringExtra(InterConst.RESULT_DATA_KEY).equalsIgnoreCase(InterConst.SHOW_PIC)) {
+                            String picValue = "";
+                            if (pathImageFile != null) {
+                                picValue = imagePath;
+                            } else {
+                                picValue = utils.getString(InterConst.PROFILE_IMAGE, "");
+                            }
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                                ActivityOptionsCompat option = ActivityOptionsCompat
+                                        .makeSceneTransitionAnimation(CreateProfileActivity.this, imgProfile, "full_imageview");
+                                Intent in = new Intent(CreateProfileActivity.this, ViewImageActivity.class);
+                                in.putExtra("display", "" + picValue);
+                                startActivity(in, option.toBundle());
+                            } else {
+                                Intent in = new Intent(CreateProfileActivity.this, ViewImageActivity.class);
+                                in.putExtra("display", "" + picValue);
+                                startActivity(in);
+                                overridePendingTransition(0, 0);
+                            }
+                        } else {
+                            imagePath = data.getStringExtra(InterConst.RESULT_DATA_KEY);
+                            pathImageFile = new File(imagePath);
+                            Log.e("IMage Path = ", data.getStringExtra(InterConst.RESULT_DATA_KEY));
+                            showImage(pathImageFile);
+                            showProfilePic();// on result
+                        }
 
-        if (resultCode == RESULT_CANCELED) {
-            return;
-        }
-        if (requestCode == GALLERY) {
-            if (data != null) {
-                Uri selectedImage = data.getData();
-                cropImage(selectedImage);
+                    } else
+                        showInternetAlert(llNoPhoto);
+                    break;
+                case RC_SIGN_IN:
+
+                    // The Task returned from this call is always completed, no need to attach
+                    // a listener.
+                    Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
+                    handleSignInResult(task);
+                    break;
+                case RESULT_CANCELED:
+
+                    break;
 
             }
-        } else if (requestCode == CAMERA) {
-            Uri selectedImage = data.getData();
-            cropImage(selectedImage);
         }
 
-        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
-            CropImage.ActivityResult result = CropImage.getActivityResult(data);
-            if (resultCode == RESULT_OK) {
-                Uri resultUri = result.getUri();
-                showImage(resultUri);
-            } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
-                Exception error = result.getError();
-            }
-        }
+    }
+
+    private void hideProfilePic() {
+        llNoPhoto.setVisibility(View.VISIBLE);
+        imgProfile.setVisibility(View.GONE);
+    }
+
+    private void showProfilePic() {
+        llNoPhoto.setVisibility(View.GONE);
+        imgProfile.setVisibility(View.VISIBLE);
     }
 
     private void handleSignInResult(Task<GoogleSignInAccount> completedTask) {
         try {
             GoogleSignInAccount account = completedTask.getResult(ApiException.class);
+
             // Signed in successfully, show authenticated UI.
             Log.w(TAG, "signInResult: code=" + account);
+            mGoogleSignInClient.signOut();
 
             updateUI(account);
         } catch (ApiException e) {
@@ -207,6 +359,7 @@ public class CreateProfileActivity extends BaseActivity {
                 @Override
                 public void onError(Exception e) {
                     Log.w(TAG, "onError:failed code=" + e.getMessage());
+
                 }
             });
         } else {
@@ -218,41 +371,10 @@ public class CreateProfileActivity extends BaseActivity {
         }
     }
 
-
-    private void showPictureDialog() {
-        AlertDialog.Builder pictureDialog = new AlertDialog.Builder(this);
-        pictureDialog.setTitle("Select Action");
-        String[] pictureDialogItems = {
-                "Gallery",
-                "Camera"};
-        pictureDialog.setItems(pictureDialogItems,
-                new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        switch (which) {
-                            case 0:
-                                choosePhotoFromGallary();
-                                break;
-                            case 1:
-                                takePhotoFromCamera();
-                                break;
-                        }
-                    }
-                });
-        pictureDialog.show();
-    }
-
-    void cropImage(Uri path) {
-        CropImage.activity(path)
-                .start(this);
-    }
-
-    void showImage(Uri path) {
-        if (path != null) {
-            mPath = String.valueOf(path);
-
+    void showImage(File file) {
+        if (file != null) {
             Picasso.get()
-                    .load(path)
+                    .load(file)
                     .transform(new CircleTransform())
                     .resize((int) (mHeight * 0.13), (int) (mHeight * 0.13))
                     .placeholder(R.mipmap.ic_profile)
@@ -261,6 +383,7 @@ public class CreateProfileActivity extends BaseActivity {
                 @Override
                 public void onSuccess() {
 
+                    Log.w(TAG, "onError:Sucess code=");
                 }
 
                 @Override
@@ -279,31 +402,22 @@ public class CreateProfileActivity extends BaseActivity {
 
     }
 
-    void hitApi() {
+    private MultipartBody.Part prepareFilePart(File mFile) {
 
-        prepareFilePart(mPath, "profile_image");
-
-        Call<ProfileModel> call = apiInterface.create_profile(
-                utils.getString(InterConst.ACCESS_TOKEN, ""),
-                edName.getText().toString(),
-                edEmail.getText().toString(), "m",
-                edName.getText().toString(),
-                prepareFilePart(mPath, "profile_image"));
-        call.enqueue(new retrofit2.Callback<ProfileModel>() {
-            @Override
-            public void onResponse(Call<ProfileModel> call, Response<ProfileModel> response) {
-                if (response.body().getResponse().getCode() == InterConst.SUCCESS_RESULT) {
-
-                }
-            }
-
-            @Override
-            public void onFailure(Call<ProfileModel> call, Throwable t) {
-                t.printStackTrace();
-            }
-        });
+        RequestBody requestFile = RequestBody.create(MediaType.parse("image/*"), mFile);
+        return MultipartBody.Part.createFormData("profile_image", mFile.getName(), requestFile);
 
 
+    }
+
+
+    public RequestBody createPartFromString(String data) {
+        return RequestBody.create(MediaType.parse("text/plain"), data);
+    }
+
+    private MultipartBody.Part prepareStringPart() {
+        RequestBody requestFile = RequestBody.create(MediaType.parse("image/*"), "");
+        return MultipartBody.Part.createFormData("profile_image", "", requestFile);
     }
 
 }

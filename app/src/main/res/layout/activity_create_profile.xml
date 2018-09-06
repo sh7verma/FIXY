@@ -43,18 +43,28 @@
                     android:layout_height="@dimen/_60sdp">
 
                     <LinearLayout
-                        android:id="@+id/ll_background"
+                        android:id="@+id/ll_no_photo"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:background="@drawable/circular_background"
-                        android:gravity="center">
+                        android:gravity="center"
+                        android:orientation="horizontal"
+                        android:visibility="visible">
 
                         <ImageView
-                            android:id="@+id/img_profile"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_centerInParent="true"
                             android:src="@mipmap/ic_profile" />
                     </LinearLayout>
+
+                    <ImageView
+                        android:id="@+id/img_profile"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:src="@mipmap/ic_settings"
+                        android:visibility="gone" />
 
                     <ImageView
                         android:layout_width="wrap_content"
@@ -77,9 +87,14 @@
                 <com.app.fixy.customviews.MaterialEditText
                     android:id="@+id/ed_name"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/_40sdp"
+                    android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:hint="@string/enter"
+                    android:imeOptions="actionNext"
+                    android:inputType="text"
+                    android:maxLines="1"
+                    android:paddingTop="@dimen/_10sdp"
+                    android:maxLength="50"
                     android:textColor="@color/black"
                     android:textColorHint="@color/grey_color"
                     android:textSize="@dimen/_12ssp" />
@@ -96,9 +111,14 @@
                 <com.app.fixy.customviews.MaterialEditText
                     android:id="@+id/ed_email"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/_40sdp"
+                    android:layout_height="wrap_content"
                     android:hint="@string/enter"
+                    android:paddingTop="@dimen/_10sdp"
+                    android:imeOptions="actionNext"
+                    android:inputType="textEmailAddress"
                     android:lines="1"
+                    android:maxLines="1"
+                    android:maxLength="80"
                     android:textColor="@color/black"
                     android:textColorHint="@color/grey_color"
                     android:textSize="@dimen/_12ssp"
@@ -133,8 +153,13 @@
                 <com.app.fixy.customviews.MaterialEditText
                     android:id="@+id/ed_referral_code"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/_40sdp"
+                    android:layout_height="wrap_content"
                     android:hint="@string/enter"
+                    android:paddingTop="@dimen/_10sdp"
+                    android:imeOptions="actionDone"
+                    android:inputType="textCapCharacters"
+                    android:maxLines="1"
+                    android:maxLength="20"
                     android:textColor="@color/black"
                     android:textColorHint="@color/grey_color"
                     android:textSize="@dimen/_12ssp" />
@@ -149,6 +174,7 @@
                     android:textSize="@dimen/_10ssp" />
 
                 <RadioGroup
+                    android:id="@+id/rd_group"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_marginBottom="@dimen/_45sdp"
@@ -164,6 +190,7 @@
                         android:textSize="@dimen/_10ssp" />
 
                     <RadioButton
+                        android:id="@+id/rd_female"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"

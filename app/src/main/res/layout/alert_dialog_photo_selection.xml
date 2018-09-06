@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="bottom"
+    android:orientation="vertical">
+
+    <!--   <LinearLayout
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:background="@color/white"
+           android:padding="@dimen/_10ssp"
+           android:orienta="vertical" >
+           <LinearLayout
+               android:id="@+id/ll_change_pic"
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:background="@color/white"
+               android:padding="@dimen/_10ssp"
+               android:orientation="horizontal" >
+               <LinearLayout
+                   android:id="@+id/ll_camera"
+                   android:layout_width="0dp"
+                   android:layout_height="wrap_content"
+                   android:layout_weight="1"
+                   android:gravity="center"
+                   android:orientation="vertical">
+                   <ImageView
+                       android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+                       android:background="@drawable/black_fill_oval"
+                       android:padding="@dimen/_15sdp"
+                       android:src="@drawable/ic_camera_pic" />
+                   <com.app.fixy.customviews.RegularTextView
+                       android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+                       android:gravity="center"
+                       android:text="Camera"
+                       android:textColor="@color/black"
+                       android:textSize="@dimen/_10ssp" />
+               </LinearLayout>
+               <LinearLayout
+                   android:id="@+id/ll_gallery"
+                   android:layout_width="0dp"
+                   android:layout_height="wrap_content"
+                   android:layout_weight="1"
+                   android:gravity="center"
+                   android:orientation="vertical">
+                   <ImageView
+                       android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+                       android:background="@drawable/black_fill_oval"
+                       android:padding="@dimen/_15sdp"
+                       android:src="@drawable/ic_gallery_pic" />
+                   <com.app.fixy.customviews.RegularTextView
+                       android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+                       android:gravity="center"
+                       android:text="Gallery"
+                       android:textColor="@color/black"
+                       android:textSize="@dimen/_10ssp" />
+               </LinearLayout>
+               </LinearLayout>
+    </LinearLayout> -->
+    <LinearLayout
+        android:id="@+id/ll_veiw_delete"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/white_top_round_corner"
+        android:orientation="horizontal"
+        android:padding="@dimen/_10ssp">
+
+        <LinearLayout
+            android:id="@+id/ll_view"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="?android:selectableItemBackground"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:visibility="visible">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/pink_oval"
+                android:padding="@dimen/_12sdp"
+                android:src="@drawable/ic_view_pic" />
+
+            <com.app.fixy.customviews.RegularTextView
+                android:id="@+id/txt_view_pic"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/view_photo"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_10ssp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_gallery"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="?android:selectableItemBackground"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/grey_oval"
+                android:padding="@dimen/_12sdp"
+                android:src="@drawable/ic_gallery_pic" />
+
+            <com.app.fixy.customviews.RegularTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="Gallery"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_10ssp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_camera"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="?android:selectableItemBackground"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/blue_oval"
+                android:padding="@dimen/_12sdp"
+                android:src="@drawable/ic_camera_pic" />
+
+            <com.app.fixy.customviews.RegularTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="Camera"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_10ssp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_delete"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="?android:selectableItemBackground"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:visibility="visible">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/pink_oval"
+                android:padding="@dimen/_12sdp"
+                android:src="@drawable/ic_delete_pic" />
+
+            <com.app.fixy.customviews.RegularTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="Remove Photo"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_10ssp" />
+        </LinearLayout>
+    </LinearLayout>
+
+
+</LinearLayout>

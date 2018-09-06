@@ -30,21 +30,36 @@ public interface ApiInterface {
     @FormUrlEncoded
     @POST("phone_auth")
     Call<LoginModel> userSignup(@Field("country_code") String country_code,
-                                @Field("phone") String phone);
+                                @Field("phone") String phone,
+                                @Field("user_role") String user_role
+    );
 
     @FormUrlEncoded
     @POST("verify_otp")
-    Call<LoginModel> verify_otp(@Field("auth_token") String auth_token,@Field("otp") String otp);
+    Call<LoginModel> verify_otp(@Field("auth_token") String auth_token,
+                                @Field("otp") String otp,
+                                @Field("user_role") String user_role);
 
 
     @Multipart
     @POST("create_profile")
-    Call<ProfileModel> create_profile(@Part("auth_token") String access_token,
-                                      @Part("name") String Name,
-                                      @Part("email") String email,
-                                      @Part("gender") String gender,
-                                      @Part("referral_code") String referral_code,
-                                      @Part MultipartBody.Part image);
+    Call<LoginModel> create_profile(@Part("auth_token") RequestBody  auth_token,
+                                    @Part("name") RequestBody  Name,
+                                    @Part("email") RequestBody  email,
+                                    @Part("gender") RequestBody  gender,
+                                    @Part("edit_profile") RequestBody  edit_profile,
+                                    @Part("referral_code") RequestBody  referral_code,
+                                    @Part MultipartBody.Part image);
+
+    @Multipart
+    @POST("create_profile")
+    Call<LoginModel> create_profile(@Part("auth_token") RequestBody  auth_token,
+                                    @Part("name") RequestBody  Name,
+                                    @Part("email") RequestBody  email,
+                                    @Part("gender") RequestBody  gender,
+                                    @Part("edit_profile") RequestBody  edit_profile,
+                                    @Part("referral_code") RequestBody  referral_code,
+                                    @Part("profile_image") RequestBody profile_image);
 
 
 //

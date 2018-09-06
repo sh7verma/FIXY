@@ -26,16 +26,7 @@ public class BaseModel {
          * message : Required field(s) profile_image is missing or empty
          */
 
-        private int code;
         private String message;
-
-        public int getCode() {
-            return code;
-        }
-
-        public void setCode(int code) {
-            this.code = code;
-        }
 
         public String getMessage() {
             return message;

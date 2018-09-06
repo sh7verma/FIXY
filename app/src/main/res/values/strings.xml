@@ -164,4 +164,7 @@
     <string name="invalid_expiry_date">Invalid expiry date</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
+    <string name="view_photo">View Photo</string>
+    <string name="gender_validation">Please choose your Gender</string>
+    <string name="profile_pic_validation">Please add your profile picture</string>
 </resources>

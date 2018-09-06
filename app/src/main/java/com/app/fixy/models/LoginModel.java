@@ -6,9 +6,21 @@ public class LoginModel extends BaseModel {
      */
 
     private ResponseBean response;
+    private int code;
+
+
+    public int getCode() {
+        return code;
+    }
+
+    public void setCode(int code) {
+        this.code = code;
+    }
+
     /**
      * error : {"error":true,"message":"Required field(s) phone is missing or empty"}
      */
+
     public ResponseBean getResponse() {
         return response;
     }
@@ -32,7 +44,6 @@ public class LoginModel extends BaseModel {
          * auth_token : 215216a1195f35436399314965632ad9
          */
 
-        private int code;
         private String profile_status;
         private String profile_image;
         private String user_id;
@@ -51,13 +62,6 @@ public class LoginModel extends BaseModel {
             this.profile_image = profile_image;
         }
 
-        public int getCode() {
-            return code;
-        }
-
-        public void setCode(int code) {
-            this.code = code;
-        }
 
         public String getProfile_status() {
             return profile_status;
@@ -130,16 +134,8 @@ public class LoginModel extends BaseModel {
          * message : Required field(s) phone is missing or empty
          */
 
-        private int code;
         private String message;
 
-        public int getCode() {
-            return code;
-        }
-
-        public void setCode(int code) {
-            this.code = code;
-        }
 
         public String getMessage() {
             return message;
