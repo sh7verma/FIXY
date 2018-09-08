@@ -74,9 +74,7 @@ public class ViewImageActivity extends BaseActivity {
 
                 Picasso.get()
                         .load(Uri.parse(pic))
-                        .resize(mWidth, mHeight)
                         .placeholder(R.mipmap.ic_profile)
-                        .centerCrop(Gravity.TOP)
                         .error(R.mipmap.ic_profile).into(imgPic);
             } catch (Exception e) {
                 e.printStackTrace();

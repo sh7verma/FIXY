@@ -108,7 +108,7 @@ public class PhotoSelectionDialog extends Activity {
             llDelete.setVisibility(View.GONE);
         } else {
             llView.setVisibility(View.VISIBLE);
-            llDelete.setVisibility(View.VISIBLE);
+            llDelete.setVisibility(View.GONE);
         }
 
 
