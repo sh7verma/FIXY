@@ -8,7 +8,6 @@ public class LoginModel extends BaseModel {
     private ResponseBean response;
     private int code;
 
-
     public int getCode() {
         return code;
     }

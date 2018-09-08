@@ -1,28 +1,13 @@
 package com.app.fixy.activities;
 
-import android.Manifest;
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Matrix;
-import android.media.ExifInterface;
-import android.net.Uri;
 import android.os.Build;
-import android.provider.MediaStore;
-import android.support.annotation.NonNull;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
-import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioGroup;
@@ -34,12 +19,9 @@ import com.app.fixy.customviews.MaterialEditText;
 import com.app.fixy.dialogs.PhotoSelectionDialog;
 import com.app.fixy.interfaces.InterConst;
 import com.app.fixy.models.LoginModel;
-import com.app.fixy.models.ProfileModel;
-import com.app.fixy.network.ApiInterface;
 import com.app.fixy.network.RetrofitClient;
 import com.app.fixy.utils.Connection_Detector;
 import com.app.fixy.utils.Consts;
-import com.app.fixy.utils.MarshMallowPermission;
 import com.app.fixy.utils.Validations;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -48,13 +30,9 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
 import com.squareup.picasso.Callback;
-import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.Picasso;
-import com.theartofdev.edmodo.cropper.CropImage;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.IOException;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -63,8 +41,6 @@ import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Response;
-
-import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 
 public class CreateProfileActivity extends BaseActivity {
 
@@ -89,11 +65,9 @@ public class CreateProfileActivity extends BaseActivity {
     @BindView(R.id.rd_group)
     RadioGroup rdGroup;
 
-    MarshMallowPermission marshMallowPermission;
     GoogleSignInClient mGoogleSignInClient;
     private File pathImageFile = null;
     private String imagePath = "";
-    private String type;
     private String gender;
 
 
@@ -104,18 +78,15 @@ public class CreateProfileActivity extends BaseActivity {
 
     @Override
     protected void onCreateStuff() {
-        marshMallowPermission = new MarshMallowPermission(this);
-        type = InterConst.CREATE_PROFILE;
-//        signInGmail();
+        signInGmail();
         rdGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup radioGroup, int i) {
-                switch (i){
+                switch (i) {
                     case R.id.rd_male:
                         gender = InterConst.MALE;
                         break;
                     case R.id.rd_female:
-
                         gender = InterConst.FEMALE;
                         break;
                 }
@@ -143,23 +114,25 @@ public class CreateProfileActivity extends BaseActivity {
                     createPartFromString(edName.getText().toString()),
                     createPartFromString(edEmail.getText().toString()),
                     createPartFromString(gender),
-                    createPartFromString(type),
+                    createPartFromString(InterConst.CREATE_PROFILE),
                     createPartFromString(edReferralCode.getText().toString()),
                     imagePart
             );
         } else {// to send image from social media
+
                /* call = RetrofitClient.getInstance().updateProfile(utils.getString(Consts.ACCESS_TOKEN, ""),
                         edFullName.getText().toString().trim(),
                         Consts.sendDate(edBday.getText().toString().trim()),
                         edInvitaionCode.getText().toString().trim(),
                         socialMediaImg);*/
+
             MultipartBody.Part imagePart = prepareStringPart();
             call = RetrofitClient.getInstance().create_profile(
                     createPartFromString(utils.getString(InterConst.ACCESS_TOKEN, "")),
                     createPartFromString(edName.getText().toString()),
                     createPartFromString(edEmail.getText().toString()),
                     createPartFromString(gender),
-                    createPartFromString(type),
+                    createPartFromString(InterConst.CREATE_PROFILE),
                     createPartFromString(edReferralCode.getText().toString()),
                     createPartFromString(utils.getString(InterConst.PROFILE_IMAGE, ""))
             );
@@ -173,8 +146,7 @@ public class CreateProfileActivity extends BaseActivity {
 //                    startActivity(intent);
 //                    finish();
 //                    overridePendingTransition(R.anim.enter_from_right, R.anim.exit_to_left);
-                    if (pathImageFile!=null){
-
+                    if (pathImageFile != null) {
                         pathImageFile.deleteOnExit();
                     }
                 } else if (response.body().getCode() == InterConst.ERROR_RESULT) {
@@ -210,17 +182,14 @@ public class CreateProfileActivity extends BaseActivity {
     @OnClick(R.id.txt_done)
     void done() {
         Consts.hideKeyboard(this);
-        if (TextUtils.isEmpty(imagePath)){
+        if (TextUtils.isEmpty(imagePath)) {
 
-            showAlert(llNoPhoto,getString(R.string.profile_pic_validation));
-        }
-       else if (TextUtils.isEmpty(gender)){
+            showAlert(llNoPhoto, getString(R.string.profile_pic_validation));
+        } else if (TextUtils.isEmpty(gender)) {
 
-            showAlert(llNoPhoto,getString(R.string.gender_validation));
-        }
-        else if (Validations.checkNameValidation(this,edName)
-                && Validations.checkEmailValidation(this,edEmail))
-        {
+            showAlert(llNoPhoto, getString(R.string.gender_validation));
+        } else if (Validations.checkNameValidation(this, edName)
+                && Validations.checkEmailValidation(this, edEmail)) {
             hitapi();
         }
     }
@@ -260,11 +229,11 @@ public class CreateProfileActivity extends BaseActivity {
         if (resultCode == RESULT_OK) {
             switch (requestCode) {
                 case PIC:
-                    if ((new Connection_Detector(this)).isConnectingToInternet()) {
+                    if (connectedToInternet()) {
                         if (data.getStringExtra(InterConst.RESULT_DATA_KEY).equalsIgnoreCase(InterConst.NULL)) {
                             hideProfilePic();//remove pic
                             pathImageFile = null;
-                            utils.setString(InterConst.PROFILE_IMAGE,"");
+                            utils.setString(InterConst.PROFILE_IMAGE, "");
                         } else if (data.getStringExtra(InterConst.RESULT_DATA_KEY).equalsIgnoreCase(InterConst.SHOW_PIC)) {
                             String picValue = "";
                             if (pathImageFile != null) {
@@ -291,7 +260,6 @@ public class CreateProfileActivity extends BaseActivity {
                             showImage(pathImageFile);
                             showProfilePic();// on result
                         }
-
                     } else
                         showInternetAlert(llNoPhoto);
                     break;
@@ -403,11 +371,8 @@ public class CreateProfileActivity extends BaseActivity {
     }
 
     private MultipartBody.Part prepareFilePart(File mFile) {
-
         RequestBody requestFile = RequestBody.create(MediaType.parse("image/*"), mFile);
         return MultipartBody.Part.createFormData("profile_image", mFile.getName(), requestFile);
-
-
     }
 
 

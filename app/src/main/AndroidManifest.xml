@@ -54,25 +54,30 @@
         <activity
             android:name=".activities.EnterNumberActivity"
             android:screenOrientation="portrait"
+            android:launchMode="singleTask"
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="stateAlwaysVisible" />
         <activity
             android:name=".activities.OtpActivity"
             android:screenOrientation="portrait"
+            android:launchMode="singleTask"
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="stateAlwaysVisible" />
         <activity
             android:name=".activities.CreateProfileActivity"
             android:screenOrientation="portrait"
+            android:launchMode="singleTask"
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="stateAlwaysVisible" />
         <activity
             android:name=".activities.LandingActivity"
             android:screenOrientation="portrait"
+            android:launchMode="singleTask"
             android:theme="@style/AppTheme" />
         <activity
             android:name=".activities.CongratulationActivity"
             android:screenOrientation="portrait"
+            android:launchMode="singleTask"
             android:theme="@style/AppTheme" />
         <activity
             android:name=".activities.ServicesListActivity"

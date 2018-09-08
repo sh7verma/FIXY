@@ -134,7 +134,6 @@
                 android:layout_weight="1"
                 android:background="@drawable/white_round"
                 android:elevation="@dimen/_10sdp"
-
                 android:orientation="horizontal">
 
                 <com.app.fixy.customviews.MaterialEditText
@@ -162,7 +161,6 @@
                 android:layout_weight="1"
                 android:background="@drawable/white_round"
                 android:elevation="@dimen/_10sdp"
-
                 android:orientation="horizontal">
 
                 <com.app.fixy.customviews.MaterialEditText
@@ -187,7 +185,7 @@
                 android:layout_marginTop="@dimen/_15sdp"
                 android:layout_weight="1"
                 android:enabled="false"
-                android:background="@drawable/black_round"
+                android:background="@drawable/btn_grey_disable"
                 android:elevation="@dimen/_5sdp"
                 android:gravity="center">
 
@@ -199,9 +197,21 @@
 
         </LinearLayout>
 
+        <com.app.fixy.customviews.RegularTextView
+            android:id="@+id/txt_timer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:layout_marginLeft="@dimen/_15sdp"
+            android:text="@string/didn_t_receive_an_otp"
+            android:textColor="@color/red"
+            android:textSize="@dimen/_12ssp" />
+
         <LinearLayout
+            android:id="@+id/ll_call"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:visibility="gone"
             android:orientation="horizontal">
 
             <com.app.fixy.customviews.RegularTextView

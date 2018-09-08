@@ -194,7 +194,6 @@ public class PhotoSelectionDialog extends Activity {
         switch (requestCode){
             case CAMERA_INTENT:
                 if (resultCode == RESULT_OK) {
-
                     Uri selectedImage = data.getData();
                     cropImage(selectedImage);
                    /* File dir = Environment.getExternalStorageDirectory();
@@ -302,14 +301,6 @@ public class PhotoSelectionDialog extends Activity {
         String path = MediaStore.Images.Media.insertImage(inContext.getContentResolver(), inImage, "Title", null);
         return Uri.parse(path);
     }
-
-
-
-
-
-
-
-
 
     private boolean checkPermissions() {
         int result;
