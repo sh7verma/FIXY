@@ -19,8 +19,6 @@ import retrofit2.http.Url;
 public interface ApiInterface {
 
     //API Method to get Questions From API
-
-
     @GET
     public Call<GooglePlaceModal> getGooglePlaces(@Url String url);
 
@@ -28,18 +26,23 @@ public interface ApiInterface {
     public Call<NearbyPlaceModel> getGoogleNearByPlaces(@Url String url);
 
     @FormUrlEncoded
-    @POST("phone_auth")
-    Call<LoginModel> userSignup(@Field("country_code") String country_code,
+    @POST("api/v1/users/create_user")
+    Call<LoginModel> create_user(@Field("country_code") String country_code,
                                 @Field("phone") String phone,
-                                @Field("user_role") String user_role
-    );
-
-    @FormUrlEncoded
-    @POST("verify_otp")
-    Call<LoginModel> verify_otp(@Field("auth_token") String auth_token,
-                                @Field("otp") String otp,
                                 @Field("user_role") String user_role);
 
+    @FormUrlEncoded
+    @POST("api/v1/users/confirm_otp")
+    Call<LoginModel> confirm_otp(@Field("auth_token") String auth_token,
+                                @Field("device_token") String device_token,
+                                @Field("otp") String otp);
+
+    @FormUrlEncoded
+    @POST("api/v1/users/resend_otp")
+    Call<LoginModel> resend_otp(@Field("auth_token") String auth_token,
+                                 @Field("device_token") String device_token,
+                                 @Field("country_code") String country_code,
+                                 @Field("phone_number") String phone_number);
 
     @Multipart
     @POST("create_profile")
@@ -60,8 +63,6 @@ public interface ApiInterface {
                                     @Part("edit_profile") RequestBody  edit_profile,
                                     @Part("referral_code") RequestBody  referral_code,
                                     @Part("profile_image") RequestBody profile_image);
-
-
 //
 //    @FormUrlEncoded
 //    @POST("/users/signin")

@@ -20,7 +20,6 @@ import com.app.fixy.dialogs.PhotoSelectionDialog;
 import com.app.fixy.interfaces.InterConst;
 import com.app.fixy.models.LoginModel;
 import com.app.fixy.network.RetrofitClient;
-import com.app.fixy.utils.Connection_Detector;
 import com.app.fixy.utils.Consts;
 import com.app.fixy.utils.Validations;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -92,74 +91,6 @@ public class CreateProfileActivity extends BaseActivity {
                 }
             }
         });
-    }
-
-    private void signInGmail() {
-        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestEmail()
-                .build();
-        mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
-        GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
-        Intent signInIntent = mGoogleSignInClient.getSignInIntent();
-        startActivityForResult(signInIntent, RC_SIGN_IN);
-    }
-
-    public void hitapi() {
-
-        Call<LoginModel> call;
-        if (pathImageFile != null) {// if remove profile pic that coming from social media
-            MultipartBody.Part imagePart = prepareFilePart(pathImageFile);
-            call = RetrofitClient.getInstance().create_profile(
-                    createPartFromString(utils.getString(InterConst.ACCESS_TOKEN, "")),
-                    createPartFromString(edName.getText().toString()),
-                    createPartFromString(edEmail.getText().toString()),
-                    createPartFromString(gender),
-                    createPartFromString(InterConst.CREATE_PROFILE),
-                    createPartFromString(edReferralCode.getText().toString()),
-                    imagePart
-            );
-        } else {// to send image from social media
-
-               /* call = RetrofitClient.getInstance().updateProfile(utils.getString(Consts.ACCESS_TOKEN, ""),
-                        edFullName.getText().toString().trim(),
-                        Consts.sendDate(edBday.getText().toString().trim()),
-                        edInvitaionCode.getText().toString().trim(),
-                        socialMediaImg);*/
-
-            MultipartBody.Part imagePart = prepareStringPart();
-            call = RetrofitClient.getInstance().create_profile(
-                    createPartFromString(utils.getString(InterConst.ACCESS_TOKEN, "")),
-                    createPartFromString(edName.getText().toString()),
-                    createPartFromString(edEmail.getText().toString()),
-                    createPartFromString(gender),
-                    createPartFromString(InterConst.CREATE_PROFILE),
-                    createPartFromString(edReferralCode.getText().toString()),
-                    createPartFromString(utils.getString(InterConst.PROFILE_IMAGE, ""))
-            );
-        }
-        call.enqueue(new retrofit2.Callback<LoginModel>() {
-            @Override
-            public void onResponse(Call<LoginModel> call, Response<LoginModel> response) {
-
-                if ((response.body().getCode() == InterConst.SUCCESS_RESULT)) {
-//                    Intent intent = new Intent(CreateProfileActivity.this, CreateProfileActivity.class);
-//                    startActivity(intent);
-//                    finish();
-//                    overridePendingTransition(R.anim.enter_from_right, R.anim.exit_to_left);
-                    if (pathImageFile != null) {
-                        pathImageFile.deleteOnExit();
-                    }
-                } else if (response.body().getCode() == InterConst.ERROR_RESULT) {
-                    showAlert(edEmail, response.body().getError().getMessage());
-                }
-            }
-
-            @Override
-            public void onFailure(Call<LoginModel> call, Throwable t) {
-                t.printStackTrace();
-            }
-        });
-
     }
 
     @Override
@@ -367,22 +298,76 @@ public class CreateProfileActivity extends BaseActivity {
                     .resize((int) (mHeight * 0.13), (int) (mHeight * 0.13))
                     .into(imgProfile);
         }
+    }
+
+    private void signInGmail() {
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestEmail()
+                .build();
+        mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
+        GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
+        Intent signInIntent = mGoogleSignInClient.getSignInIntent();
+        startActivityForResult(signInIntent, RC_SIGN_IN);
+    }
+
+    public void hitapi() {
+
+        Call<LoginModel> call;
+        if (pathImageFile != null) {// if remove profile pic that coming from social media
+            MultipartBody.Part imagePart = prepareFilePart(String.valueOf(pathImageFile),"profile_image");
+            call = RetrofitClient.getInstance().create_profile(
+                    createPartFromString(utils.getString(InterConst.ACCESS_TOKEN, "")),
+                    createPartFromString(edName.getText().toString()),
+                    createPartFromString(edEmail.getText().toString()),
+                    createPartFromString(gender),
+                    createPartFromString(InterConst.CREATE_PROFILE),
+                    createPartFromString(edReferralCode.getText().toString()),
+                    imagePart
+            );
+        } else {// to send image from social media
+
+               /* call = RetrofitClient.getInstance().updateProfile(utils.getString(Consts.ACCESS_TOKEN, ""),
+                        edFullName.getText().toString().trim(),
+                        Consts.sendDate(edBday.getText().toString().trim()),
+                        edInvitaionCode.getText().toString().trim(),
+                        socialMediaImg);*/
+
+            MultipartBody.Part imagePart = prepareFilePart("","profile_image");
+            call = RetrofitClient.getInstance().create_profile(
+                    createPartFromString(utils.getString(InterConst.ACCESS_TOKEN, "")),
+                    createPartFromString(edName.getText().toString()),
+                    createPartFromString(edEmail.getText().toString()),
+                    createPartFromString(gender),
+                    createPartFromString(InterConst.CREATE_PROFILE),
+                    createPartFromString(edReferralCode.getText().toString()),
+                    createPartFromString(utils.getString(InterConst.PROFILE_IMAGE, ""))
+            );
+        }
+        call.enqueue(new retrofit2.Callback<LoginModel>() {
+            @Override
+            public void onResponse(Call<LoginModel> call, Response<LoginModel> response) {
+
+                if ((response.body().getCode() == InterConst.SUCCESS_RESULT)) {
+//                    Intent intent = new Intent(CreateProfileActivity.this, CreateProfileActivity.class);
+//                    startActivity(intent);
+//                    finish();
+//                    overridePendingTransition(R.anim.enter_from_right, R.anim.exit_to_left);
+                    if (pathImageFile != null) {
+                        pathImageFile.deleteOnExit();
+                    }
+                } else if (response.body().getCode() == InterConst.ERROR_RESULT) {
+                    showAlert(edEmail, response.body().getError().getMessage());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<LoginModel> call, Throwable t) {
+                t.printStackTrace();
+            }
+        });
 
     }
 
-    private MultipartBody.Part prepareFilePart(File mFile) {
-        RequestBody requestFile = RequestBody.create(MediaType.parse("image/*"), mFile);
-        return MultipartBody.Part.createFormData("profile_image", mFile.getName(), requestFile);
-    }
 
-
-    public RequestBody createPartFromString(String data) {
-        return RequestBody.create(MediaType.parse("text/plain"), data);
-    }
-
-    private MultipartBody.Part prepareStringPart() {
-        RequestBody requestFile = RequestBody.create(MediaType.parse("image/*"), "");
-        return MultipartBody.Part.createFormData("profile_image", "", requestFile);
-    }
 
 }

@@ -18,8 +18,6 @@ import com.app.fixy.models.LoginModel;
 import com.app.fixy.network.RetrofitClient;
 import com.app.fixy.utils.Consts;
 
-import java.util.concurrent.TimeUnit;
-
 import butterknife.BindView;
 import butterknife.OnClick;
 import retrofit2.Call;
@@ -67,131 +65,6 @@ public class OtpActivity extends BaseActivity {
 
     @Override
     protected void initListener() {
-
-//        edFirst.addTextChangedListener(new TextWatcher() {
-//
-//            @Override
-//            public void onTextChanged(CharSequence s, int start, int before, int count) {
-//                // TODO Auto-generated method stub
-//                if (edFirst.getText().toString().length() == 1) {
-//                    edSecond.requestFocus();
-//                    edSecond.setEnabled(true);
-//                    if (edFirst.getText().toString().length() > 0 && edSecond.getText().toString().length() > 0
-//                            && edThird.getText().toString().length() > 0 && edFourth.getText().toString().length() > 0) {
-//                        checkOTP();
-//                    }
-//                }
-//            }
-//
-//            @Override
-//            public void beforeTextChanged(CharSequence s, int start, int count,
-//                                          int after) {
-//                // TODO Auto-generated method stub
-//
-//            }
-//
-//            @Override
-//            public void afterTextChanged(Editable s) {
-//                // TODO Auto-generated method stub
-//
-//            }
-//        });
-//        edSecond.addTextChangedListener(new TextWatcher() {
-//
-//            @Override
-//            public void onTextChanged(CharSequence s, int start, int before, int count) {
-//                // TODO Auto-generated method stub
-//                Log.d("1", "1");
-//                if (edSecond.getText().toString().length() == 1) {
-//                    edThird.requestFocus();
-//                    edThird.setEnabled(true);
-//                    if (edFirst.getText().toString().length() > 0 && edSecond.getText().toString().length() > 0
-//                            && edThird.getText().toString().length() > 0 && edFourth.getText().toString().length() > 0) {
-//                        checkOTP();
-//                    }
-//                }
-//            }
-//
-//            @Override
-//            public void beforeTextChanged(CharSequence s, int start, int count,
-//                                          int after) {
-//                // TODO Auto-generated method stub
-//                Log.d("2", "2");
-//            }
-//
-//            @Override
-//            public void afterTextChanged(Editable s) {
-//                // TODO Auto-generated method stub
-//                Log.d("3", "3");
-//                if (edSecond.getText().toString().length() == 0) {
-//                    edFirst.setSelection(edFirst.getText().toString().length());
-//                    edFirst.requestFocus();
-//                }
-//
-//            }
-//        });
-//        edThird.addTextChangedListener(new TextWatcher() {
-//
-//            @Override
-//            public void onTextChanged(CharSequence s, int start, int before, int count) {
-//                // TODO Auto-generated method stub
-//                if (edThird.getText().toString().length() == 1) {
-//                    edFourth.requestFocus();
-//                    edFourth.setEnabled(true);
-//                    if (edFirst.getText().toString().length() > 0 && edSecond.getText().toString().length() > 0
-//                            && edThird.getText().toString().length() > 0 && edFourth.getText().toString().length() > 0) {
-//                        checkOTP();
-//                    }
-//                }
-//            }
-//
-//            @Override
-//            public void beforeTextChanged(CharSequence s, int start, int count,
-//                                          int after) {
-//                // TODO Auto-generated method stub
-//            }
-//
-//            @Override
-//            public void afterTextChanged(Editable s) {
-//                // TODO Auto-generated method stub
-//                if (edThird.getText().toString().length() == 0) {
-//                    edSecond.setSelection(edSecond.getText().toString().length());
-//                    edSecond.requestFocus();
-//                }
-//
-//            }
-//        });
-//        edFourth.addTextChangedListener(new TextWatcher() {
-//
-//            @Override
-//            public void onTextChanged(CharSequence s, int start, int before, int count) {
-//                // TODO Auto-generated method stub
-//                if (edFourth.getText().toString().length() == 1) {
-//                    if (edFirst.getText().toString().length() > 0 && edSecond.getText().toString().length() > 0
-//                            && edThird.getText().toString().length() > 0 && edFourth.getText().toString().length() > 0) {
-//                        checkOTP();
-//                    }
-//                }
-//            }
-//
-//            @Override
-//            public void beforeTextChanged(CharSequence s, int start, int count,
-//                                          int after) {
-//                // TODO Auto-generated method stub
-//
-//            }
-//
-//            @Override
-//            public void afterTextChanged(Editable s) {
-//                // TODO Auto-generated method stub
-//
-//                if (edFourth.getText().toString().length() == 0) {
-//                    edThird.setSelection(edThird.getText().toString().length());
-//                    edThird.requestFocus();
-//                }
-//
-//            }
-//        });
 
         edFirst.addTextChangedListener(new TextWatcher() {
             @Override
@@ -353,18 +226,7 @@ public class OtpActivity extends BaseActivity {
     @OnClick(R.id.ll_next)
     void next() {
         Consts.hideKeyboard(this);
-//        if (edFirst.getText().toString().length() < 1) {
-//            Validations.checkOTPValidation(this, edFirst);
-//        } else if (edFirst.getText().toString().length() < 1) {
-//            Validations.checkOTPValidation(this, edSecond);
-//        } else if (edThird.getText().toString().length() < 1) {
-//            Validations.checkOTPValidation(this, edThird);
-//        } else if (edFourth.getText().toString().length() < 1) {
-//            Validations.checkOTPValidation(this, edFourth);
-//        } else {
         hitOTPapi();
-//        }
-
     }
 
     private String makeOTP() {
@@ -378,7 +240,7 @@ public class OtpActivity extends BaseActivity {
 
     public void hitOTPapi() {
 
-        Call<LoginModel> call = RetrofitClient.getInstance().verify_otp(utils.getString(InterConst.ACCESS_TOKEN, ""),
+        Call<LoginModel> call = RetrofitClient.getInstance().confirm_otp(utils.getString(InterConst.ACCESS_TOKEN, ""),
                 makeOTP(),
                 InterConst.USER);
         call.enqueue(new Callback<LoginModel>() {

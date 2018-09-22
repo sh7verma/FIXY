@@ -51,9 +51,13 @@ dependencies {
     implementation 'com.squareup.picasso:picasso:2.71828'
     /// multidex
     implementation 'com.android.support:multidex:1.0.3'
-    /// circularimageview
-    implementation 'com.mikhaellopez:circularimageview:3.2.0'
+
+
     //    implementation 'com.theartofdev.edmodo:android-image-cropper:2.7.0'
     //    implementation project(':sdkui')
     implementation project(':cropper')
+
+    //glide
+    implementation 'com.github.bumptech.glide:glide:4.8.0'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.8.0'
 }
