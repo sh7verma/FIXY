@@ -48,9 +48,9 @@ public interface ApiInterface {
                                  @Field("phone_number") String phone_number);
 
     @Multipart
-    @POST("create_profile")
+    @POST("api/v1/users/create_profile")
     Call<LoginModel> create_profile(@Part("access_token") RequestBody  access_token,
-                                    @Part("name") RequestBody  Name,
+                                    @Part("fullname") RequestBody  Name,
                                     @Part("email") RequestBody  email,
                                     @Part("gender") RequestBody  gender,
                                     @Part("edit_profile") RequestBody  edit_profile,

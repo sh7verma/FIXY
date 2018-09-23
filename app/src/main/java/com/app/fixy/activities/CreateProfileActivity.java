@@ -122,7 +122,7 @@ public class CreateProfileActivity extends BaseActivity {
         } else if (Validations.checkNameValidation(this, edName)
                 && Validations.checkEmailValidation(this, edEmail)) {
             hitapi();
-        }
+    }
     }
 
     @OnClick(R.id.img_profile)
