@@ -5,6 +5,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -50,6 +51,7 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
     protected String errorAccessToken;
     protected String terminateAccount;
     protected Db db;
+    protected String deviceToken;
     Utils utils;
     Gson mGson = new Gson();
     Encode encode;
@@ -101,6 +103,10 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
         errorInternet = getResources().getString(R.string.internet);
         errorAPI = getResources().getString(R.string.error);
         errorAccessToken = getResources().getString(R.string.invalid_access_token);
+
+        deviceToken = Settings.Secure.getString(getContext().getContentResolver(),
+                Settings.Secure.ANDROID_ID);
+
     }
 
     @Override

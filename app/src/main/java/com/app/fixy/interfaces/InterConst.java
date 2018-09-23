@@ -16,7 +16,7 @@ public interface InterConst {
     String LOCATION_DATA_EXTRA="location_extra";
     String RECEIVER ="reciver_location";
     String RESULT_DATA_KEY = ".RESULT_DATA_KEY";
-    int SUCCESS_RESULT = 200;
+    String SUCCESS_RESULT = "200";
     int HOME = 1;
     int WORK= 2;
     int DEFAULT= -1;
@@ -30,7 +30,7 @@ public interface InterConst {
     String EMAIL = "email";
     String USER_NAME = "username";
     String USER_ID = "user_id";
-    int ERROR_RESULT =404 ;
+    String ERROR_RESULT ="404" ;
     int CAMERA_PERMISSION_REQUEST_CODE = 1;
     String SHOW_PIC = "show_pic";
     String NULL = "null";
@@ -39,7 +39,9 @@ public interface InterConst {
     String CREATE_PROFILE = "0";
     String MALE = "male";
     String FEMALE = "female";
-    String USER = "1";
+    String USER_TYPE = "1";
+    String APPLICATION_MODE = "1";
+    String PLATFORM_TYPE = "1";
 
     public enum WEBVIEW{
         TERM_CONDITION;

@@ -3,9 +3,9 @@ package com.app.fixy.activities;
 import android.content.Context;
 import android.content.Intent;
 import android.location.Location;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.ResultReceiver;
-import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -28,6 +28,8 @@ import butterknife.BindView;
 
 public class AddAddressActivity extends BaseActivity implements OnMapReadyCallback, InterfacesCall.MapInterface {
 
+    public static InterfacesCall.LocationInterface locationInterface;
+    private final int ADDRESS_RESULT = 1;
     @BindView(R.id.txt_change)
     TextView txtChange;
     @BindView(R.id.img_back)
@@ -48,19 +50,18 @@ public class AddAddressActivity extends BaseActivity implements OnMapReadyCallba
     TextView txtOther;
     @BindView(R.id.txt_done)
     TextView txtDone;
-
-
-    public static InterfacesCall.LocationInterface locationInterface;
+    int labelType = -1;
+    Location myLocation;
+    String locationName;
     private boolean isGettingAddress;
     private AddressResultReceiver mResultReceiver;
     private Location mCurrentLocation;
-    private final int ADDRESS_RESULT = 1;
-    int labelType =-1;
+    private boolean isEdit = false;
+    private double lat, lon;
 
-    Location myLocation;
-    String locationName;
-    private boolean isEdit =false;
-    private double lat,lon;
+    public static void setInterface(InterfacesCall.LocationInterface location) {
+        locationInterface = location;
+    }
 
     @Override
     protected int getContentView() {
@@ -69,12 +70,8 @@ public class AddAddressActivity extends BaseActivity implements OnMapReadyCallba
 
     @Override
     protected void onCreateStuff() {
-        new GoogleMapInitiate(this, null,1);
+        new GoogleMapInitiate(this, null, 1);
         mResultReceiver = new AddressResultReceiver(new Handler());
-    }
-
-    public static void setInterface(InterfacesCall.LocationInterface location) {
-        locationInterface = location;
     }
 
     @Override
@@ -117,7 +114,7 @@ public class AddAddressActivity extends BaseActivity implements OnMapReadyCallba
         switch (view.getId()) {
             case R.id.txt_change:
                 intent = new Intent(this, SearchAddressActivity.class);
-                intent.putExtra(InterConst.LOCATION_DATA_EXTRA,mCurrentLocation);
+                intent.putExtra(InterConst.LOCATION_DATA_EXTRA, mCurrentLocation);
                 startActivityForResult(intent, ADDRESS_RESULT);
                 overridePendingTransition(R.anim.in, R.anim.out);
                 break;
@@ -126,7 +123,7 @@ public class AddAddressActivity extends BaseActivity implements OnMapReadyCallba
                 break;
             case R.id.img_back:
                 finish();
-                overridePendingTransition(R.anim.slide_right ,R.anim.slide_out_right);
+                overridePendingTransition(R.anim.slide_right, R.anim.slide_out_right);
                 break;
             case R.id.txt_work:
                 selectAddressType(InterConst.WORK);
@@ -135,13 +132,11 @@ public class AddAddressActivity extends BaseActivity implements OnMapReadyCallba
                 selectAddressType(InterConst.OTHER);
                 break;
             case R.id.txt_done:
-                if (labelType == InterConst.DEFAULT){
-                    showSnackBar(txtDone,getString(R.string.please_select_label));
-                }
-                else if (txtAddress.getText().length()<1){
-                    showSnackBar(txtDone,getString(R.string.please_change_address));
-                }
-                else {
+                if (labelType == InterConst.DEFAULT) {
+                    showSnackBar(txtDone, getString(R.string.please_select_label));
+                } else if (txtAddress.getText().length() < 1) {
+                    showSnackBar(txtDone, getString(R.string.please_change_address));
+                } else {
                     saveAddress();
                 }
                 break;
@@ -151,40 +146,38 @@ public class AddAddressActivity extends BaseActivity implements OnMapReadyCallba
     private void saveAddress() {
         LocationModel locationModel = new LocationModel();
         locationModel.setPlace(txtAddress.getText().toString());
-        locationModel.setHouse_flat(getString(R.string.hash)+etHouseFlat.getText().toString().trim());
+        locationModel.setHouse_flat(getString(R.string.hash) + etHouseFlat.getText().toString().trim());
         locationModel.setLandmark(etLandmark.getText().toString().trim());
         locationModel.setType(labelType);
 
-        switch (labelType){
+        switch (labelType) {
             case InterConst.HOME:
                 locationModel.setLabelName(getString(R.string.home_add));
                 locationModel.setType(InterConst.HOME);
                 db.addHomeWorkLocation(locationModel);
-                setResult(RESULT_OK,new Intent());
+                setResult(RESULT_OK, new Intent());
                 finish();
                 break;
             case InterConst.WORK:
                 locationModel.setLabelName(getString(R.string.work_add));
                 locationModel.setType(InterConst.WORK);
                 db.addHomeWorkLocation(locationModel);
-                setResult(RESULT_OK,new Intent());
+                setResult(RESULT_OK, new Intent());
                 finish();
                 break;
             case InterConst.OTHER:
 
                 locationModel.setType(InterConst.OTHER);
                 locationModel.setLabelName(etLabelName.getText().toLowerCase().trim());
-                if (TextUtils.isEmpty(locationModel.getLabelName())){
-                    showSnackBar(txtDone,getString(R.string.please_enter_label_name));
+                if (TextUtils.isEmpty(locationModel.getLabelName())) {
+                    showSnackBar(txtDone, getString(R.string.please_enter_label_name));
 
-                }
-                else if (db.checkRedundentName(locationModel.getLabelName())>0){//new Name
+                } else if (db.checkRedundentName(locationModel.getLabelName()) > 0) {//new Name
 
-                    showSnackBar(txtDone,getString(R.string.name_already_exist));
-                }
-                else {
+                    showSnackBar(txtDone, getString(R.string.name_already_exist));
+                } else {
                     db.addCustomLocation(locationModel);//getLocationById autocomplete
-                    setResult(RESULT_OK,new Intent());
+                    setResult(RESULT_OK, new Intent());
                     finish();
                 }
                 break;
@@ -273,6 +266,12 @@ public class AddAddressActivity extends BaseActivity implements OnMapReadyCallba
 
     }
 
+    protected void startIntentService() {
+        Intent intent = new Intent(this, FetchAddressIntentService.class);
+        intent.putExtra(InterConst.RECEIVER, mResultReceiver);
+        intent.putExtra(InterConst.LOCATION_DATA_EXTRA, mCurrentLocation);
+        startService(intent);
+    }
 
     // ===============GOOGLE ADREESS FETCHER==================
     class AddressResultReceiver extends ResultReceiver {
@@ -289,7 +288,7 @@ public class AddAddressActivity extends BaseActivity implements OnMapReadyCallba
 //            displayAddressOutput();
             mAddressOutput = mAddressOutput.replace("\n", " ");
             // Show a toast message if an address was found.
-            if (resultCode == InterConst.SUCCESS_RESULT) {
+            if (resultCode == Integer.parseInt(InterConst.SUCCESS_RESULT)) {
 //                Toast.makeText(mContext, "result found", Toast.LENGTH_SHORT).show();
                 txtAddress.setText(mAddressOutput);
                 isGettingAddress = true;
@@ -300,12 +299,5 @@ public class AddAddressActivity extends BaseActivity implements OnMapReadyCallba
                 isGettingAddress = false;
             }
         }
-    }
-
-    protected void startIntentService() {
-        Intent intent = new Intent(this, FetchAddressIntentService.class);
-        intent.putExtra(InterConst.RECEIVER, mResultReceiver);
-        intent.putExtra(InterConst.LOCATION_DATA_EXTRA, mCurrentLocation);
-        startService(intent);
     }
 }

@@ -2,8 +2,9 @@ package com.app.fixy.activities;
 
 import android.content.Context;
 import android.content.Intent;
+import android.provider.Settings;
+import android.support.annotation.NonNull;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -48,45 +49,6 @@ public class EnterNumberActivity extends BaseActivity {
 
     }
 
-    public void hitUserSignup() {
-        ApiInterface apiInterface = RetrofitClient.getInstance();
-
-        Call<LoginModel> call = apiInterface.userSignup(txtCountryCode.getText().toString(),
-                edNumber.getText().toString().trim(),
-                InterConst.USER);
-        call.enqueue(new Callback<LoginModel>() {
-            @Override
-            public void onResponse(Call<LoginModel> call, Response<LoginModel> response) {
-
-                if ( response.body().getCode() == InterConst.SUCCESS_RESULT){
-
-                    utils.setString(InterConst.ACCESS_TOKEN,response.body().getResponse().getAuth_token());
-                    utils.setString(InterConst.USER_ID,response.body().getResponse().getUser_id());
-                    utils.setString(InterConst.USER_NAME,response.body().getResponse().getName());
-                    utils.setString(InterConst.PROFILE_STATUS,response.body().getResponse().getProfile_status());
-                    utils.setString(InterConst.GENDER,response.body().getResponse().getGender());
-                    utils.setString(InterConst.PROFILE_IMAGE,response.body().getResponse().getProfile_image());
-                    utils.setString(InterConst.EMAIL,response.body().getResponse().getEmail());
-                    utils.setString(InterConst.COUNTRY_CODE,response.body().getResponse().getCountry_code());
-                    utils.setString(InterConst.PHONE_NUMBER,response.body().getResponse().getPhone());
-                    Intent intent = new Intent(EnterNumberActivity.this, OtpActivity.class);
-                    startActivity(intent);
-                    finish();
-                    overridePendingTransition(R.anim.enter_from_right, R.anim.exit_to_left);
-                }
-                else if (response.body().getCode() == InterConst.ERROR_RESULT){
-                    showAlert(llNext,response.body().getError().getMessage());
-                }
-            }
-
-            @Override
-            public void onFailure(Call<LoginModel> call, Throwable t) {
-
-            }
-        });
-
-    }
-
     @Override
     protected void initListener() {
 
@@ -100,8 +62,8 @@ public class EnterNumberActivity extends BaseActivity {
     @OnClick(R.id.ll_next)
     void next() {
         Consts.hideKeyboard(this);
-        if (Validations.checkPhoneValidation(this,edNumber)) {
-            hitUserSignup();
+        if (Validations.checkPhoneValidation(this, edNumber)) {
+            hitUserSignUp();
         }
     }
 
@@ -109,4 +71,50 @@ public class EnterNumberActivity extends BaseActivity {
     @Override
     public void onClick(View view) {
     }
+
+
+    public void hitUserSignUp() {
+        ApiInterface apiInterface = RetrofitClient.getInstance();
+
+
+        Call<LoginModel> call = apiInterface.create_user(txtCountryCode.getText().toString(),
+                edNumber.getText().toString().trim(), InterConst.APPLICATION_MODE, InterConst.PLATFORM_TYPE, deviceToken,
+                InterConst.USER_TYPE);
+        call.enqueue(new Callback<LoginModel>() {
+            @Override
+            public void onResponse(@NonNull Call<LoginModel> call, @NonNull Response<LoginModel> response) {
+
+                if (response.body().getCode().equals(InterConst.SUCCESS_RESULT)) {
+
+                    setUserData(response.body().getResponse());
+
+                    Intent intent = new Intent(EnterNumberActivity.this, OtpActivity.class);
+                    startActivity(intent);
+                    finish();
+                    overridePendingTransition(R.anim.enter_from_right, R.anim.exit_to_left);
+
+                } else if (response.body().getCode().equals(InterConst.ERROR_RESULT)) {
+                    showAlert(llNext, response.body().getError().getMessage());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<LoginModel> call, Throwable t) {
+
+            }
+        });
+
+    }
+
+    void setUserData(LoginModel.ResponseBean response) {
+        utils.setString(InterConst.ACCESS_TOKEN, response.getAccess_token());
+        utils.setString(InterConst.USER_ID, response.getId());
+        utils.setString(InterConst.USER_NAME, response.getFullname());
+        utils.setString(InterConst.PROFILE_STATUS, response.getProfile_status());
+        utils.setString(InterConst.GENDER, response.getGender());
+        utils.setString(InterConst.PROFILE_IMAGE, response.getProfile_pic());
+        utils.setString(InterConst.EMAIL, response.getEmail());
+    }
+
+
 }

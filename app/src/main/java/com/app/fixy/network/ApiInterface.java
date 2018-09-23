@@ -29,7 +29,10 @@ public interface ApiInterface {
     @POST("api/v1/users/create_user")
     Call<LoginModel> create_user(@Field("country_code") String country_code,
                                 @Field("phone") String phone,
-                                @Field("user_role") String user_role);
+                                @Field("application_mode") String application_mode,
+                                @Field("platform_type") String platform_type,
+                                @Field("device_token") String device_token,
+                                @Field("user_type") String user_type);
 
     @FormUrlEncoded
     @POST("api/v1/users/confirm_otp")

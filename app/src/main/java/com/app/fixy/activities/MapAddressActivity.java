@@ -5,10 +5,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.ResultReceiver;
 import android.support.v4.app.ActivityCompat;
-import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -31,6 +31,7 @@ import butterknife.BindView;
 
 public class MapAddressActivity extends BaseActivity implements OnMapReadyCallback, InterfacesCall.MapInterface {
 
+    public static InterfacesCall.LocationInterface locationInterface;
     @BindView(R.id.et_address)
     MaterialEditText etAddress;
     @BindView(R.id.txt_done)
@@ -43,7 +44,10 @@ public class MapAddressActivity extends BaseActivity implements OnMapReadyCallba
     private AddressResultReceiver mResultReceiver;
     private boolean isGettingAddress = false;
     private double lat, lon;
-    public static InterfacesCall.LocationInterface locationInterface;
+
+    public static void setInterface(InterfacesCall.LocationInterface location) {
+        locationInterface = location;
+    }
 
     @Override
     protected int getContentView() {
@@ -54,7 +58,7 @@ public class MapAddressActivity extends BaseActivity implements OnMapReadyCallba
     protected void onCreateStuff() {
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
-        new GoogleMapInitiate(this, mapFragment,2);
+        new GoogleMapInitiate(this, mapFragment, 2);
         setData();
         mResultReceiver = new AddressResultReceiver(new Handler());
 
@@ -64,10 +68,6 @@ public class MapAddressActivity extends BaseActivity implements OnMapReadyCallba
         myLocation = getIntent().getParcelableExtra(InterConst.LOCATION_DATA_EXTRA);
         addressName = getIntent().getStringExtra(InterConst.EXTRA);
         etAddress.setText(addressName);
-    }
-
-    public static void setInterface(InterfacesCall.LocationInterface location) {
-        locationInterface = location;
     }
 
     @Override
@@ -84,43 +84,12 @@ public class MapAddressActivity extends BaseActivity implements OnMapReadyCallba
         GoogleMapInitiate.setInterface(this);
     }
 
-
-    // ===============GOOGLE ADREESS FETCHER==================
-    class AddressResultReceiver extends ResultReceiver {
-        public AddressResultReceiver(Handler handler) {
-            super(handler);
-        }
-
-        @Override
-        protected void onReceiveResult(int resultCode, Bundle resultData) {
-
-            // Display the address string
-            // or an error message sent from the intent service.
-            String mAddressOutput = resultData.getString(InterConst.RESULT_DATA_KEY);
-//            displayAddressOutput();
-            mAddressOutput = mAddressOutput.replace("\n", " ");
-            // Show a toast message if an address was found.
-            if (resultCode == InterConst.SUCCESS_RESULT) {
-//                Toast.makeText(mContext, "result found", Toast.LENGTH_SHORT).show();
-                addressName = mAddressOutput;
-                etAddress.setText(mAddressOutput);
-                isGettingAddress = true;
-
-
-            } else {
-                isGettingAddress = false;
-                etAddress.setText(mAddressOutput);
-            }
-        }
-    }
-
     protected void startIntentService() {
         Intent intent = new Intent(this, FetchAddressIntentService.class);
         intent.putExtra(InterConst.RECEIVER, mResultReceiver);
         intent.putExtra(InterConst.LOCATION_DATA_EXTRA, myLocation);
         startService(intent);
     }
-
 
     public void setMyLocationMarker(Location location) {
 
@@ -163,15 +132,15 @@ public class MapAddressActivity extends BaseActivity implements OnMapReadyCallba
         switch (view.getId()) {
             case R.id.txt_done:
                 Intent intent = new Intent();
-                intent.putExtra(InterConst.LOCATION_DATA_EXTRA,myLocation);
-                intent.putExtra(InterConst.EXTRA,addressName);
-                setResult(RESULT_OK,intent);
+                intent.putExtra(InterConst.LOCATION_DATA_EXTRA, myLocation);
+                intent.putExtra(InterConst.EXTRA, addressName);
+                setResult(RESULT_OK, intent);
                 finish();
-                overridePendingTransition(R.anim.slide_right ,R.anim.slide_out_right);
+                overridePendingTransition(R.anim.slide_right, R.anim.slide_out_right);
                 break;
             case R.id.img_back:
                 finish();
-                overridePendingTransition(R.anim.slide_right ,R.anim.slide_out_right);
+                overridePendingTransition(R.anim.slide_right, R.anim.slide_out_right);
                 break;
         }
     }
@@ -210,5 +179,34 @@ public class MapAddressActivity extends BaseActivity implements OnMapReadyCallba
 
             }
         });
+    }
+
+    // ===============GOOGLE ADREESS FETCHER==================
+    class AddressResultReceiver extends ResultReceiver {
+        public AddressResultReceiver(Handler handler) {
+            super(handler);
+        }
+
+        @Override
+        protected void onReceiveResult(int resultCode, Bundle resultData) {
+
+            // Display the address string
+            // or an error message sent from the intent service.
+            String mAddressOutput = resultData.getString(InterConst.RESULT_DATA_KEY);
+//            displayAddressOutput();
+            mAddressOutput = mAddressOutput.replace("\n", " ");
+            // Show a toast message if an address was found.
+            if (resultCode == Integer.parseInt(InterConst.SUCCESS_RESULT)) {
+//                Toast.makeText(mContext, "result found", Toast.LENGTH_SHORT).show();
+                addressName = mAddressOutput;
+                etAddress.setText(mAddressOutput);
+                isGettingAddress = true;
+
+
+            } else {
+                isGettingAddress = false;
+                etAddress.setText(mAddressOutput);
+            }
+        }
     }
 }

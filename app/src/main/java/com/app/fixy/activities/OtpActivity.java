@@ -1,8 +1,8 @@
 package com.app.fixy.activities;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.CountDownTimer;
+import android.support.annotation.NonNull;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -216,7 +216,7 @@ public class OtpActivity extends BaseActivity {
     private void checkOTP() {
         if (connectedToInternet()) {
             llNext.setEnabled(true);
-            hitOTPapi();
+            hitOtpApi();
         } else {
             Toast.makeText(mContext, R.string.internet, Toast.LENGTH_SHORT).show();
         }
@@ -226,7 +226,7 @@ public class OtpActivity extends BaseActivity {
     @OnClick(R.id.ll_next)
     void next() {
         Consts.hideKeyboard(this);
-        hitOTPapi();
+        hitOtpApi();
     }
 
     private String makeOTP() {
@@ -238,20 +238,23 @@ public class OtpActivity extends BaseActivity {
         return builder.toString();
     }
 
-    public void hitOTPapi() {
+    public void hitOtpApi() {
 
         Call<LoginModel> call = RetrofitClient.getInstance().confirm_otp(utils.getString(InterConst.ACCESS_TOKEN, ""),
-                makeOTP(),
-                InterConst.USER);
+                deviceToken, makeOTP());
         call.enqueue(new Callback<LoginModel>() {
             @Override
-            public void onResponse(Call<LoginModel> call, Response<LoginModel> response) {
-                if (response.body().getCode() == InterConst.SUCCESS_RESULT) {
-                    Intent intent = new Intent(OtpActivity.this, CreateProfileActivity.class);
-                    startActivity(intent);
-                    finish();
-                    overridePendingTransition(R.anim.enter_from_right, R.anim.exit_to_left);
-                } else if (response.body().getCode() == InterConst.ERROR_RESULT) {
+            public void onResponse(@NonNull Call<LoginModel> call, @NonNull Response<LoginModel> response) {
+                if (response.body().getCode().equals(InterConst.SUCCESS_RESULT)) {
+
+//                    setUserData(response.body().getResponse());
+
+
+//                    Intent intent = new Intent(OtpActivity.this, CreateProfileActivity.class);
+//                    startActivity(intent);
+//                    finish();
+//                    overridePendingTransition(R.anim.enter_from_right, R.anim.exit_to_left);
+                } else if (response.body().getCode().equals(InterConst.ERROR_RESULT)) {
                     showAlert(llNext, response.body().getError().getMessage());
                 }
             }
@@ -268,4 +271,15 @@ public class OtpActivity extends BaseActivity {
     public void onClick(View view) {
 
     }
+
+    void setUserData(LoginModel.ResponseBean response) {
+        utils.setString(InterConst.ACCESS_TOKEN, response.getAccess_token());
+        utils.setString(InterConst.USER_ID, response.getId());
+        utils.setString(InterConst.USER_NAME, response.getFullname());
+        utils.setString(InterConst.PROFILE_STATUS, response.getProfile_status());
+        utils.setString(InterConst.GENDER, response.getGender());
+        utils.setString(InterConst.PROFILE_IMAGE, response.getProfile_pic());
+        utils.setString(InterConst.EMAIL, response.getEmail());
+    }
+
 }
