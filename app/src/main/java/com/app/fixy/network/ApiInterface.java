@@ -36,20 +36,20 @@ public interface ApiInterface {
 
     @FormUrlEncoded
     @POST("api/v1/users/confirm_otp")
-    Call<LoginModel> confirm_otp(@Field("auth_token") String auth_token,
+    Call<LoginModel> confirm_otp(@Field("access_token") String access_token,
                                 @Field("device_token") String device_token,
                                 @Field("otp") String otp);
 
     @FormUrlEncoded
     @POST("api/v1/users/resend_otp")
-    Call<LoginModel> resend_otp(@Field("auth_token") String auth_token,
+    Call<LoginModel> resend_otp(@Field("access_token") String access_token,
                                  @Field("device_token") String device_token,
                                  @Field("country_code") String country_code,
                                  @Field("phone_number") String phone_number);
 
     @Multipart
     @POST("create_profile")
-    Call<LoginModel> create_profile(@Part("auth_token") RequestBody  auth_token,
+    Call<LoginModel> create_profile(@Part("access_token") RequestBody  access_token,
                                     @Part("name") RequestBody  Name,
                                     @Part("email") RequestBody  email,
                                     @Part("gender") RequestBody  gender,
@@ -59,7 +59,7 @@ public interface ApiInterface {
 
     @Multipart
     @POST("create_profile")
-    Call<LoginModel> create_profile(@Part("auth_token") RequestBody  auth_token,
+    Call<LoginModel> create_profile(@Part("access_token") RequestBody  access_token,
                                     @Part("name") RequestBody  Name,
                                     @Part("email") RequestBody  email,
                                     @Part("gender") RequestBody  gender,

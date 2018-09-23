@@ -66,7 +66,6 @@ public class OtpActivity extends BaseActivity {
 
     @Override
     protected void initListener() {
-
         edFirst.addTextChangedListener(new TextWatcher() {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {

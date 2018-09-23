@@ -281,7 +281,6 @@ public class CreateProfileActivity extends BaseActivity {
                     .error(R.mipmap.ic_profile).into(imgProfile, new Callback() {
                 @Override
                 public void onSuccess() {
-
                     Log.w(TAG, "onError:Sucess code=");
                 }
 
@@ -322,8 +321,7 @@ public class CreateProfileActivity extends BaseActivity {
                     createPartFromString(gender),
                     createPartFromString(InterConst.CREATE_PROFILE),
                     createPartFromString(edReferralCode.getText().toString()),
-                    imagePart
-            );
+                    imagePart);
         } else {// to send image from social media
 
                /* call = RetrofitClient.getInstance().updateProfile(utils.getString(Consts.ACCESS_TOKEN, ""),
@@ -340,8 +338,7 @@ public class CreateProfileActivity extends BaseActivity {
                     createPartFromString(gender),
                     createPartFromString(InterConst.CREATE_PROFILE),
                     createPartFromString(edReferralCode.getText().toString()),
-                    createPartFromString(utils.getString(InterConst.PROFILE_IMAGE, ""))
-            );
+                    createPartFromString(utils.getString(InterConst.PROFILE_IMAGE, "")));
         }
         call.enqueue(new retrofit2.Callback<LoginModel>() {
             @Override
