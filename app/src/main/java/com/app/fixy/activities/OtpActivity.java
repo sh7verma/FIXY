@@ -1,6 +1,7 @@
 package com.app.fixy.activities;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.CountDownTimer;
 import android.support.annotation.NonNull;
 import android.text.Editable;
@@ -240,20 +241,21 @@ public class OtpActivity extends BaseActivity {
 
     public void hitOtpApi() {
 
-        Call<LoginModel> call = RetrofitClient.getInstance().confirm_otp(utils.getString(InterConst.ACCESS_TOKEN, ""),
-                deviceToken, makeOTP());
+        Call<LoginModel> call = RetrofitClient.getInstance().confirm_otp(
+                utils.getString(InterConst.ACCESS_TOKEN, ""),
+                deviceToken,
+                makeOTP());
         call.enqueue(new Callback<LoginModel>() {
             @Override
             public void onResponse(@NonNull Call<LoginModel> call, @NonNull Response<LoginModel> response) {
                 if (response.body().getCode().equals(InterConst.SUCCESS_RESULT)) {
 
-//                    setUserData(response.body().getResponse());
+                    setUserData(response.body().getResponse());
 
-
-//                    Intent intent = new Intent(OtpActivity.this, CreateProfileActivity.class);
-//                    startActivity(intent);
-//                    finish();
-//                    overridePendingTransition(R.anim.enter_from_right, R.anim.exit_to_left);
+                    Intent intent = new Intent(OtpActivity.this, CreateProfileActivity.class);
+                    startActivity(intent);
+                    finish();
+                    overridePendingTransition(R.anim.enter_from_right, R.anim.exit_to_left);
                 } else if (response.body().getCode().equals(InterConst.ERROR_RESULT)) {
                     showAlert(llNext, response.body().getError().getMessage());
                 }
