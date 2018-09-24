@@ -70,8 +70,6 @@ public class CropImageActivity extends AppCompatActivity
           requestPermissions(
               new String[] {Manifest.permission.CAMERA},
               CropImage.CAMERA_CAPTURE_PERMISSIONS_REQUEST_CODE);
-        } else {
-          CropImage.startPickImageActivity(this);
         }
       } else if (CropImage.isReadExternalStoragePermissionsRequired(this, mCropImageUri)) {
         // request permissions and handle the result in onRequestPermissionsResult()
@@ -233,7 +231,7 @@ public class CropImageActivity extends AppCompatActivity
     if (requestCode == CropImage.CAMERA_CAPTURE_PERMISSIONS_REQUEST_CODE) {
       // Irrespective of whether camera permission was given or not, we show the picker
       // The picker will not add the camera intent if permission is not available
-      CropImage.startPickImageActivity(this);
+//      CropImage.startPickImageActivity(this);
     }
   }
 

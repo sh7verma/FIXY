@@ -37,7 +37,7 @@
         android:theme="@style/AppTheme"
         tools:replace="android:icon">
         <activity
-            android:name=".activities.SplashActivity"
+            android:name=".activities.CreateProfileActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme">
             <intent-filter>
@@ -50,7 +50,15 @@
         <service
             android:name=".service.FetchAddressIntentService"
             android:exported="false" />
-
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="${applicationId}.provider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/provider_paths" />
+        </provider>
         <activity
             android:name=".activities.EnterNumberActivity"
             android:screenOrientation="portrait"
@@ -63,12 +71,12 @@
             android:launchMode="singleTask"
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="stateAlwaysVisible" />
-        <activity
+       <!-- <activity
             android:name=".activities.CreateProfileActivity"
             android:screenOrientation="portrait"
             android:launchMode="singleTask"
             android:theme="@style/AppTheme"
-            android:windowSoftInputMode="stateAlwaysVisible" />
+            android:windowSoftInputMode="stateAlwaysVisible" />-->
         <activity
             android:name=".activities.LandingActivity"
             android:screenOrientation="portrait"

@@ -20,7 +20,6 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,7 +27,6 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.Toast;
-
 
 import com.app.fixy.BuildConfig;
 import com.app.fixy.R;
@@ -159,22 +157,25 @@ public class PhotoSelectionDialog extends Activity {
 
 
 
+    Uri camerImageUri;
     protected void startCameraActivity() {
 
-        Intent intent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-        startActivityForResult(intent, CAMERA_INTENT);
-        /*Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+//        Intent intent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+//        startActivityForResult(intent, CAMERA_INTENT);
+        Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         mSystemTime = System.currentTimeMillis();
-        File f = new File(Environment.getExternalStorageDirectory(), "OryxHub" + mSystemTime + ".png");
+        File f = new File(Environment.getExternalStorageDirectory(), "fixyuser" + mSystemTime + ".png");
         if (android.os.Build.VERSION.SDK_INT >= 24) {
             Uri photoURI = FileProvider.getUriForFile(PhotoSelectionDialog.this,
                     BuildConfig.APPLICATION_ID + ".provider", f);
+            camerImageUri = photoURI;
             cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
         } else {
             cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(f));
+            camerImageUri = Uri.fromFile(f);
         }
         cameraIntent.putExtra(MediaStore.EXTRA_SCREEN_ORIENTATION, ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-        startActivityForResult(cameraIntent, CAMERA_INTENT);*/
+        startActivityForResult(cameraIntent, CAMERA_INTENT);
     }
 
     void showGallery() {
@@ -194,8 +195,7 @@ public class PhotoSelectionDialog extends Activity {
         switch (requestCode){
             case CAMERA_INTENT:
                 if (resultCode == RESULT_OK) {
-                    Uri selectedImage = data.getData();
-                    cropImage(selectedImage);
+                    cropImage(camerImageUri);
                    /* File dir = Environment.getExternalStorageDirectory();
                     File f = new File(dir, "OryxHub" + mSystemTime + ".png");
                     Log.e("camera photo", "is " + f.getAbsolutePath());
