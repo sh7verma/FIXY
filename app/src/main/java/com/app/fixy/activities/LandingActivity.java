@@ -10,9 +10,9 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.app.fixy.R;
-import com.app.fixy.fragments.MyRequestFragment;
 import com.app.fixy.fragments.CoinsFragment;
 import com.app.fixy.fragments.HomeFragment;
+import com.app.fixy.fragments.MyRequestFragment;
 import com.app.fixy.fragments.ProfileFragment;
 import com.app.fixy.utils.Consts;
 
@@ -89,13 +89,11 @@ public class LandingActivity extends BaseActivity {
 
 
     public void loadFragment(Fragment fragment, int selected) {
-
         hideKeyboard(this);
 
         imgHome.setImageResource(R.mipmap.ic_home);
         txtHome.setTextColor(getContext().getResources().getColor(R.color.grey_text));
         viewHome.setBackgroundColor(getContext().getResources().getColor(R.color.white));
-
 
         imgBookings.setImageResource(R.mipmap.ic_booking);
         txtBookings.setTextColor(getContext().getResources().getColor(R.color.grey_text));
@@ -156,7 +154,6 @@ public class LandingActivity extends BaseActivity {
                 loadFragment(ProfileFragment.newInstance(mContext), Consts.FRAG_PROFILE);
 
                 break;
-
         }
 
     }

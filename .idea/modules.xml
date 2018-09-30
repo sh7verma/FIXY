@@ -3,12 +3,10 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/cropper/cropper.iml" filepath="$PROJECT_DIR$/cropper/cropper.iml" />
-      <module fileurl="file://$PROJECT_DIR$/cropper/cropper.iml" filepath="$PROJECT_DIR$/cropper/cropper.iml" />
-      <module fileurl="file://$PROJECT_DIR$/fixy.iml" filepath="$PROJECT_DIR$/fixy.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/fixyUser.iml" filepath="$PROJECT_DIR$/.idea/fixyUser.iml" />
-      <module fileurl="file://$PROJECT_DIR$/sdkui/sdkui.iml" filepath="$PROJECT_DIR$/sdkui/sdkui.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/fixy.iml" filepath="$PROJECT_DIR$/.idea/fixy.iml" />
+      <module fileurl="file://D:\Work\Live\fixy\fixy.iml" filepath="D:\Work\Live\fixy\fixy.iml" />
+      <module fileurl="file://D:\Work\Live\fixy\.idea\fixyUser.iml" filepath="D:\Work\Live\fixy\.idea\fixyUser.iml" />
       <module fileurl="file://$PROJECT_DIR$/sdkui/sdkui.iml" filepath="$PROJECT_DIR$/sdkui/sdkui.iml" />
     </modules>
   </component>

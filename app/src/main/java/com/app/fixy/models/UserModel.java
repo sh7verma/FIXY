@@ -1,6 +1,6 @@
 package com.app.fixy.models;
 
-public class LoginModel extends BaseModel {
+public class UserModel extends BaseModel {
     /**
      * response : {"id":"15","fullname":null,"access_token":"HF0etnqiQWSzACY63LNpMV8xcvdl7jKo5fBOgXE94hUJaPZsRT","gender":"0","email":null,"user_type":"1","profile_pic":null,"refferal_code":"","profile_status":"0","coins":"100","refferal_coins":"","city":null,"city_id":null,"number_verify":"0"}
      * message : Create user successfully.
@@ -8,8 +8,7 @@ public class LoginModel extends BaseModel {
      */
 
     private ResponseBean response;
-    private String message;
-    private String code;
+
 
     public ResponseBean getResponse() {
         return response;
@@ -17,22 +16,6 @@ public class LoginModel extends BaseModel {
 
     public void setResponse(ResponseBean response) {
         this.response = response;
-    }
-
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
-    }
-
-    public String getCode() {
-        return code;
-    }
-
-    public void setCode(String code) {
-        this.code = code;
     }
 
     public static class ResponseBean {

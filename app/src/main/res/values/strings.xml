@@ -168,4 +168,6 @@
     <string name="gender_validation">Please choose your Gender</string>
     <string name="profile_pic_validation">Please add your profile picture</string>
     <string name="invalid_otp">Invalid OTP</string>
+    <string name="select_your_city">Select your City</string>
+    <string name="select_city">SELECT CITY</string>
 </resources>

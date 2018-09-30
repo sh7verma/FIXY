@@ -18,7 +18,7 @@ import com.app.fixy.customviews.CircleTransform;
 import com.app.fixy.customviews.MaterialEditText;
 import com.app.fixy.dialogs.PhotoSelectionDialog;
 import com.app.fixy.interfaces.InterConst;
-import com.app.fixy.models.LoginModel;
+import com.app.fixy.models.UserModel;
 import com.app.fixy.network.RetrofitClient;
 import com.app.fixy.utils.Consts;
 import com.app.fixy.utils.Validations;
@@ -35,9 +35,7 @@ import java.io.File;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-import okhttp3.MediaType;
 import okhttp3.MultipartBody;
-import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Response;
 
@@ -121,8 +119,8 @@ public class CreateProfileActivity extends BaseActivity {
             showAlert(llNoPhoto, getString(R.string.gender_validation));
         } else if (Validations.checkNameValidation(this, edName)
                 && Validations.checkEmailValidation(this, edEmail)) {
-            hitapi();
-    }
+            hitApi();
+        }
     }
 
     @OnClick(R.id.img_profile)
@@ -160,39 +158,36 @@ public class CreateProfileActivity extends BaseActivity {
         if (resultCode == RESULT_OK) {
             switch (requestCode) {
                 case PIC:
-                    if (connectedToInternet()) {
-                        if (data.getStringExtra(InterConst.RESULT_DATA_KEY).equalsIgnoreCase(InterConst.NULL)) {
-                            hideProfilePic();//remove pic
-                            pathImageFile = null;
-                            utils.setString(InterConst.PROFILE_IMAGE, "");
-                        } else if (data.getStringExtra(InterConst.RESULT_DATA_KEY).equalsIgnoreCase(InterConst.SHOW_PIC)) {
-                            String picValue = "";
-                            if (pathImageFile != null) {
-                                picValue = imagePath;
-                            } else {
-                                picValue = utils.getString(InterConst.PROFILE_IMAGE, "");
-                            }
-                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                                ActivityOptionsCompat option = ActivityOptionsCompat
-                                        .makeSceneTransitionAnimation(CreateProfileActivity.this, imgProfile, "full_imageview");
-                                Intent in = new Intent(CreateProfileActivity.this, ViewImageActivity.class);
-                                in.putExtra("display", "" + picValue);
-                                startActivity(in, option.toBundle());
-                            } else {
-                                Intent in = new Intent(CreateProfileActivity.this, ViewImageActivity.class);
-                                in.putExtra("display", "" + picValue);
-                                startActivity(in);
-                                overridePendingTransition(0, 0);
-                            }
+                    if (data.getStringExtra(InterConst.RESULT_DATA_KEY).equalsIgnoreCase(InterConst.NULL)) {
+                        hideProfilePic();//remove pic
+                        pathImageFile = null;
+                        utils.setString(InterConst.PROFILE_IMAGE, "");
+                    } else if (data.getStringExtra(InterConst.RESULT_DATA_KEY).equalsIgnoreCase(InterConst.SHOW_PIC)) {
+                        String picValue = "";
+                        if (pathImageFile != null) {
+                            picValue = imagePath;
                         } else {
-                            imagePath = data.getStringExtra(InterConst.RESULT_DATA_KEY);
-                            pathImageFile = new File(imagePath);
-                            Log.e("IMage Path = ", data.getStringExtra(InterConst.RESULT_DATA_KEY));
-                            showImage(pathImageFile);
-                            showProfilePic();// on result
+                            picValue = utils.getString(InterConst.PROFILE_IMAGE, "");
                         }
-                    } else
-                        showInternetAlert(llNoPhoto);
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                            ActivityOptionsCompat option = ActivityOptionsCompat
+                                    .makeSceneTransitionAnimation(CreateProfileActivity.this, imgProfile, "full_imageview");
+                            Intent in = new Intent(CreateProfileActivity.this, ViewImageActivity.class);
+                            in.putExtra("display", "" + picValue);
+                            startActivity(in, option.toBundle());
+                        } else {
+                            Intent in = new Intent(CreateProfileActivity.this, ViewImageActivity.class);
+                            in.putExtra("display", "" + picValue);
+                            startActivity(in);
+                            overridePendingTransition(0, 0);
+                        }
+                    } else {
+                        imagePath = data.getStringExtra(InterConst.RESULT_DATA_KEY);
+                        pathImageFile = new File(imagePath);
+                        Log.e("IMage Path = ", data.getStringExtra(InterConst.RESULT_DATA_KEY));
+                        showImage(pathImageFile);
+                        showProfilePic();// on result
+                    }
                     break;
                 case RC_SIGN_IN:
 
@@ -309,20 +304,22 @@ public class CreateProfileActivity extends BaseActivity {
         startActivityForResult(signInIntent, RC_SIGN_IN);
     }
 
-    public void hitapi() {
-
-        Call<LoginModel> call;
-        if (pathImageFile != null) {// if remove profile pic that coming from social media
-            MultipartBody.Part imagePart = prepareFilePart(String.valueOf(pathImageFile),"profile_image");
-            call = RetrofitClient.getInstance().create_profile(
-                    createPartFromString(utils.getString(InterConst.ACCESS_TOKEN, "")),
-                    createPartFromString(edName.getText().toString()),
-                    createPartFromString(edEmail.getText().toString()),
-                    createPartFromString(gender),
-                    createPartFromString(InterConst.CREATE_PROFILE),
-                    createPartFromString(edReferralCode.getText().toString()),
-                    imagePart);
-        } else {// to send image from social media
+    public void hitApi() {
+        showProgress();
+        if (connectedToInternet(llNoPhoto)) {
+            Call<UserModel> call;
+            if (pathImageFile != null) {// if remove profile pic that coming from social media
+                MultipartBody.Part imagePart = prepareFilePart(String.valueOf(pathImageFile), "profile_image");
+                call = RetrofitClient.getInstance().create_profile(
+                        createPartFromString(utils.getString(InterConst.ACCESS_TOKEN, "")),
+                        createPartFromString(edName.getText().toString()),
+                        createPartFromString(edEmail.getText().toString()),
+                        createPartFromString(gender),
+                        createPartFromString(InterConst.CREATE_PROFILE),
+                        createPartFromString(edReferralCode.getText().toString()),
+                        createPartFromString(InterConst.USER_TYPE),
+                        imagePart);
+            } else {// to send image from social media
 
                /* call = RetrofitClient.getInstance().updateProfile(utils.getString(Consts.ACCESS_TOKEN, ""),
                         edFullName.getText().toString().trim(),
@@ -330,41 +327,43 @@ public class CreateProfileActivity extends BaseActivity {
                         edInvitaionCode.getText().toString().trim(),
                         socialMediaImg);*/
 
-            MultipartBody.Part imagePart = prepareFilePart("","profile_image");
-            call = RetrofitClient.getInstance().create_profile(
-                    createPartFromString(utils.getString(InterConst.ACCESS_TOKEN, "")),
-                    createPartFromString(edName.getText().toString()),
-                    createPartFromString(edEmail.getText().toString()),
-                    createPartFromString(gender),
-                    createPartFromString(InterConst.CREATE_PROFILE),
-                    createPartFromString(edReferralCode.getText().toString()),
-                    createPartFromString(utils.getString(InterConst.PROFILE_IMAGE, "")));
-        }
-        call.enqueue(new retrofit2.Callback<LoginModel>() {
-            @Override
-            public void onResponse(Call<LoginModel> call, Response<LoginModel> response) {
-
-                if ((response.body().getCode() == InterConst.SUCCESS_RESULT)) {
-//                    Intent intent = new Intent(CreateProfileActivity.this, CreateProfileActivity.class);
-//                    startActivity(intent);
-//                    finish();
-//                    overridePendingTransition(R.anim.enter_from_right, R.anim.exit_to_left);
-                    if (pathImageFile != null) {
-                        pathImageFile.deleteOnExit();
+                MultipartBody.Part imagePart = prepareFilePart("", "profile_image");
+                call = RetrofitClient.getInstance().create_profile(
+                        createPartFromString(utils.getString(InterConst.ACCESS_TOKEN, "")),
+                        createPartFromString(edName.getText().toString()),
+                        createPartFromString(edEmail.getText().toString()),
+                        createPartFromString(gender),
+                        createPartFromString(InterConst.CREATE_PROFILE),
+                        createPartFromString(edReferralCode.getText().toString()),
+                        createPartFromString(InterConst.USER_TYPE),
+                        imagePart);
+            }
+            call.enqueue(new retrofit2.Callback<UserModel>() {
+                @Override
+                public void onResponse(Call<UserModel> call, Response<UserModel> response) {
+                    hideProgress();
+                    if ((response.body().getCode().equals(InterConst.SUCCESS_RESULT))) {
+                        setUserData(response.body().getResponse());
+                        Intent intent = new Intent(CreateProfileActivity.this, LandingActivity.class);
+                        startActivity(intent);
+                        finish();
+                        overridePendingTransition(R.anim.enter_from_right, R.anim.exit_to_left);
+                        if (pathImageFile != null) {
+                            pathImageFile.deleteOnExit();
+                        }
+                    } else if (response.body().getCode().equals(InterConst.ERROR_RESULT)) {
+                        showAlert(edEmail, response.body().getError().getMessage());
                     }
-                } else if (response.body().getCode() == InterConst.ERROR_RESULT) {
-                    showAlert(edEmail, response.body().getError().getMessage());
                 }
-            }
 
-            @Override
-            public void onFailure(Call<LoginModel> call, Throwable t) {
-                t.printStackTrace();
-            }
-        });
-
+                @Override
+                public void onFailure(Call<UserModel> call, Throwable t) {
+                    hideProgress();
+                    t.printStackTrace();
+                }
+            });
+        }
     }
-
 
 
 }

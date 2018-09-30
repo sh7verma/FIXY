@@ -93,7 +93,7 @@ public class MapAddressActivity extends BaseActivity implements OnMapReadyCallba
 
     public void setMyLocationMarker(Location location) {
 
-        if (location == null || location.getLongitude() == 00) {
+        if (location == null || location.getLongitude() == 0) {
             return;
         }
         LatLng myLocation = new LatLng(location.getLatitude(), location.getLongitude());
@@ -187,7 +187,7 @@ public class MapAddressActivity extends BaseActivity implements OnMapReadyCallba
             super(handler);
         }
 
-        @Override
+       @Override
         protected void onReceiveResult(int resultCode, Bundle resultData) {
 
             // Display the address string
@@ -201,8 +201,6 @@ public class MapAddressActivity extends BaseActivity implements OnMapReadyCallba
                 addressName = mAddressOutput;
                 etAddress.setText(mAddressOutput);
                 isGettingAddress = true;
-
-
             } else {
                 isGettingAddress = false;
                 etAddress.setText(mAddressOutput);

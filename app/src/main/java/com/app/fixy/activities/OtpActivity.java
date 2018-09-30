@@ -15,7 +15,7 @@ import android.widget.Toast;
 import com.app.fixy.R;
 import com.app.fixy.customviews.MaterialEditText;
 import com.app.fixy.interfaces.InterConst;
-import com.app.fixy.models.LoginModel;
+import com.app.fixy.models.UserModel;
 import com.app.fixy.network.RetrofitClient;
 import com.app.fixy.utils.Consts;
 
@@ -137,7 +137,6 @@ public class OtpActivity extends BaseActivity {
             }
         });
         edThird.addTextChangedListener(new TextWatcher() {
-
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 // TODO Auto-generated method stub
@@ -157,7 +156,6 @@ public class OtpActivity extends BaseActivity {
                     edThird.setText(edThird.getText().toString().substring(0, 1));
                     edFourth.requestFocus();
                     llNext.setEnabled(false);
-
                 }
             }
 
@@ -165,7 +163,6 @@ public class OtpActivity extends BaseActivity {
             public void beforeTextChanged(CharSequence s, int start, int count,
                                           int after) {
                 // TODO Auto-generated method stub
-
             }
 
             @Override
@@ -222,7 +219,6 @@ public class OtpActivity extends BaseActivity {
         }
     }
 
-
     @OnClick(R.id.ll_next)
     void next() {
         Consts.hideKeyboard(this);
@@ -239,48 +235,41 @@ public class OtpActivity extends BaseActivity {
     }
 
     public void hitOtpApi() {
+        if (connectedToInternet(llNext)) {
+            showProgress();
+            Call<UserModel> call = RetrofitClient.getInstance().confirm_otp(
+                    utils.getString(InterConst.ACCESS_TOKEN, ""),
+                    deviceToken,
+                    makeOTP());
+            call.enqueue(new Callback<UserModel>() {
+                @Override
+                public void onResponse(@NonNull Call<UserModel> call, @NonNull Response<UserModel> response) {
+                    hideProgress();
+                    if (response.body().getCode().equals(InterConst.SUCCESS_RESULT)) {
+                        setUserData(response.body().getResponse());
 
-        Call<LoginModel> call = RetrofitClient.getInstance().confirm_otp(
-                utils.getString(InterConst.ACCESS_TOKEN, ""),
-                deviceToken,
-                makeOTP());
-        call.enqueue(new Callback<LoginModel>() {
-            @Override
-            public void onResponse(@NonNull Call<LoginModel> call, @NonNull Response<LoginModel> response) {
-                if (response.body().getCode().equals(InterConst.SUCCESS_RESULT)) {
+                        Intent intent = new Intent(OtpActivity.this, CreateProfileActivity.class);
+                        startActivity(intent);
+                        finish();
+                        overridePendingTransition(R.anim.enter_from_right, R.anim.exit_to_left);
 
-                    setUserData(response.body().getResponse());
-
-                    Intent intent = new Intent(OtpActivity.this, CreateProfileActivity.class);
-                    startActivity(intent);
-                    finish();
-                    overridePendingTransition(R.anim.enter_from_right, R.anim.exit_to_left);
-                } else if (response.body().getCode().equals(InterConst.ERROR_RESULT)) {
-                    showAlert(llNext, response.body().getError().getMessage());
+                    } else if (response.body().getCode().equals(InterConst.ERROR_RESULT)) {
+                        showAlert(llNext, response.body().getError().getMessage());
+                    }
                 }
-            }
 
-            @Override
-            public void onFailure(Call<LoginModel> call, Throwable t) {
-
-            }
-        });
-
+                @Override
+                public void onFailure(Call<UserModel> call, Throwable t) {
+                    hideProgress();
+                    t.printStackTrace();
+                }
+            });
+        }
     }
 
     @Override
     public void onClick(View view) {
 
-    }
-
-    void setUserData(LoginModel.ResponseBean response) {
-        utils.setString(InterConst.ACCESS_TOKEN, response.getAccess_token());
-        utils.setString(InterConst.USER_ID, response.getId());
-        utils.setString(InterConst.USER_NAME, response.getFullname());
-        utils.setString(InterConst.PROFILE_STATUS, response.getProfile_status());
-        utils.setString(InterConst.GENDER, response.getGender());
-        utils.setString(InterConst.PROFILE_IMAGE, response.getProfile_pic());
-        utils.setString(InterConst.EMAIL, response.getEmail());
     }
 
 }

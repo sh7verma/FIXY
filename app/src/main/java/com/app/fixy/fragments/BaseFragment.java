@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
@@ -43,6 +44,7 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
     Gson mGson = new Gson();
     Encode encode;
 //    RoomDb mRoomDb;
+protected String deviceToken;
 
     private Snackbar mSnackbar;
 
@@ -76,6 +78,8 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
         mContext = getContext();
 //        mRoomDb = Room.databaseBuilder(mContext.getApplicationContext(),
 //                RoomDb.class, "nass-db").allowMainThreadQueries().fallbackToDestructiveMigration().build();
+        deviceToken = Settings.Secure.getString(getContext().getContentResolver(),
+                Settings.Secure.ANDROID_ID);
         initListeners();
         return view;
     }
@@ -130,7 +134,14 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
             return false;
         }
     }
-
+    public boolean connectedToInternet(View view) {
+        if ((new Connection_Detector(mContext)).isConnectingToInternet()) {
+            return true;
+        } else {
+            showInternetAlert(view);
+            return false;
+        }
+    }
     protected void showInternetAlert(View view) {
         mSnackbar = Snackbar.make(view, "Internet connection not available!", Snackbar.LENGTH_SHORT);
         mSnackbar.show();

@@ -20,6 +20,8 @@ import android.widget.Toast;
 import com.app.fixy.R;
 import com.app.fixy.database.Db;
 import com.app.fixy.interfaces.AddressInterface;
+import com.app.fixy.interfaces.InterConst;
+import com.app.fixy.models.UserModel;
 import com.app.fixy.network.ApiInterface;
 import com.app.fixy.network.RetrofitClient;
 import com.app.fixy.utils.Connection_Detector;
@@ -103,7 +105,8 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
         errorInternet = getResources().getString(R.string.internet);
         errorAPI = getResources().getString(R.string.error);
         errorAccessToken = getResources().getString(R.string.invalid_access_token);
-
+        initUI();
+        initListener();
         deviceToken = Settings.Secure.getString(getContext().getContentResolver(),
                 Settings.Secure.ANDROID_ID);
 
@@ -113,8 +116,6 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
     protected void onStart() {
         super.onStart();
         onPosted();
-        initUI();
-        initListener();
         onStarted();
     }
 
@@ -237,7 +238,7 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
         textViewTop.setText(message);
         textViewTop.setTextColor(Color.WHITE);
 
-        TextView txtHeader = (TextView) snackView.findViewById(R.id.txt_header);
+        TextView txtHeader = (TextView) snackView.findViewById(R.id.txt_city);
         txtHeader.setText(header);
         txtHeader.setTextColor(Color.WHITE);
 
@@ -247,16 +248,40 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
         mSnackbar.show();
     }
 
+
     public boolean connectedToInternet() {
-        if ((new Connection_Detector(mContext)).isConnectingToInternet())
+        if ((new Connection_Detector(mContext)).isConnectingToInternet()) {
             return true;
-        else
+        } else {
             return false;
+        }
+    }
+
+    public boolean connectedToInternet(View view) {
+        if ((new Connection_Detector(mContext)).isConnectingToInternet()) {
+            return true;
+        } else {
+            showInternetAlert(view);
+            return false;
+        }
     }
 
     protected void showInternetAlert(View view) {
-        mSnackbar = Snackbar.make(view, "Internet connection not available!", Snackbar.LENGTH_SHORT);
+        mSnackbar = Snackbar.make(view, errorInternet, Snackbar.LENGTH_SHORT);
         mSnackbar.show();
+    }
+
+    void setUserData(UserModel.ResponseBean response) {
+        utils.setString(InterConst.ACCESS_TOKEN, response.getAccess_token());
+        utils.setString(InterConst.USER_ID, response.getId());
+        utils.setString(InterConst.USER_NAME, response.getFullname());
+        utils.setString(InterConst.PROFILE_STATUS, response.getProfile_status());
+        utils.setString(InterConst.GENDER, response.getGender());
+        utils.setString(InterConst.PROFILE_IMAGE, response.getProfile_pic());
+        utils.setString(InterConst.EMAIL, response.getEmail());
+        utils.setString(InterConst.NUMBER_REGISTERED, response.getNumber_verify());
+        utils.setString(InterConst.CITY_NAME, response.getCity());
+        utils.setString(InterConst.CITY_ID, response.getCity_id());
     }
 
 }

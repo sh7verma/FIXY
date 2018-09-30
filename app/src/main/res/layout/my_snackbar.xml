@@ -11,7 +11,7 @@
         android:orientation="vertical">
 
         <com.app.fixy.customviews.SemiboldTextView
-            android:id="@+id/txt_header"
+            android:id="@+id/txt_city"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="@dimen/_5sdp"

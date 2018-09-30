@@ -6,7 +6,7 @@ import android.os.Handler;
 import android.view.View;
 
 import com.app.fixy.R;
-
+import com.app.fixy.interfaces.InterConst;
 
 public class SplashActivity extends BaseActivity {
 
@@ -47,10 +47,22 @@ public class SplashActivity extends BaseActivity {
             @Override
             public void run() {
                 // TODO Auto-generated method stub
-                Intent in = new Intent(SplashActivity.this, EnterNumberActivity.class);
-                startActivity(in);
-                finish();
-                overridePendingTransition(R.anim.enter_from_right, R.anim.exit_to_left);
+                if (!utils.getString(InterConst.NUMBER_REGISTERED, "0").equals(InterConst.NUMBER_IS_REGISTERED)) {
+                    Intent in = new Intent(SplashActivity.this, EnterNumberActivity.class);
+                    startActivity(in);
+                    finish();
+                    overridePendingTransition(R.anim.enter_from_right, R.anim.exit_to_left);
+                } else if (!utils.getString(InterConst.PROFILE_STATUS, "0").equals(InterConst.PROFILE_IS_CREATED)) {
+                    Intent in = new Intent(SplashActivity.this, CreateProfileActivity.class);
+                    startActivity(in);
+                    finish();
+                    overridePendingTransition(R.anim.enter_from_right, R.anim.exit_to_left);
+                } else if (utils.getString(InterConst.PROFILE_STATUS, "0").equals(InterConst.PROFILE_IS_CREATED)) {
+                    Intent in = new Intent(SplashActivity.this, LandingActivity.class);
+                    startActivity(in);
+                    finish();
+                    overridePendingTransition(R.anim.enter_from_right, R.anim.exit_to_left);
+                }
             }
         }, TIME_OUT);
     }

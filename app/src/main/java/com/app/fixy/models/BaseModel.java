@@ -10,7 +10,26 @@ public class BaseModel {
      * error : {"code":400,"message":"Required field(s) profile_image is missing or empty"}
      */
 
+
+    private String message;
+    private String code;
     private ErrorBean error;
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
 
     public ErrorBean getError() {
         return error;

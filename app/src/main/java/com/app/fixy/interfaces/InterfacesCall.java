@@ -22,4 +22,11 @@ public class InterfacesCall {
     public  interface IndexClick{
         void clickIndex( int pos);
     }
+    public  interface Callback{
+        void selected( int pos);
+    }
+    public  interface ItemCategoryClick{
+        void clickItem( int pos);
+        void clickCategory( int pos);
+    }
 }

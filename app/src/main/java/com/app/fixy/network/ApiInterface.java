@@ -1,9 +1,10 @@
 package com.app.fixy.network;
 
+import com.app.fixy.models.CityModel;
 import com.app.fixy.models.GooglePlaceModal;
-import com.app.fixy.models.LoginModel;
 import com.app.fixy.models.NearbyPlaceModel;
-import com.app.fixy.models.ProfileModel;
+import com.app.fixy.models.ServicesModel;
+import com.app.fixy.models.UserModel;
 
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -27,7 +28,7 @@ public interface ApiInterface {
 
     @FormUrlEncoded
     @POST("api/v1/users/create_user")
-    Call<LoginModel> create_user(@Field("country_code") String country_code,
+    Call<UserModel> create_user(@Field("country_code") String country_code,
                                 @Field("phone") String phone,
                                 @Field("application_mode") String application_mode,
                                 @Field("platform_type") String platform_type,
@@ -36,37 +37,40 @@ public interface ApiInterface {
 
     @FormUrlEncoded
     @POST("api/v1/users/confirm_otp")
-    Call<LoginModel> confirm_otp(@Field("access_token") String access_token,
+    Call<UserModel> confirm_otp(@Field("access_token") String access_token,
                                 @Field("device_token") String device_token,
                                 @Field("otp") String otp);
 
     @FormUrlEncoded
     @POST("api/v1/users/resend_otp")
-    Call<LoginModel> resend_otp(@Field("access_token") String access_token,
-                                 @Field("device_token") String device_token,
-                                 @Field("country_code") String country_code,
-                                 @Field("phone_number") String phone_number);
+    Call<UserModel> resend_otp(@Field("access_token") String access_token,
+                               @Field("device_token") String device_token,
+                               @Field("country_code") String country_code,
+                               @Field("phone_number") String phone_number);
 
     @Multipart
     @POST("api/v1/users/create_profile")
-    Call<LoginModel> create_profile(@Part("access_token") RequestBody  access_token,
-                                    @Part("fullname") RequestBody  Name,
-                                    @Part("email") RequestBody  email,
-                                    @Part("gender") RequestBody  gender,
-                                    @Part("edit_profile") RequestBody  edit_profile,
-                                    @Part("referral_code") RequestBody  referral_code,
-                                    @Part MultipartBody.Part image);
+    Call<UserModel> create_profile(@Part("access_token") RequestBody access_token,
+                                   @Part("fullname") RequestBody Name,
+                                   @Part("email") RequestBody email,
+                                   @Part("gender") RequestBody gender,
+                                   @Part("edit_profile") RequestBody edit_profile,
+                                   @Part("referral_code") RequestBody referral_code,
+                                   @Part("user_type") RequestBody user_type,
+                                   @Part MultipartBody.Part image);
 
-    @Multipart
-    @POST("create_profile")
-    Call<LoginModel> create_profile(@Part("access_token") RequestBody  access_token,
-                                    @Part("name") RequestBody  Name,
-                                    @Part("email") RequestBody  email,
-                                    @Part("gender") RequestBody  gender,
-                                    @Part("edit_profile") RequestBody  edit_profile,
-                                    @Part("referral_code") RequestBody  referral_code,
-                                    @Part("profile_image") RequestBody profile_image);
-//
+    @FormUrlEncoded
+    @POST("api/v1/users/city")
+    Call<CityModel> city(@Field("access_token") String access_token,
+                         @Field("device_token") String device_token);
+
+    @FormUrlEncoded
+    @POST("api/v1/services")
+    Call<ServicesModel> services(@Field("access_token") String access_token,
+                                 @Field("device_token") String device_token,
+                                 @Field("city_id") String city_id);
+
+
 //    @FormUrlEncoded
 //    @POST("/users/signin")
 //    Call<SignupModel> userSignin(@Field("email") String email,
