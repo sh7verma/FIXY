@@ -17,7 +17,7 @@ import com.app.fixy.customviews.MaterialEditText;
 import com.app.fixy.interfaces.InterConst;
 import com.app.fixy.models.UserModel;
 import com.app.fixy.network.RetrofitClient;
-import com.app.fixy.utils.Consts;
+import com.app.fixy.utils.Utils;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -221,7 +221,7 @@ public class OtpActivity extends BaseActivity {
 
     @OnClick(R.id.ll_next)
     void next() {
-        Consts.hideKeyboard(this);
+        utils.hideKeyboard(this);
         hitOtpApi();
     }
 

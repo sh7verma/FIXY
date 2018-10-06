@@ -23,14 +23,29 @@ public class SearchServiceActivity extends BaseActivity {
     TextView txtTitle;
     @BindView(R.id.recycleview)
     RecyclerView rvService;
-    @BindView(R.id.recycleview_slot)
-    RecyclerView rvServiceSlot;
+    @BindView(R.id.rv_category_slots)
+    RecyclerView rvCategorySlots;
     @BindView(R.id.ic_clear)
     ImageView icClear;
-    @BindView(R.id.et_service)
-    MaterialEditText etService;
+    @BindView(R.id.ed_search)
+    MaterialEditText edSearch;
+
     SearchServiceAdapter serviceAdapter;
     SearchCategoryAdapter categoryAdapter;
+
+    InterfacesCall.IndexClick clickService = new InterfacesCall.IndexClick() {
+        @Override
+        public void clickIndex(int pos) {
+
+        }
+    };
+
+    InterfacesCall.IndexClick clickCategory = new InterfacesCall.IndexClick() {
+        @Override
+        public void clickIndex(int pos) {
+
+        }
+    };
 
     @Override
     protected int getContentView() {
@@ -41,26 +56,26 @@ public class SearchServiceActivity extends BaseActivity {
     protected void onCreateStuff() {
 
         rvService.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false));
-        rvServiceSlot.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false));
+        rvCategorySlots.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false));
         rvService.setNestedScrollingEnabled(false);
-        rvServiceSlot.setNestedScrollingEnabled(false);
+        rvCategorySlots.setNestedScrollingEnabled(false);
 
-        serviceAdapter = new SearchServiceAdapter(mContext,mHeight,clickService);
-        categoryAdapter = new SearchCategoryAdapter(mContext,mHeight,clickCategory);
+        serviceAdapter = new SearchServiceAdapter(mContext, mHeight, clickService);
+        categoryAdapter = new SearchCategoryAdapter(mContext, mHeight, clickCategory);
+
         rvService.setAdapter(serviceAdapter);
-        rvServiceSlot.setAdapter(categoryAdapter);
-        rvServiceSlot.setVisibility(View.VISIBLE);
+        rvCategorySlots.setAdapter(categoryAdapter);
+        rvCategorySlots.setVisibility(View.VISIBLE);
     }
 
     @Override
     protected void initUI() {
         txtTitle.setText(R.string.looking_for);
-
     }
 
     @Override
     protected void initListener() {
-    icClear.setOnClickListener(this);
+        icClear.setOnClickListener(this);
     }
 
     @Override
@@ -71,13 +86,12 @@ public class SearchServiceActivity extends BaseActivity {
     @Override
     public void onClick(View view) {
 
-        switch (view.getId()){
+        switch (view.getId()) {
             case R.id.ic_clear:
-                etService.setText("");
+                edSearch.setText("");
                 break;
         }
     }
-
 
     @Override
     public void onBackPressed() {
@@ -90,17 +104,4 @@ public class SearchServiceActivity extends BaseActivity {
     void back() {
         onBackPressed();
     }
-
-    InterfacesCall.IndexClick clickService = new InterfacesCall.IndexClick() {
-        @Override
-        public void clickIndex(int pos) {
-
-        }
-    };
-    InterfacesCall.IndexClick clickCategory = new InterfacesCall.IndexClick() {
-        @Override
-        public void clickIndex(int pos) {
-
-        }
-    };
 }

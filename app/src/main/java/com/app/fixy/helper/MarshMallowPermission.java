@@ -16,7 +16,6 @@ import android.widget.Toast;
 
 import com.app.fixy.R;
 import com.app.fixy.interfaces.InterConst;
-import com.app.fixy.utils.Consts;
 import com.app.fixy.utils.Utils;
 
 import static android.Manifest.permission.READ_CONTACTS;

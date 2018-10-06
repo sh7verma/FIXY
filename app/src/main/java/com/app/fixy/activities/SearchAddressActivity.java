@@ -24,7 +24,6 @@ import com.app.fixy.models.GooglePlaceModal;
 import com.app.fixy.models.NearbyPlaceModel;
 import com.app.fixy.network.ApiInterface;
 import com.app.fixy.network.RetrofitClient;
-import com.app.fixy.utils.Consts;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.location.places.Place;
@@ -264,8 +263,7 @@ public class SearchAddressActivity extends BaseActivity implements AddressInterf
 
     @Override
     public void onClick(int pos, InterConst.GOOGLE searchType) {
-        Consts.hideKeyboard(this);
-
+        utils.hideKeyboard(this);
         getLocationById(list.get(pos).getPlace_id(), pos);//autocomplete api
     }
 

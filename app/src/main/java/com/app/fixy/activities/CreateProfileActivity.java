@@ -20,7 +20,6 @@ import com.app.fixy.dialogs.PhotoSelectionDialog;
 import com.app.fixy.interfaces.InterConst;
 import com.app.fixy.models.UserModel;
 import com.app.fixy.network.RetrofitClient;
-import com.app.fixy.utils.Consts;
 import com.app.fixy.utils.Validations;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -110,7 +109,7 @@ public class CreateProfileActivity extends BaseActivity {
 
     @OnClick(R.id.txt_done)
     void done() {
-        Consts.hideKeyboard(this);
+        utils.hideKeyboard(this);
         if (TextUtils.isEmpty(imagePath)) {
 
             showAlert(llNoPhoto, getString(R.string.profile_pic_validation));

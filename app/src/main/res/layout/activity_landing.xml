@@ -8,12 +8,18 @@
     android:fitsSystemWindows="true"
     tools:context="com.app.fixy.activities.LandingActivity">
 
-    <FrameLayout
-        android:id="@+id/frame_container"
+    <!--<FrameLayout-->
+        <!--android:id="@+id/frame_container"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:layout_above="@+id/bottom_bar"-->
+        <!--app:layout_behavior="@string/appbar_scrolling_view_behavior" />-->
+
+    <com.app.fixy.customviews.CustomViewPager
+        android:id="@+id/vp_fragment"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
         android:layout_above="@+id/bottom_bar"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+        android:layout_height="match_parent"/>
 
     <include
         android:id="@+id/bottom_bar"

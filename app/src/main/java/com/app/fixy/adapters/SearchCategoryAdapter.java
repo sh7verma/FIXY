@@ -17,12 +17,12 @@ import butterknife.ButterKnife;
 
 public class SearchCategoryAdapter extends RecyclerView.Adapter<SearchCategoryAdapter.ViewHolder> {
 
+    InterfacesCall.IndexClick mcClick;
+    int temp = -1;
     private Context mContext;
     private int mHeight;
-    InterfacesCall.IndexClick mcClick;
-    int temp=-1;
 
-    public SearchCategoryAdapter(Context context,int height, InterfacesCall.IndexClick click) {
+    public SearchCategoryAdapter(Context context, int height, InterfacesCall.IndexClick click) {
         mContext = context;
         mHeight = height;
         mcClick = click;
@@ -36,15 +36,13 @@ public class SearchCategoryAdapter extends RecyclerView.Adapter<SearchCategoryAd
     }
 
     @Override
-    public void onBindViewHolder(@NonNull final SearchCategoryAdapter.ViewHolder holder, final int position) {
+    public void onBindViewHolder(@NonNull final SearchCategoryAdapter.ViewHolder holder, int position) {
 
-        if (temp == position){
-            holder.viewBooking.llMain.setBackground(mContext.getResources().getDrawable(R.drawable.black_oval));
-            Animations.AnimatedClick(mContext,holder.viewBooking.llMain);
-        }
-        else {
-            holder.viewBooking.llMain.setBackground(mContext.getResources().getDrawable(R.drawable.white_oval));
-
+        if (temp == position) {
+            holder.llMain.setBackground(mContext.getResources().getDrawable(R.drawable.black_oval));
+            Animations.AnimatedClick(mContext, holder.llMain);
+        } else {
+            holder.llMain.setBackground(mContext.getResources().getDrawable(R.drawable.white_oval));
         }
 //            if (!TextUtils.isEmpty(mData.getProfilePicURL().getOriginal())) {
 //                Picasso.with(mContext)
@@ -67,12 +65,12 @@ public class SearchCategoryAdapter extends RecyclerView.Adapter<SearchCategoryAd
 //                .into(holder.imgService);
 //            }
 
-        holder.viewBooking.llMain.setOnClickListener(new View.OnClickListener() {
+        holder.llMain.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                temp = position;
+                temp = holder.getAdapterPosition();
                 notifyDataSetChanged();
-                mcClick.clickIndex(position);
+                mcClick.clickIndex(holder.getAdapterPosition());
             }
         });
 
@@ -84,16 +82,13 @@ public class SearchCategoryAdapter extends RecyclerView.Adapter<SearchCategoryAd
     }
 
 
-    public class ViewBooking {
+    class ViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.ll_main)
         LinearLayout llMain;
-    }
-    class ViewHolder extends RecyclerView.ViewHolder {
 
-        ViewBooking viewBooking = new ViewBooking();
         ViewHolder(View itemView) {
             super(itemView);
-            ButterKnife.bind(viewBooking, itemView);
+            ButterKnife.bind(this, itemView);
         }
 
     }

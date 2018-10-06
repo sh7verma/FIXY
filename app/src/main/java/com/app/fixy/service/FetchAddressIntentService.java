@@ -13,7 +13,6 @@ import android.util.Log;
 
 
 import com.app.fixy.interfaces.InterConst;
-import com.app.fixy.utils.Consts;
 
 import java.io.IOException;
 import java.util.ArrayList;

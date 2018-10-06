@@ -1,20 +1,19 @@
 package com.app.fixy.activities;
 
 import android.content.Context;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.app.fixy.R;
+import com.app.fixy.adapters.LandingPagerAdapter;
+import com.app.fixy.customviews.CustomViewPager;
 import com.app.fixy.fragments.CoinsFragment;
 import com.app.fixy.fragments.HomeFragment;
 import com.app.fixy.fragments.MyRequestFragment;
 import com.app.fixy.fragments.ProfileFragment;
-import com.app.fixy.utils.Consts;
+import com.app.fixy.interfaces.InterConst;
 
 import butterknife.BindView;
 
@@ -55,9 +54,12 @@ public class LandingActivity extends BaseActivity {
     TextView txtProfile;
     @BindView(R.id.view_profile)
     View viewProfile;
+    @BindView(R.id.vp_fragment)
+    CustomViewPager vpFrag;
 
+    LandingPagerAdapter mFragAdapter;
     // Current fragment selected
-    int mViewSelection = Consts.FRAG_NULL;
+    int mViewSelection = InterConst.FRAG_NULL;
 
     @Override
     protected int getContentView() {
@@ -66,12 +68,24 @@ public class LandingActivity extends BaseActivity {
 
     @Override
     protected void onCreateStuff() {
-        loadFragment(HomeFragment.newInstance(mContext), Consts.FRAG_HOME);
     }
 
     @Override
     protected void initUI() {
 
+        vpFrag.setPagingEnabled(false);
+
+        mFragAdapter = new LandingPagerAdapter(getSupportFragmentManager());
+
+        mFragAdapter.addFragment(HomeFragment.newInstance(mContext));
+        mFragAdapter.addFragment(MyRequestFragment.newInstance(mContext));
+        mFragAdapter.addFragment(CoinsFragment.newInstance(mContext));
+        mFragAdapter.addFragment(ProfileFragment.newInstance(mContext));
+
+        vpFrag.setAdapter(mFragAdapter);
+        vpFrag.setCurrentItem(InterConst.FRAG_HOME);
+        vpFrag.setOffscreenPageLimit(0);
+        loadFragment(InterConst.FRAG_HOME);
     }
 
     @Override
@@ -88,7 +102,7 @@ public class LandingActivity extends BaseActivity {
     }
 
 
-    public void loadFragment(Fragment fragment, int selected) {
+    public void loadFragment(int selected) {
         hideKeyboard(this);
 
         imgHome.setImageResource(R.mipmap.ic_home);
@@ -107,19 +121,19 @@ public class LandingActivity extends BaseActivity {
         txtProfile.setTextColor(getContext().getResources().getColor(R.color.grey_text));
         viewProfile.setBackgroundColor(getContext().getResources().getColor(R.color.white));
 
-        if (selected == Consts.FRAG_HOME) {
+        if (selected == InterConst.FRAG_HOME) {
             imgHome.setImageResource(R.mipmap.ic_home_a);
             txtHome.setTextColor(getContext().getResources().getColor(R.color.app_color));
             viewHome.setBackgroundColor(getContext().getResources().getColor(R.color.app_color));
-        } else if (selected == Consts.FRAG_BOOKINGS) {
+        } else if (selected == InterConst.FRAG_BOOKINGS) {
             imgBookings.setImageResource(R.mipmap.ic_booking_a);
             txtBookings.setTextColor(getContext().getResources().getColor(R.color.app_color));
             viewBookings.setBackgroundColor(getContext().getResources().getColor(R.color.app_color));
-        } else if (selected == Consts.FRAG_COINS) {
+        } else if (selected == InterConst.FRAG_COINS) {
             imgCoins.setImageResource(R.mipmap.ic_coins_a);
             txtCoins.setTextColor(getContext().getResources().getColor(R.color.app_color));
             viewCoins.setBackgroundColor(getContext().getResources().getColor(R.color.app_color));
-        } else if (selected == Consts.FRAG_PROFILE) {
+        } else if (selected == InterConst.FRAG_PROFILE) {
             imgProfile.setImageResource(R.mipmap.ic_profile_s);
             txtProfile.setTextColor(getContext().getResources().getColor(R.color.app_color));
             viewProfile.setBackgroundColor(getContext().getResources().getColor(R.color.app_color));
@@ -127,10 +141,6 @@ public class LandingActivity extends BaseActivity {
 
         if (mViewSelection != selected) {
             mViewSelection = selected;
-            FragmentManager manager = getSupportFragmentManager();
-            FragmentTransaction transaction = manager.beginTransaction();
-            transaction.replace(R.id.frame_container, fragment);
-            transaction.commit();
         }
 
     }
@@ -139,19 +149,22 @@ public class LandingActivity extends BaseActivity {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.ll_home:
-                loadFragment(HomeFragment.newInstance(mContext), Consts.FRAG_HOME);
-
+                loadFragment(InterConst.FRAG_HOME);
+                vpFrag.setCurrentItem(InterConst.FRAG_HOME);
                 break;
             case R.id.ll_bookings:
-                loadFragment(MyRequestFragment.newInstance(mContext), Consts.FRAG_BOOKINGS);
+                loadFragment(InterConst.FRAG_BOOKINGS);
+                vpFrag.setCurrentItem(InterConst.FRAG_BOOKINGS);
 
                 break;
             case R.id.ll_coins:
-                loadFragment(CoinsFragment.newInstance(mContext), Consts.FRAG_COINS);
+                loadFragment(InterConst.FRAG_COINS);
+                vpFrag.setCurrentItem(InterConst.FRAG_COINS);
 
                 break;
             case R.id.ll_profile:
-                loadFragment(ProfileFragment.newInstance(mContext), Consts.FRAG_PROFILE);
+                loadFragment(InterConst.FRAG_PROFILE);
+                vpFrag.setCurrentItem(InterConst.FRAG_PROFILE);
 
                 break;
         }

@@ -24,6 +24,12 @@ public interface InterConst {
     int DEFAULT = -1;
     int OTHER = 3;
 
+    public static final int FRAG_NULL = 10;
+    public static final int FRAG_HOME = 0;
+    public static final int FRAG_BOOKINGS = 1;
+    public static final int FRAG_COINS = 2;
+    public static final int FRAG_PROFILE = 3;
+
     String ACCESS_TOKEN = "access_token";
     String COUNTRY_CODE = "country_code";
     String PHONE_NUMBER = "phone_number";

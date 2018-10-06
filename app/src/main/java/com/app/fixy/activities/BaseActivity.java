@@ -98,15 +98,15 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
         encode = new Encode();
         TAG = getClass().getName();
         getDefaults();
+        initUI();
         onCreateStuff();
+        initListener();
         apiInterface = RetrofitClient.getInstance();
 
         mPermission = new MarshMallowPermission(this);
         errorInternet = getResources().getString(R.string.internet);
         errorAPI = getResources().getString(R.string.error);
         errorAccessToken = getResources().getString(R.string.invalid_access_token);
-        initUI();
-        initListener();
         deviceToken = Settings.Secure.getString(getContext().getContentResolver(),
                 Settings.Secure.ANDROID_ID);
 

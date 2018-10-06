@@ -11,7 +11,7 @@ import com.app.fixy.R;
 import com.app.fixy.customviews.MaterialEditText;
 import com.app.fixy.interfaces.InterConst;
 import com.app.fixy.models.UserModel;
-import com.app.fixy.utils.Consts;
+import com.app.fixy.utils.Utils;
 import com.app.fixy.utils.Validations;
 
 import butterknife.BindView;
@@ -57,7 +57,7 @@ public class EnterNumberActivity extends BaseActivity {
 
     @OnClick(R.id.ll_next)
     void next() {
-        Consts.hideKeyboard(this);
+        utils.hideKeyboard(this);
         if (Validations.checkPhoneValidation(this, edNumber)) {
             hitUserSignUp();
         }

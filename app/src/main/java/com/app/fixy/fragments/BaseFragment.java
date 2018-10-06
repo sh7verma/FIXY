@@ -1,9 +1,7 @@
 package com.app.fixy.fragments;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.provider.Settings;
@@ -20,7 +18,6 @@ import android.widget.Toast;
 
 import com.app.fixy.R;
 import com.app.fixy.utils.Connection_Detector;
-import com.app.fixy.utils.Consts;
 import com.app.fixy.utils.Encode;
 import com.app.fixy.utils.LoadingDialog;
 import com.app.fixy.utils.MarshMallowPermission;

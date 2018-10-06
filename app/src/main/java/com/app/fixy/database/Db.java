@@ -7,9 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
-import com.app.fixy.interfaces.InterConst;
 import com.app.fixy.models.LocationModel;
-import com.app.fixy.utils.Consts;
 
 import java.util.ArrayList;
 

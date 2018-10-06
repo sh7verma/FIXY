@@ -8,6 +8,10 @@ import android.widget.ImageView;
 
 import com.app.fixy.R;
 import com.app.fixy.adapters.AllServicesAdapter;
+import com.app.fixy.interfaces.InterConst;
+import com.app.fixy.models.ServicesModel;
+
+import java.util.ArrayList;
 
 import butterknife.BindView;
 
@@ -21,6 +25,7 @@ public class ServicesListActivity extends BaseActivity {
 
     AllServicesAdapter mAdapter;
     LinearLayoutManager mLayoutManager;
+    private ArrayList<ServicesModel.ResponseBean.CategoriesBean> mCategoriesList = new ArrayList<>();
 
     @Override
     protected int getContentView() {
@@ -29,15 +34,18 @@ public class ServicesListActivity extends BaseActivity {
 
     @Override
     protected void onCreateStuff() {
+        mCategoriesList = getIntent().getParcelableArrayListExtra(InterConst.EXTRA);
 
+        mLayoutManager = new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false);
+        rvServices.setLayoutManager(mLayoutManager);
+
+        mAdapter = new AllServicesAdapter(mContext, mHeight, mCategoriesList);
+        rvServices.setAdapter(mAdapter);
     }
 
     @Override
     protected void initUI() {
-        mLayoutManager = new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false);
-        rvServices.setLayoutManager(mLayoutManager);
-        mAdapter = new AllServicesAdapter(mContext, mHeight);
-        rvServices.setAdapter(mAdapter);
+
     }
 
     @Override

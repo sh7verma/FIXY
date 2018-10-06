@@ -1,16 +1,19 @@
 package com.app.fixy.adapters;
 
 import android.content.Context;
-import android.graphics.Color;
-import android.graphics.drawable.GradientDrawable;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.app.fixy.R;
+import com.app.fixy.models.ServicesModel;
 
+import java.util.ArrayList;
+
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
@@ -21,10 +24,12 @@ public class AllServicesAdapter extends RecyclerView.Adapter<AllServicesAdapter.
 
     Context mContext;
     int mHeight;
+    ArrayList<ServicesModel.ResponseBean.CategoriesBean> mData;
 
-    public AllServicesAdapter(Context context, int height) {
+    public AllServicesAdapter(Context context, int height, ArrayList<ServicesModel.ResponseBean.CategoriesBean> data) {
         mContext = context;
         mHeight = height;
+        mData = data;
     }
 
     @NonNull
@@ -57,15 +62,21 @@ public class AllServicesAdapter extends RecyclerView.Adapter<AllServicesAdapter.
 //                .resize((int) (mHeight * 0.08), (int) (mHeight * 0.08))
 //                .into(holder.imgService);
 //            }
+        holder.txtName.setText(mData.get(position).getCategory_name());
+        holder.txtCount.setText("(" + mData.get(position).getTotal() + ")");
 
     }
 
     @Override
     public int getItemCount() {
-        return 10;
+        return mData.size();
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
+        @BindView(R.id.txt_name)
+        TextView txtName;
+        @BindView(R.id.txt_count)
+        TextView txtCount;
 
         ViewHolder(View itemView) {
             super(itemView);

@@ -4,11 +4,13 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.app.fixy.R;
@@ -55,6 +57,36 @@ public class HomeFragment extends BaseFragment {
     @BindView(R.id.txt_view_all_ads)
     TextView txtViewAllAds;
 
+    @BindView(R.id.img_main_first)
+    ImageView imgFirst;
+    @BindView(R.id.txt_main_first)
+    TextView txtFirst;
+
+    @BindView(R.id.img_main_second)
+    ImageView imgSecond;
+    @BindView(R.id.txt_main_second)
+    TextView txtSecond;
+
+    @BindView(R.id.img_main_third)
+    ImageView imgThird;
+    @BindView(R.id.txt_main_third)
+    TextView txtThird;
+
+    @BindView(R.id.img_main_forth)
+    ImageView imgForth;
+    @BindView(R.id.txt_main_forth)
+    TextView txtForth;
+
+    @BindView(R.id.img_main_fifth)
+    ImageView imgFifth;
+    @BindView(R.id.txt_main_fifth)
+    TextView txtFifth;
+
+    @BindView(R.id.img_main_sixth)
+    ImageView imgSixth;
+    @BindView(R.id.txt_main_sixth)
+    TextView txtSixth;
+
     RecommendedServicesAdapter mAdapterServices;
     WorkersAdsAdapter mAdapterAds;
 
@@ -62,6 +94,7 @@ public class HomeFragment extends BaseFragment {
     LinearLayoutManager mLayoutManagerAds;
 
     private ArrayList<CityModel.ResponseBean> cityList;
+    private ArrayList<ServicesModel.ResponseBean.CategoriesBean> mCategoriesList;
 
     public static HomeFragment newInstance(Context context) {
         fragment = new HomeFragment();
@@ -101,8 +134,11 @@ public class HomeFragment extends BaseFragment {
         Intent intent;
         switch (view.getId()) {
             case R.id.txt_view_all_services:
-                intent = new Intent(mContext, ServicesListActivity.class);
-                startActivity(intent);
+                if (mCategoriesList != null) {
+                    intent = new Intent(mContext, ServicesListActivity.class);
+                    intent.putExtra(InterConst.EXTRA, mCategoriesList);
+                    startActivity(intent);
+                }
                 break;
 
             case R.id.txt_view_all_ads:
@@ -144,20 +180,18 @@ public class HomeFragment extends BaseFragment {
                     deviceToken);
             call.enqueue(new Callback<CityModel>() {
                 @Override
-                public void onResponse(Call<CityModel> call, Response<CityModel> response) {
+                public void onResponse(@NonNull Call<CityModel> call, @NonNull Response<CityModel> response) {
                     hideProgress();
                     if (response.body().getCode().equals(InterConst.SUCCESS_RESULT)) {
                         cityList = response.body().getResponse();
-                        if (TextUtils.isEmpty(utils.getString(InterConst.CITY_ID, ""))) {
-                            openAvailableCity();
-                        }
-                    } else if (response.body().equals(InterConst.ERROR_RESULT)) {
+                        openAvailableCity();
+                    } else if (response.body().getCode().equals(InterConst.ERROR_RESULT)) {
                         showSnackBar(rvRecommendedServices, response.body().getMessage());
                     }
                 }
 
                 @Override
-                public void onFailure(Call<CityModel> call, Throwable t) {
+                public void onFailure(@NonNull Call<CityModel> call, @NonNull Throwable t) {
                     hideProgress();
                     t.printStackTrace();
                 }
@@ -172,17 +206,17 @@ public class HomeFragment extends BaseFragment {
                     deviceToken, utils.getString(InterConst.CITY_ID, ""));
             call.enqueue(new Callback<ServicesModel>() {
                 @Override
-                public void onResponse(Call<ServicesModel> call, Response<ServicesModel> response) {
+                public void onResponse(@NonNull Call<ServicesModel> call, @NonNull Response<ServicesModel> response) {
                     hideProgress();
                     if (response.body().getCode().equals(InterConst.SUCCESS_RESULT)) {
-
-                    } else if (response.body().equals(InterConst.ERROR_RESULT)) {
+                        setMainServiceData(response.body().getResponse().getCategories());
+                    } else if (response.body().getCode().equals(InterConst.ERROR_RESULT)) {
                         showSnackBar(rvRecommendedServices, response.body().getMessage());
                     }
                 }
 
                 @Override
-                public void onFailure(Call<ServicesModel> call, Throwable t) {
+                public void onFailure(@NonNull Call<ServicesModel> call, @NonNull Throwable t) {
                     hideProgress();
                     t.printStackTrace();
                 }
@@ -201,5 +235,24 @@ public class HomeFragment extends BaseFragment {
             }
         });
         dialog.show();
+    }
+
+    private void setMainServiceData(ArrayList<ServicesModel.ResponseBean.CategoriesBean> categories) {
+        mCategoriesList = categories;
+
+        if (categories != null) {
+            if (categories.size() >= 1)
+                txtFirst.setText(categories.get(0).getCategory_name());
+            if (categories.size() >= 2)
+                txtSecond.setText(categories.get(1).getCategory_name());
+            if (categories.size() >= 3)
+                txtThird.setText(categories.get(2).getCategory_name());
+            if (categories.size() >= 4)
+                txtForth.setText(categories.get(3).getCategory_name());
+            if (categories.size() >= 5)
+                txtFifth.setText(categories.get(4).getCategory_name());
+            if (categories.size() >= 6)
+                txtSixth.setText(categories.get(5).getCategory_name());
+        }
     }
 }
