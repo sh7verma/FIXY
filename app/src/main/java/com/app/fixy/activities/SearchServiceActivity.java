@@ -104,10 +104,9 @@ public class SearchServiceActivity extends BaseActivity {
                     imgClear.setVisibility(View.GONE);
                     resetAdapters();
                 } else {
-                    mCategoriesListTemp = new ArrayList<>();
-                    mServicesListTemp = new ArrayList<>();
-
                     imgClear.setVisibility(View.VISIBLE);
+
+                    mCategoriesListTemp = new ArrayList<>();
                     for (int j = 0; j < mCategoriesList.size(); j++) {
                         if (mCategoriesList.get(j).getCategory_name().toLowerCase().startsWith(charSequence.toString().toLowerCase())) {
                             mCategoriesListTemp.add(mCategoriesList.get(j));
@@ -116,6 +115,7 @@ public class SearchServiceActivity extends BaseActivity {
                         rvCategorySlots.setAdapter(mCategoryAdapter);
                     }
 
+                    mServicesListTemp = new ArrayList<>();
                     for (int j = 0; j < mServicesList.size(); j++) {
                         if (mServicesList.get(j).getCategory_name().toLowerCase().startsWith(charSequence.toString().toLowerCase())) {
                             mServicesListTemp.add(mServicesList.get(j));
