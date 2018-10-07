@@ -84,7 +84,7 @@ public class ServicesModel extends BaseModel {
             private String description;
             private String category_price;
             private String total;
-            private List<SubcategoriesBean> subcategories;
+            private ArrayList<SubcategoriesBean> subcategories=new ArrayList<>();
 
             public CategoriesBean() {
             }
@@ -147,11 +147,11 @@ public class ServicesModel extends BaseModel {
                 this.total = total;
             }
 
-            public List<SubcategoriesBean> getSubcategories() {
+            public ArrayList<SubcategoriesBean> getSubcategories() {
                 return subcategories;
             }
 
-            public void setSubcategories(List<SubcategoriesBean> subcategories) {
+            public void setSubcategories(ArrayList<SubcategoriesBean> subcategories) {
                 this.subcategories = subcategories;
             }
 

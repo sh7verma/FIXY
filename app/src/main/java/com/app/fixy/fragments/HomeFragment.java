@@ -29,7 +29,6 @@ import com.app.fixy.network.RetrofitClient;
 import java.util.ArrayList;
 
 import butterknife.BindView;
-import butterknife.OnClick;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -47,6 +46,8 @@ public class HomeFragment extends BaseFragment {
 
     @BindView(R.id.txt_city)
     TextView txtCity;
+    @BindView(R.id.img_search)
+    ImageView imgSearch;
 
     @BindView(R.id.rv_recommended_services)
     RecyclerView rvRecommendedServices;
@@ -127,6 +128,7 @@ public class HomeFragment extends BaseFragment {
         txtViewAllServices.setOnClickListener(this);
         txtViewAllAds.setOnClickListener(this);
         txtCity.setOnClickListener(this);
+        imgSearch.setOnClickListener(this);
     }
 
     @Override
@@ -138,12 +140,15 @@ public class HomeFragment extends BaseFragment {
                     intent = new Intent(mContext, ServicesListActivity.class);
                     intent.putExtra(InterConst.EXTRA, mCategoriesList);
                     startActivity(intent);
+                    getActivity().overridePendingTransition(R.anim.in, R.anim.out);
                 }
                 break;
 
             case R.id.txt_view_all_ads:
                 intent = new Intent(mContext, WorkersAdsListActivity.class);
                 startActivity(intent);
+                getActivity().overridePendingTransition(R.anim.in, R.anim.out);
+
                 break;
             case R.id.txt_city:
                 if (cityList == null) {
@@ -151,6 +156,12 @@ public class HomeFragment extends BaseFragment {
                 } else {
                     openAvailableCity();
                 }
+                break;
+            case R.id.img_search:
+                intent = new Intent(getActivity(), SearchServiceActivity.class);
+                intent.putExtra(InterConst.EXTRA, mCategoriesList);
+                startActivity(intent);
+                getActivity().overridePendingTransition(R.anim.in, R.anim.out);
                 break;
         }
     }
@@ -164,13 +175,6 @@ public class HomeFragment extends BaseFragment {
         } else {
             hitServiceApi();
         }
-    }
-
-    @OnClick(R.id.ic_search)
-    public void searchService() {
-        Intent intent = new Intent(getActivity(), SearchServiceActivity.class);
-        startActivity(intent);
-        getActivity().overridePendingTransition(R.anim.in, R.anim.out);
     }
 
     void hitApi() {

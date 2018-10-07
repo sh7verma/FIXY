@@ -7,23 +7,29 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.app.fixy.R;
 import com.app.fixy.interfaces.InterfacesCall;
+import com.app.fixy.models.ServicesModel;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class SearchServiceAdapter extends RecyclerView.Adapter<SearchServiceAdapter.ViewHolder> {
 
+    InterfacesCall.IndexClick mcClickService;
+    List<ServicesModel.ResponseBean.CategoriesBean.SubcategoriesBean> mData;
     private Context mContext;
     private int mHeight;
-    InterfacesCall.IndexClick mcClickService;
 
-    public SearchServiceAdapter(Context context,int height, InterfacesCall.IndexClick clickSer) {
+    public SearchServiceAdapter(Context context, int height, InterfacesCall.IndexClick clickSer, List<ServicesModel.ResponseBean.CategoriesBean.SubcategoriesBean> subcategories) {
         mContext = context;
         mHeight = height;
         mcClickService = clickSer;
+        mData = subcategories;
     }
 
     @NonNull
@@ -55,8 +61,8 @@ public class SearchServiceAdapter extends RecyclerView.Adapter<SearchServiceAdap
 //                .resize((int) (mHeight * 0.08), (int) (mHeight * 0.08))
 //                .into(holder.imgService);
 //            }
-
-        holder.viewBooking.llMain.setOnClickListener(new View.OnClickListener() {
+        holder.txtServiceName.setText(mData.get(position).getCategory_name());
+        holder.llMain.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 mcClickService.clickIndex(position);
@@ -67,20 +73,19 @@ public class SearchServiceAdapter extends RecyclerView.Adapter<SearchServiceAdap
 
     @Override
     public int getItemCount() {
-        return 10;
+        return mData.size();
     }
 
 
-    public class ViewBooking {
+    class ViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.ll_main)
         LinearLayout llMain;
-    }
-    class ViewHolder extends RecyclerView.ViewHolder {
+        @BindView(R.id.txt_service_name)
+        TextView txtServiceName;
 
-        ViewBooking viewBooking = new ViewBooking();
         ViewHolder(View itemView) {
             super(itemView);
-            ButterKnife.bind(viewBooking, itemView);
+            ButterKnife.bind(this, itemView);
         }
 
     }

@@ -47,11 +47,12 @@
                 app:met_textColorHint="@color/grey_color" />
 
             <ImageView
-                android:id="@+id/ic_clear"
+                android:id="@+id/img_clear"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:padding="@dimen/_10sdp"
+                android:visibility="gone"
                 android:src="@mipmap/ic_clear_search" />
 
         </LinearLayout>
