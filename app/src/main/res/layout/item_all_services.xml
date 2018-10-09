@@ -5,12 +5,14 @@
     android:orientation="horizontal">
 
     <LinearLayout
+        android:id="@+id/ll_main"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginBottom="@dimen/_2sdp"
         android:layout_marginEnd="@dimen/_10sdp"
         android:layout_marginStart="@dimen/_10sdp"
         android:layout_marginTop="@dimen/_8sdp"
+        android:foreground="?selectableItemBackground"
         android:background="@drawable/white_round_stroke"
         android:gravity="center_vertical"
         android:padding="@dimen/_10sdp">

@@ -25,6 +25,7 @@
 
 
             <com.app.fixy.customviews.BoldTextView
+                android:id="@+id/txt_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingBottom="@dimen/_10sdp"
@@ -67,6 +68,7 @@
                     android:src="@mipmap/ic_coins_a" />
 
                 <com.app.fixy.customviews.SemiboldTextView
+                    android:id="@+id/txt_price"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/_10sdp"
@@ -154,7 +156,7 @@
         android:background="@drawable/black_round">
 
         <com.app.fixy.customviews.BoldTextView
-            android:id="@+id/txt_browse_service"
+            android:id="@+id/txt_request_service"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="?selectableItemBackground"

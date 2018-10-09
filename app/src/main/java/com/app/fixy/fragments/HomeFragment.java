@@ -15,7 +15,7 @@ import android.widget.TextView;
 
 import com.app.fixy.R;
 import com.app.fixy.activities.SearchServiceActivity;
-import com.app.fixy.activities.ServicesListActivity;
+import com.app.fixy.activities.CategoryListActivity;
 import com.app.fixy.activities.WorkersAdsListActivity;
 import com.app.fixy.adapters.RecommendedServicesAdapter;
 import com.app.fixy.adapters.WorkersAdsAdapter;
@@ -137,7 +137,7 @@ public class HomeFragment extends BaseFragment {
         switch (view.getId()) {
             case R.id.txt_view_all_services:
                 if (mCategoriesList != null) {
-                    intent = new Intent(mContext, ServicesListActivity.class);
+                    intent = new Intent(mContext, CategoryListActivity.class);
                     intent.putExtra(InterConst.EXTRA, mCategoriesList);
                     startActivity(intent);
                     getActivity().overridePendingTransition(R.anim.in, R.anim.out);

@@ -6,9 +6,11 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.app.fixy.R;
+import com.app.fixy.interfaces.InterfacesCall;
 import com.app.fixy.models.ServicesModel;
 
 import java.util.ArrayList;
@@ -25,11 +27,14 @@ public class AllServicesAdapter extends RecyclerView.Adapter<AllServicesAdapter.
     Context mContext;
     int mHeight;
     ArrayList<ServicesModel.ResponseBean.CategoriesBean> mData;
+    InterfacesCall.IndexClick mClickService;
 
-    public AllServicesAdapter(Context context, int height, ArrayList<ServicesModel.ResponseBean.CategoriesBean> data) {
+    public AllServicesAdapter(Context context, int height, ArrayList<ServicesModel.ResponseBean.CategoriesBean> data,
+                              InterfacesCall.IndexClick clickService) {
         mContext = context;
         mHeight = height;
         mData = data;
+        mClickService = clickService;
     }
 
     @NonNull
@@ -64,7 +69,12 @@ public class AllServicesAdapter extends RecyclerView.Adapter<AllServicesAdapter.
 //            }
         holder.txtName.setText(mData.get(position).getCategory_name());
         holder.txtCount.setText("(" + mData.get(position).getTotal() + ")");
-
+        holder.llMain.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mClickService.clickIndex(holder.getAdapterPosition());
+            }
+        });
     }
 
     @Override
@@ -73,6 +83,8 @@ public class AllServicesAdapter extends RecyclerView.Adapter<AllServicesAdapter.
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
+        @BindView(R.id.ll_main)
+        LinearLayout llMain;
         @BindView(R.id.txt_name)
         TextView txtName;
         @BindView(R.id.txt_count)

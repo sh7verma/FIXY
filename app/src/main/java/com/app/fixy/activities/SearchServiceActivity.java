@@ -1,6 +1,7 @@
 package com.app.fixy.activities;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
@@ -42,8 +43,6 @@ public class SearchServiceActivity extends BaseActivity {
     ArrayList<ServicesModel.ResponseBean.CategoriesBean.SubcategoriesBean> mServicesList = new ArrayList<>();
     ArrayList<ServicesModel.ResponseBean.CategoriesBean> mCategoriesList = new ArrayList<>();
 
-    ArrayList<ServicesModel.ResponseBean.CategoriesBean.SubcategoriesBean> mServicesListTemp = new ArrayList<>();
-    ArrayList<ServicesModel.ResponseBean.CategoriesBean> mCategoriesListTemp = new ArrayList<>();
 
     InterfacesCall.IndexClick clickService = new InterfacesCall.IndexClick() {
         @Override
@@ -105,8 +104,7 @@ public class SearchServiceActivity extends BaseActivity {
                     resetAdapters();
                 } else {
                     imgClear.setVisibility(View.VISIBLE);
-
-                    mCategoriesListTemp = new ArrayList<>();
+                    ArrayList<ServicesModel.ResponseBean.CategoriesBean> mCategoriesListTemp = new ArrayList<>();
                     for (int j = 0; j < mCategoriesList.size(); j++) {
                         if (mCategoriesList.get(j).getCategory_name().toLowerCase().startsWith(charSequence.toString().toLowerCase())) {
                             mCategoriesListTemp.add(mCategoriesList.get(j));
@@ -114,8 +112,7 @@ public class SearchServiceActivity extends BaseActivity {
                         mCategoryAdapter = new SearchCategoryAdapter(mContext, mHeight, clickCategory, mCategoriesListTemp);
                         rvCategorySlots.setAdapter(mCategoryAdapter);
                     }
-
-                    mServicesListTemp = new ArrayList<>();
+                    ArrayList<ServicesModel.ResponseBean.CategoriesBean.SubcategoriesBean> mServicesListTemp = new ArrayList<>();
                     for (int j = 0; j < mServicesList.size(); j++) {
                         if (mServicesList.get(j).getCategory_name().toLowerCase().startsWith(charSequence.toString().toLowerCase())) {
                             mServicesListTemp.add(mServicesList.get(j));
