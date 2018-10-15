@@ -65,6 +65,11 @@ public interface ApiInterface {
                          @Field("device_token") String device_token);
 
     @FormUrlEncoded
+    @POST("api/v1/requests/request_history")
+    Call<CityModel> request_history(@Field("access_token") String access_token,
+                         @Field("device_token") String device_token);
+
+    @FormUrlEncoded
     @POST("api/v1/services")
     Call<ServicesModel> services(@Field("access_token") String access_token,
                                  @Field("device_token") String device_token,

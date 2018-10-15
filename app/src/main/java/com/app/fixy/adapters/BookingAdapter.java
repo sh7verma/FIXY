@@ -48,17 +48,17 @@ public class BookingAdapter extends RecyclerView.Adapter<BookingAdapter.ViewHold
 
         setView(holder,start);
 
-        holder.btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-//                progressStatus = progressStatus+30;
-                start+=25;
-                progressStatus=start;
-//                handler.postDelayed(runnable, 10);
-                setView(holder, start);
-
-            }
-        });
+//        holder.btn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+////              progressStatus = progressStatus+30;
+//                start+=25;
+//                progressStatus=start;
+////              handler.postDelayed(runnable, 10);
+//                setView(holder, start);
+//
+//            }
+//        });
 
         holder.viewBooking.llMain.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -163,7 +163,6 @@ public class BookingAdapter extends RecyclerView.Adapter<BookingAdapter.ViewHold
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         View viewCircle1, viewCircle2, viewCircle3, viewCircle4;
-        Button btn;
         ProgressBar vprogressbar;
         ViewBooking viewBooking = new ViewBooking();
 
@@ -174,7 +173,6 @@ public class BookingAdapter extends RecyclerView.Adapter<BookingAdapter.ViewHold
             viewCircle2 = itemView.findViewById(R.id.view_circle2);
             viewCircle3 = itemView.findViewById(R.id.view_circle3);
             viewCircle4 = itemView.findViewById(R.id.view_circle4);
-            btn = itemView.findViewById(R.id.btn);
             vprogressbar = itemView.findViewById(R.id.vprogressbar);
 
             viewBooking.llRequest.setVisibility(View.VISIBLE);

@@ -73,9 +73,9 @@ public class ServiceDetailActivity extends BaseActivity {
         if (connectedToInternet(txtTitle)) {
             showProgress();
             Call<ServicesModel> call = RetrofitClient.getInstance().create_request(utils.getString(InterConst.ACCESS_TOKEN, ""),
-                    mServiceDetail.getId(), utils.getString(InterConst.USER_ID, "")
+                    mServiceDetail.getId(), "0"
                     , utils.getString(InterConst.CITY_ID, ""),
-                    "", "", "", "20", "", ""
+                    "", "", "20", "20", "", ""
             );
             call.enqueue(new Callback<ServicesModel>() {
                 @Override

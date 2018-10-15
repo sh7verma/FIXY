@@ -1,69 +1,103 @@
 package com.app.fixy.fragments;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 
 import com.app.fixy.R;
 import com.app.fixy.activities.BookingDetailActivity;
 import com.app.fixy.adapters.BookingAdapter;
+import com.app.fixy.interfaces.InterConst;
 import com.app.fixy.interfaces.InterfacesCall;
+import com.app.fixy.models.CityModel;
+import com.app.fixy.network.RetrofitClient;
 
-public class BookedFragment extends Fragment   {
+import butterknife.BindView;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
+public class BookedFragment extends BaseFragment {
+
+    @SuppressLint("StaticFieldLeak")
     static BookedFragment fragment;
+    @SuppressLint("StaticFieldLeak")
     private static Context mContext;
-
-    RecyclerView rvPast;
-
-
 
     BookingAdapter mAdapter;
 
-    public static BookedFragment newInstance(Context context) {
-        fragment = new BookedFragment();
-        mContext = context;
-//        textView.setText("PAST");
-        return fragment;
-    }
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragement_booked, container, false);
-        rvPast =   view.findViewById(R.id.recycleview);
-        onCreateStuff(view);
-        return view;
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-    }
-
-    protected void onCreateStuff(View view) {
-        rvPast.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false));
-        rvPast.setNestedScrollingEnabled(false);
-
-        mAdapter = new BookingAdapter(mContext,click);
-        rvPast.setAdapter(mAdapter);
-    }
-
-    protected void initListeners() {
-
-    }
+    @BindView(R.id.recycleview)
+    RecyclerView rvPast;
 
     InterfacesCall.IndexClick click = new InterfacesCall.IndexClick() {
         @Override
         public void clickIndex(int pos) {
             Intent intent = new Intent(getActivity(), BookingDetailActivity.class);
             startActivity(intent);
-            getActivity().overridePendingTransition(R.anim.in,R.anim.out);
+            getActivity().overridePendingTransition(R.anim.in, R.anim.out);
         }
     };
+
+    public static BookedFragment newInstance(Context context) {
+        fragment = new BookedFragment();
+        mContext = context;
+        return fragment;
+    }
+
+    @Override
+    protected int getContentView() {
+        return R.layout.fragement_booked;
+    }
+
+    @Override
+    protected void onCreateStuff() {
+        rvPast.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false));
+        rvPast.setNestedScrollingEnabled(false);
+
+        mAdapter = new BookingAdapter(mContext, click);
+        rvPast.setAdapter(mAdapter);
+    }
+
+    @Override
+    protected void initListeners() {
+
+    }
+
+    @Override
+    public void onClick(View view) {
+
+    }
+
+
+
+    void hitApi() {
+        if (connectedToInternet(rvRecommendedServices)) {
+            showProgress();
+            Call<CityModel> call = RetrofitClient.getInstance().city(utils.getString(InterConst.ACCESS_TOKEN, ""),
+                    deviceToken);
+            call.enqueue(new Callback<CityModel>() {
+                @Override
+                public void onResponse(@NonNull Call<CityModel> call, @NonNull Response<CityModel> response) {
+                    hideProgress();
+                    if (response.body().getCode().equals(InterConst.SUCCESS_RESULT)) {
+                        cityList = response.body().getResponse();
+                        openAvailableCity();
+                    } else if (response.body().getCode().equals(InterConst.ERROR_RESULT)) {
+                        showSnackBar(rvRecommendedServices, response.body().getMessage());
+                    }
+                }
+
+                @Override
+                public void onFailure(@NonNull Call<CityModel> call, @NonNull Throwable t) {
+                    hideProgress();
+                    t.printStackTrace();
+                }
+            });
+        }
+    }
+
 }
