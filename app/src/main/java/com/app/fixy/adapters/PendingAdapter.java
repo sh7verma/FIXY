@@ -36,7 +36,6 @@ public class PendingAdapter extends RecyclerView.Adapter<PendingAdapter.ViewHold
     @Override
     public void onBindViewHolder(@NonNull PendingAdapter.ViewHolder holder, final int position) {
 
-
         holder.viewBooking.llMain.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
