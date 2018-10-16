@@ -57,6 +57,7 @@ public interface InterConst {
     String CITY_NAME = "city_name";
     String CITY_ID = "city_id";
     String NUMBER_IS_REGISTERED = "1";
+    String STATUS_PENDING_REQUEST = "0";
 
     public enum WEBVIEW {
         TERM_CONDITION;

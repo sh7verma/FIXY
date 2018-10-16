@@ -65,13 +65,6 @@ public interface ApiInterface {
                          @Field("device_token") String device_token);
 
     @FormUrlEncoded
-    @POST("api/v1/requests/request_history")
-    Call<CityModel> request_history(@Field("access_token") String access_token,
-                         @Field("device_token") String device_token);
-
-
-
-    @FormUrlEncoded
     @POST("api/v1/services")
     Call<ServicesModel> services(@Field("access_token") String access_token,
                                  @Field("device_token") String device_token,
@@ -80,16 +73,21 @@ public interface ApiInterface {
     @FormUrlEncoded
     @POST("api/v1/requests/create_request")
     Call<ServicesModel> create_request(@Field("access_token") String access_token,
-                                 @Field("category_id") String category_id,
-                                 @Field("selected_user_id") String selected_user_id,
-                                 @Field("city_id") String city_id,
-                                 @Field("address") String address,
-                                 @Field("additional_notes") String additional_notes,
-                                 @Field("request_price") String request_price,
-                                 @Field("required_coins") String required_coins,
-                                 @Field("request_latitude") String request_latitude,
-                                 @Field("request_longitude") String request_longitude);
+                                       @Field("category_id") String category_id,
+                                       @Field("selected_user_id") String selected_user_id,
+                                       @Field("city_id") String city_id,
+                                       @Field("address") String address,
+                                       @Field("additional_notes") String additional_notes,
+                                       @Field("request_price") String request_price,
+                                       @Field("required_coins") String required_coins,
+                                       @Field("request_latitude") String request_latitude,
+                                       @Field("request_longitude") String request_longitude);
 
+    @FormUrlEncoded
+    @POST("api/v1/requests/request_history")
+    Call<CityModel> request_history(@Field("access_token") String access_token,
+                                    @Field("device_token") String device_token,
+                                    @Field("status") String status);
 
 //    @FormUrlEncoded
 //    @POST("/users/signin")

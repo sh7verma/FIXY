@@ -73,21 +73,19 @@ public class BookedFragment extends BaseFragment {
     }
 
 
-
     void hitApi() {
-        if (connectedToInternet(rvRecommendedServices)) {
+        if (connectedToInternet(rvPast)) {
             showProgress();
-            Call<CityModel> call = RetrofitClient.getInstance().city(utils.getString(InterConst.ACCESS_TOKEN, ""),
-                    deviceToken);
+            Call<CityModel> call = RetrofitClient.getInstance().request_history(
+                    utils.getString(InterConst.ACCESS_TOKEN, ""),
+                    deviceToken, InterConst.STATUS_PENDING_REQUEST);
             call.enqueue(new Callback<CityModel>() {
                 @Override
                 public void onResponse(@NonNull Call<CityModel> call, @NonNull Response<CityModel> response) {
                     hideProgress();
                     if (response.body().getCode().equals(InterConst.SUCCESS_RESULT)) {
-                        cityList = response.body().getResponse();
-                        openAvailableCity();
                     } else if (response.body().getCode().equals(InterConst.ERROR_RESULT)) {
-                        showSnackBar(rvRecommendedServices, response.body().getMessage());
+                        showSnackBar(rvPast, response.body().getMessage());
                     }
                 }
 
