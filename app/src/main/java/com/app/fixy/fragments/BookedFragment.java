@@ -16,6 +16,8 @@ import com.app.fixy.interfaces.InterfacesCall;
 import com.app.fixy.models.CityModel;
 import com.app.fixy.network.RetrofitClient;
 
+import java.util.logging.Handler;
+
 import butterknife.BindView;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -60,6 +62,7 @@ public class BookedFragment extends BaseFragment {
 
         mAdapter = new BookingAdapter(mContext, click);
         rvPast.setAdapter(mAdapter);
+        hitApi();
     }
 
     @Override
@@ -72,6 +75,29 @@ public class BookedFragment extends BaseFragment {
 
     }
 
+    void hitApi() {
+        if (connectedToInternet(rvPast)) {
+            showProgress();
+            Call<CityModel> call = RetrofitClient.getInstance().request_history(
+                    utils.getString(InterConst.ACCESS_TOKEN, ""),
+                    deviceToken, InterConst.STATUS_BOOKING_REQUEST);
+            call.enqueue(new Callback<CityModel>() {
+                @Override
+                public void onResponse(@NonNull Call<CityModel> call, @NonNull Response<CityModel> response) {
+                    hideProgress();
+                    if (response.body().getCode().equals(InterConst.SUCCESS_RESULT)) {
+                    } else if (response.body().getCode().equals(InterConst.ERROR_RESULT)) {
+                        showSnackBar(rvPast, response.body().getMessage());
+                    }
+                }
 
+                @Override
+                public void onFailure(@NonNull Call<CityModel> call, @NonNull Throwable t) {
+                    hideProgress();
+                    t.printStackTrace();
+                }
+            });
+        }
+    }
 
 }

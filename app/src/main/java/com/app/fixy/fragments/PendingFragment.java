@@ -63,11 +63,6 @@ public class PendingFragment extends BaseFragment {
     }
 
 
-    @Override
-    protected void initListeners() {
-
-    }
-
     void hitApi() {
         if (connectedToInternet(rvPast)) {
             showProgress();
@@ -91,6 +86,11 @@ public class PendingFragment extends BaseFragment {
                 }
             });
         }
+    }
+
+    @Override
+    protected void initListeners() {
+
     }
 
     @Override

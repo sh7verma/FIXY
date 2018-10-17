@@ -86,7 +86,6 @@ public class ServiceDetailActivity extends BaseActivity {
                         showSnackBar(txtTitle, response.body().getMessage());
                     }
                 }
-
                 @Override
                 public void onFailure(@NonNull Call<ServicesModel> call, @NonNull Throwable t) {
                     hideProgress();
