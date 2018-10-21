@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:id="@+id/root"
+    android:layout_height="wrap_content"
+    android:background="@drawable/white_bottom_round"
+    android:orientation="vertical">
+
+    <com.app.fixy.customviews.SemiboldTextView
+        android:id="@+id/txt_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/select_city"
+        android:textColor="@color/black"
+        android:textAllCaps="true"
+        android:paddingTop="@dimen/_10sdp"
+        android:layout_gravity="center_horizontal"
+        android:textSize="@dimen/_17ssp"/>
+    <com.app.fixy.customviews.RegularTextView
+        android:id="@+id/txt_mess"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:paddingLeft="@dimen/_10sdp"
+        android:paddingRight="@dimen/_10sdp"
+        android:layout_marginTop="@dimen/_5sdp"
+        android:layout_marginBottom="@dimen/_10sdp"
+        android:textColor="@color/black"
+        android:layout_gravity="center_horizontal"
+        android:textSize="@dimen/_13ssp"/>
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycleview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+</LinearLayout>

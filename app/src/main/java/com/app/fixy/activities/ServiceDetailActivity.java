@@ -74,9 +74,8 @@ public class ServiceDetailActivity extends BaseActivity {
             showProgress();
             Call<ServicesModel> call = RetrofitClient.getInstance().create_request(utils.getString(InterConst.ACCESS_TOKEN, ""),
                     mServiceDetail.getId(), "0"
-                    , utils.getString(InterConst.CITY_ID, ""),
-                    "", "", "20", "20", "", ""
-            );
+                    , utils.getString(InterConst.CITY_ID, ""), utils.getString(InterConst.CITY_NAME, "")
+                    , "", "20", "20", "", "");
             call.enqueue(new Callback<ServicesModel>() {
                 @Override
                 public void onResponse(@NonNull Call<ServicesModel> call, @NonNull Response<ServicesModel> response) {
