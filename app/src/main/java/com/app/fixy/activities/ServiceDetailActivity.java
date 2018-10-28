@@ -40,7 +40,6 @@ public class ServiceDetailActivity extends BaseActivity {
 
     void setData() {
         txtPrice.setText(mServiceDetail.getCategory_price() + " Coins");
-
         txtTitle.setText(mServiceDetail.getCategory_name());
         txtName.setText(mServiceDetail.getCategory_name());
     }

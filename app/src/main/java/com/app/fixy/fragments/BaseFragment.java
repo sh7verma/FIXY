@@ -36,13 +36,12 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
     protected String errorAPI;
     protected String errorAccessToken;
     protected String terminateAccount;
-//    protected Db db;
+    //    RoomDb mRoomDb;
+    protected String deviceToken;
+    //    protected Db db;
     Utils utils;
     Gson mGson = new Gson();
     Encode encode;
-//    RoomDb mRoomDb;
-protected String deviceToken;
-
     private Snackbar mSnackbar;
 
     public static void hideKeyboard(Activity mContext) {
@@ -77,14 +76,20 @@ protected String deviceToken;
 //                RoomDb.class, "nass-db").allowMainThreadQueries().fallbackToDestructiveMigration().build();
         deviceToken = Settings.Secure.getString(getContext().getContentResolver(),
                 Settings.Secure.ANDROID_ID);
-        initListeners();
         return view;
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
         onCreateStuff();
+        initListeners();
+
     }
 
     protected abstract int getContentView();
@@ -131,6 +136,7 @@ protected String deviceToken;
             return false;
         }
     }
+
     public boolean connectedToInternet(View view) {
         if ((new Connection_Detector(mContext)).isConnectingToInternet()) {
             return true;
@@ -139,6 +145,7 @@ protected String deviceToken;
             return false;
         }
     }
+
     protected void showInternetAlert(View view) {
         mSnackbar = Snackbar.make(view, "Internet connection not available!", Snackbar.LENGTH_SHORT);
         mSnackbar.show();
@@ -163,8 +170,6 @@ protected String deviceToken;
     public void toast(String message) {
         Toast.makeText(mContext, message, Toast.LENGTH_SHORT).show();
     }
-
-
 
 
 }

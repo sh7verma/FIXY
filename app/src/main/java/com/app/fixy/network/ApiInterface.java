@@ -3,6 +3,7 @@ package com.app.fixy.network;
 import com.app.fixy.models.CityModel;
 import com.app.fixy.models.GooglePlaceModal;
 import com.app.fixy.models.NearbyPlaceModel;
+import com.app.fixy.models.RequestModel;
 import com.app.fixy.models.ServicesModel;
 import com.app.fixy.models.UserModel;
 
@@ -85,9 +86,9 @@ public interface ApiInterface {
 
     @FormUrlEncoded
     @POST("api/v1/requests/request_history")
-    Call<CityModel> request_history(@Field("access_token") String access_token,
-                                    @Field("device_token") String device_token,
-                                    @Field("status") String status);
+    Call<RequestModel> request_history(@Field("access_token") String access_token,
+                                       @Field("device_token") String device_token,
+                                       @Field("status") String status);
 
 //    @FormUrlEncoded
 //    @POST("/users/signin")

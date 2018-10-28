@@ -243,7 +243,6 @@ public class HomeFragment extends BaseFragment {
 
     private void setMainServiceData(ArrayList<ServicesModel.ResponseBean.CategoriesBean> categories) {
         mCategoriesList = categories;
-
         if (categories != null) {
             if (categories.size() >= 1)
                 txtFirst.setText(categories.get(0).getCategory_name());

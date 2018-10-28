@@ -2,17 +2,17 @@ package com.app.fixy.interfaces;
 
 public interface InterConst {
 
-    public int PICKUP_ADD = 1;
-    public int DELIVERY_ADD = 2;
-    public int ANT_GO = 1;
-    public int ANT_EXPRESS = 2;
-    public int ZERO = 0;
-    public int ONE = 1;
-    public int TWO = 2;
+    int PICKUP_ADD = 1;
+    int DELIVERY_ADD = 2;
+    int ANT_GO = 1;
+    int ANT_EXPRESS = 2;
+    int ZERO = 0;
+    int ONE = 1;
+    int TWO = 2;
 
-    public String NUMBER_REGISTERED = "number_registered";
-    public String EXTRA = "extra";
-    public String EXTRA2 = "extra2";
+    String NUMBER_REGISTERED = "number_registered";
+    String EXTRA = "extra";
+    String EXTRA2 = "extra2";
     String READ_PHONE_STATE_PERMISSION = "phone_state";
     String LOCATION_DATA_EXTRA = "location_extra";
     String RECEIVER = "reciver_location";
@@ -24,11 +24,11 @@ public interface InterConst {
     int DEFAULT = -1;
     int OTHER = 3;
 
-    public static final int FRAG_NULL = 10;
-    public static final int FRAG_HOME = 0;
-    public static final int FRAG_BOOKINGS = 1;
-    public static final int FRAG_COINS = 2;
-    public static final int FRAG_PROFILE = 3;
+    int FRAG_NULL = 10;
+    int FRAG_HOME = 0;
+    int FRAG_BOOKINGS = 1;
+    int FRAG_COINS = 2;
+    int FRAG_PROFILE = 3;
 
     String ACCESS_TOKEN = "access_token";
     String COUNTRY_CODE = "country_code";
@@ -57,8 +57,11 @@ public interface InterConst {
     String CITY_NAME = "city_name";
     String CITY_ID = "city_id";
     String NUMBER_IS_REGISTERED = "1";
+
     String STATUS_PENDING_REQUEST = "0";
     String STATUS_BOOKING_REQUEST = "1";
+
+    String FRAG_MY_REQUEST_CLICK = "FRAG_MY_REQUEST_CLICK";
 
     public enum WEBVIEW {
         TERM_CONDITION;

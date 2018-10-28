@@ -1,9 +1,12 @@
 package com.app.fixy.fragments;
 
 import android.annotation.SuppressLint;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.support.annotation.NonNull;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -13,10 +16,11 @@ import com.app.fixy.activities.BookingDetailActivity;
 import com.app.fixy.adapters.BookingAdapter;
 import com.app.fixy.interfaces.InterConst;
 import com.app.fixy.interfaces.InterfacesCall;
-import com.app.fixy.models.CityModel;
+import com.app.fixy.models.RequestModel;
 import com.app.fixy.network.RetrofitClient;
 
-import java.util.logging.Handler;
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import retrofit2.Call;
@@ -34,6 +38,14 @@ public class BookedFragment extends BaseFragment {
 
     @BindView(R.id.recycleview)
     RecyclerView rvPast;
+    ArrayList<RequestModel.ResponseBean> mData = new ArrayList<>();
+
+    BroadcastReceiver receiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            hitApi();
+        }
+    };
 
     InterfacesCall.IndexClick click = new InterfacesCall.IndexClick() {
         @Override
@@ -60,14 +72,15 @@ public class BookedFragment extends BaseFragment {
         rvPast.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false));
         rvPast.setNestedScrollingEnabled(false);
 
-        mAdapter = new BookingAdapter(mContext, click);
+        mAdapter = new BookingAdapter(mContext,mData, click);
         rvPast.setAdapter(mAdapter);
         hitApi();
     }
 
     @Override
     protected void initListeners() {
-
+        LocalBroadcastManager.getInstance(getContext()).registerReceiver((receiver),
+                new IntentFilter(InterConst.FRAG_MY_REQUEST_CLICK));
     }
 
     @Override
@@ -75,29 +88,40 @@ public class BookedFragment extends BaseFragment {
 
     }
 
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        LocalBroadcastManager.getInstance(getContext()).unregisterReceiver(receiver);
+    }
+
     void hitApi() {
         if (connectedToInternet(rvPast)) {
-            showProgress();
-            Call<CityModel> call = RetrofitClient.getInstance().request_history(
+            Call<RequestModel> call = RetrofitClient.getInstance().request_history(
                     utils.getString(InterConst.ACCESS_TOKEN, ""),
                     deviceToken, InterConst.STATUS_BOOKING_REQUEST);
-            call.enqueue(new Callback<CityModel>() {
+            call.enqueue(new Callback<RequestModel>() {
                 @Override
-                public void onResponse(@NonNull Call<CityModel> call, @NonNull Response<CityModel> response) {
-                    hideProgress();
+                public void onResponse(@NonNull Call<RequestModel> call, @NonNull Response<RequestModel> response) {
                     if (response.body().getCode().equals(InterConst.SUCCESS_RESULT)) {
+                        notifyAdapter(response.body().getResponse());
                     } else if (response.body().getCode().equals(InterConst.ERROR_RESULT)) {
                         showSnackBar(rvPast, response.body().getMessage());
                     }
                 }
 
                 @Override
-                public void onFailure(@NonNull Call<CityModel> call, @NonNull Throwable t) {
-                    hideProgress();
+                public void onFailure(@NonNull Call<RequestModel> call, @NonNull Throwable t) {
                     t.printStackTrace();
                 }
             });
         }
+    }
+
+    private void notifyAdapter(List<RequestModel.ResponseBean> response) {
+        mData=new ArrayList<>();
+        mData.addAll(response);
+        mAdapter.notifyDataSetChanged();
+
     }
 
 }

@@ -1,16 +1,19 @@
 package com.app.fixy.adapters;
 
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.app.fixy.R;
 import com.app.fixy.interfaces.InterfacesCall;
+import com.app.fixy.models.RequestModel;
+
+import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -18,12 +21,14 @@ import butterknife.ButterKnife;
 
 public class PendingAdapter extends RecyclerView.Adapter<PendingAdapter.ViewHolder> {
 
-    private final Context mContext;
-    Bitmap bitmap =null;
-    InterfacesCall.IndexClick mClick;
-    public PendingAdapter(Context con, InterfacesCall.IndexClick click) {
+    Context mContext;
+    private InterfacesCall.IndexClick mClick;
+    private ArrayList<RequestModel.ResponseBean> mData;
+
+    public PendingAdapter(Context con, ArrayList<RequestModel.ResponseBean> data, InterfacesCall.IndexClick click) {
         mContext = con;
         mClick = click;
+        mData = data;
     }
 
     @NonNull
@@ -36,31 +41,37 @@ public class PendingAdapter extends RecyclerView.Adapter<PendingAdapter.ViewHold
     @Override
     public void onBindViewHolder(@NonNull PendingAdapter.ViewHolder holder, final int position) {
 
-        holder.viewBooking.llMain.setOnClickListener(new View.OnClickListener() {
+        holder.txtName.setText(mData.get(holder.getAdapterPosition()).getFullname());
+        holder.txtId.setText("ID: "+mData.get(holder.getAdapterPosition()).getId());
+        holder.txtCoins.setText(mData.get(holder.getAdapterPosition()).getOriginal_price() + " Coins");
+
+        holder.llMain.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 mClick.clickIndex(position);
             }
         });
-
     }
 
     @Override
     public int getItemCount() {
-        return 3;
+        return mData.size();
     }
-    public class ViewBooking {
-        @BindView(R.id.ll_main)
-        LinearLayout llMain;
-    }
+
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        ViewBooking viewBooking = new ViewBooking();
+        @BindView(R.id.ll_main)
         LinearLayout llMain;
+        @BindView(R.id.txt_name)
+        TextView txtName;
+        @BindView(R.id.txt_coins)
+        TextView txtCoins;
+        @BindView(R.id.txt_id)
+        TextView txtId;
+
         public ViewHolder(View itemView) {
             super(itemView);
-            ButterKnife.bind(viewBooking, itemView);
-
+            ButterKnife.bind(this, itemView);
 
         }
     }

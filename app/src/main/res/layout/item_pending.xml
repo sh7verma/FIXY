@@ -34,6 +34,7 @@
                 android:orientation="vertical">
 
                 <com.app.fixy.customviews.SemiboldTextView
+                    android:id="@+id/txt_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Body Massage"
@@ -41,6 +42,7 @@
                     android:textSize="@dimen/_13ssp" />
 
                 <com.app.fixy.customviews.RegularTextView
+                    android:id="@+id/txt_coins"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="20 coins"
@@ -49,6 +51,7 @@
             </LinearLayout>
 
             <com.app.fixy.customviews.RegularTextView
+                android:id="@+id/txt_id"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="ID: 1293K46NH3"
@@ -80,6 +83,7 @@
                 android:background="@drawable/pink_oval" />
 
             <com.app.fixy.customviews.RegularTextView
+                android:id="@+id/txt_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/_10sdp"

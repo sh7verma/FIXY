@@ -1,20 +1,22 @@
 package com.app.fixy.adapters;
 
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.app.fixy.R;
 import com.app.fixy.interfaces.InterfacesCall;
+import com.app.fixy.models.RequestModel;
+
+import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -23,17 +25,16 @@ import butterknife.ButterKnife;
 public class BookingAdapter extends RecyclerView.Adapter<BookingAdapter.ViewHolder> {
 
     private final Context mContext;
-    Bitmap bitmap = null;
-
-    private Handler handler = new Handler();
     Runnable runnable;
-    private int progressStatus = 0, count = 25;
-    int start = 0,end = 75,next=0;
+    int start = 0, end = 75;
     InterfacesCall.IndexClick click;
+    ArrayList<RequestModel.ResponseBean> mData;
+    private Handler handler = new Handler();
 
-    public BookingAdapter(Context con, InterfacesCall.IndexClick click) {
+    public BookingAdapter(Context con, ArrayList<RequestModel.ResponseBean> data, InterfacesCall.IndexClick click) {
         mContext = con;
         this.click = click;
+        mData = data;
     }
 
     @NonNull
@@ -46,27 +47,19 @@ public class BookingAdapter extends RecyclerView.Adapter<BookingAdapter.ViewHold
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder holder, final int position) {
 
-        setView(holder,start);
+        setView(holder, Integer.parseInt(mData.get(holder.getAdapterPosition()).getRequest_status()));
 
-//        holder.btn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-////              progressStatus = progressStatus+30;
-//                start+=25;
-//                progressStatus=start;
-////              handler.postDelayed(runnable, 10);
-//                setView(holder, start);
-//
-//            }
-//        });
+        holder.txtName.setText(mData.get(holder.getAdapterPosition()).getFullname());
+        holder.txtId.setText("ID: " + mData.get(holder.getAdapterPosition()).getId());
+        holder.txtCoins.setText(mData.get(holder.getAdapterPosition()).getOriginal_price() + " Coins");
+        holder.txtWorkerName.setText(mData.get(holder.getAdapterPosition()).getFullname());
 
-        holder.viewBooking.llMain.setOnClickListener(new View.OnClickListener() {
+        holder.llMain.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 click.clickIndex(position);
             }
         });
-
 
     }
 
@@ -75,13 +68,13 @@ public class BookingAdapter extends RecyclerView.Adapter<BookingAdapter.ViewHold
             case 0:
                 showPending(holder);
                 break;
-            case 25:
+            case 1:
                 showAccepted(holder);
                 break;
-            case 50:
+            case 2:
                 showOnWay(holder);
                 break;
-            case 75:
+            case 3:
                 showConfirm(holder);
                 break;
         }
@@ -94,10 +87,11 @@ public class BookingAdapter extends RecyclerView.Adapter<BookingAdapter.ViewHold
         int t = (int) mContext.getResources().getDimension(R.dimen._5sdp);
         relativeLayout.setMargins(l, t, 0, 0);
         holder.vprogressbar.setLayoutParams(relativeLayout);
-        holder.viewBooking.llRequest.setVisibility(View.VISIBLE);
-        holder.viewBooking.llAccepted.setVisibility(View.GONE);
-        holder.viewBooking.llOnWay.setVisibility(View.GONE);
-        holder.viewBooking.llConfirmed.setVisibility(View.GONE);
+        holder.llRequest.setVisibility(View.VISIBLE);
+        holder.llAccepted.setVisibility(View.GONE);
+        holder.llOnWay.setVisibility(View.GONE);
+        holder.llConfirmed.setVisibility(View.GONE);
+
     }
 
     private void showAccepted(ViewHolder holder) {
@@ -108,10 +102,12 @@ public class BookingAdapter extends RecyclerView.Adapter<BookingAdapter.ViewHold
         int t = (int) mContext.getResources().getDimension(R.dimen._5sdp);
         relativeLayout.setMargins(l, t, 0, 0);
         holder.vprogressbar.setLayoutParams(relativeLayout);
-        holder.viewBooking.llRequest.setVisibility(View.VISIBLE);
-        holder.viewBooking.llAccepted.setVisibility(View.VISIBLE);
-        holder.viewBooking.llOnWay.setVisibility(View.GONE);
-        holder.viewBooking.llConfirmed.setVisibility(View.GONE);
+        holder.llRequest.setVisibility(View.VISIBLE);
+        holder.llAccepted.setVisibility(View.VISIBLE);
+        holder.llOnWay.setVisibility(View.GONE);
+        holder.llConfirmed.setVisibility(View.GONE);
+        holder.txtAcceptedTime.setText(mData.get(holder.getAdapterPosition()).getAccepted_time());
+
     }
 
     private void showOnWay(ViewHolder holder) {
@@ -122,10 +118,12 @@ public class BookingAdapter extends RecyclerView.Adapter<BookingAdapter.ViewHold
         int t = (int) mContext.getResources().getDimension(R.dimen._5sdp);
         relativeLayout.setMargins(l, t, 0, 0);
         holder.vprogressbar.setLayoutParams(relativeLayout);
-        holder.viewBooking.llRequest.setVisibility(View.VISIBLE);
-        holder.viewBooking.llAccepted.setVisibility(View.VISIBLE);
-        holder.viewBooking.llOnWay.setVisibility(View.VISIBLE);
-        holder.viewBooking.llConfirmed.setVisibility(View.GONE);
+        holder.llRequest.setVisibility(View.VISIBLE);
+        holder.llAccepted.setVisibility(View.VISIBLE);
+        holder.llOnWay.setVisibility(View.VISIBLE);
+        holder.llConfirmed.setVisibility(View.GONE);
+        holder.txt_on_the_way_time.setText(mData.get(holder.getAdapterPosition()).getOntheway_time());
+
     }
 
     private void showConfirm(ViewHolder holder) {
@@ -136,18 +134,25 @@ public class BookingAdapter extends RecyclerView.Adapter<BookingAdapter.ViewHold
         int t = (int) mContext.getResources().getDimension(R.dimen._5sdp);
         relativeLayout.setMargins(l, t, 0, 0);
         holder.vprogressbar.setLayoutParams(relativeLayout);
-        holder.viewBooking.llRequest.setVisibility(View.VISIBLE);
-        holder.viewBooking.llAccepted.setVisibility(View.VISIBLE);
-        holder.viewBooking.llOnWay.setVisibility(View.VISIBLE);
-        holder.viewBooking.llConfirmed.setVisibility(View.VISIBLE);
+        holder.llRequest.setVisibility(View.VISIBLE);
+        holder.llAccepted.setVisibility(View.VISIBLE);
+        holder.llOnWay.setVisibility(View.VISIBLE);
+        holder.llConfirmed.setVisibility(View.VISIBLE);
+        holder.txt_confirmed_time.setText(mData.get(holder.getAdapterPosition()).getConfirm_time());
     }
+
 
     @Override
     public int getItemCount() {
-        return 1;
+        return mData.size();
     }
 
-    public class ViewBooking {
+
+    public class ViewHolder extends RecyclerView.ViewHolder {
+
+        View viewCircle1, viewCircle2, viewCircle3, viewCircle4;
+        ProgressBar vprogressbar;
+
         @BindView(R.id.ll_request)
         LinearLayout llRequest;
         @BindView(R.id.ll_accepted)
@@ -158,30 +163,37 @@ public class BookingAdapter extends RecyclerView.Adapter<BookingAdapter.ViewHold
         LinearLayout llConfirmed;
         @BindView(R.id.ll_main)
         LinearLayout llMain;
-    }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
-
-        View viewCircle1, viewCircle2, viewCircle3, viewCircle4;
-        ProgressBar vprogressbar;
-        ViewBooking viewBooking = new ViewBooking();
+        @BindView(R.id.txt_name)
+        TextView txtName;
+        @BindView(R.id.txt_coins)
+        TextView txtCoins;
+        @BindView(R.id.txt_id)
+        TextView txtId;
+        @BindView(R.id.txt_worker_name)
+        TextView txtWorkerName;
+        @BindView(R.id.txt_accepted_time)
+        TextView txtAcceptedTime;
+        @BindView(R.id.txt_requested_time)
+        TextView txt_requested_time;
+        @BindView(R.id.txt_on_the_way_time)
+        TextView txt_on_the_way_time;
+        @BindView(R.id.txt_confirmed_time)
+        TextView txt_confirmed_time;
 
         public ViewHolder(final View itemView) {
             super(itemView);
-            ButterKnife.bind(viewBooking, itemView);
+            ButterKnife.bind(this, itemView);
             viewCircle1 = itemView.findViewById(R.id.view_circle1);
             viewCircle2 = itemView.findViewById(R.id.view_circle2);
             viewCircle3 = itemView.findViewById(R.id.view_circle3);
             viewCircle4 = itemView.findViewById(R.id.view_circle4);
             vprogressbar = itemView.findViewById(R.id.vprogressbar);
 
-            viewBooking.llRequest.setVisibility(View.VISIBLE);
-            viewBooking.llAccepted.setVisibility(View.GONE);
-            viewBooking.llOnWay.setVisibility(View.GONE);
-            viewBooking.llConfirmed.setVisibility(View.GONE);
-//            runProgressbar();
-
-
+            llRequest.setVisibility(View.VISIBLE);
+            llAccepted.setVisibility(View.GONE);
+            llOnWay.setVisibility(View.GONE);
+            llConfirmed.setVisibility(View.GONE);
         }
 
         private void runProgressbar() {

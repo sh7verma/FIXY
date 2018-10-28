@@ -1,6 +1,8 @@
 package com.app.fixy.activities;
 
 import android.content.Context;
+import android.content.Intent;
+import android.support.v4.content.LocalBroadcastManager;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -60,6 +62,7 @@ public class LandingActivity extends BaseActivity {
     LandingPagerAdapter mFragAdapter;
     // Current fragment selected
     int mViewSelection = InterConst.FRAG_NULL;
+    private LocalBroadcastManager broadcaster;
 
     @Override
     protected int getContentView() {
@@ -90,6 +93,8 @@ public class LandingActivity extends BaseActivity {
 
     @Override
     protected void initListener() {
+        broadcaster = LocalBroadcastManager.getInstance(this);
+
         llHome.setOnClickListener(this);
         llBookings.setOnClickListener(this);
         llCoins.setOnClickListener(this);
@@ -122,18 +127,26 @@ public class LandingActivity extends BaseActivity {
         viewProfile.setBackgroundColor(getContext().getResources().getColor(R.color.white));
 
         if (selected == InterConst.FRAG_HOME) {
+            vpFrag.setCurrentItem(InterConst.FRAG_HOME);
+
             imgHome.setImageResource(R.mipmap.ic_home_a);
             txtHome.setTextColor(getContext().getResources().getColor(R.color.app_color));
             viewHome.setBackgroundColor(getContext().getResources().getColor(R.color.app_color));
         } else if (selected == InterConst.FRAG_BOOKINGS) {
+            vpFrag.setCurrentItem(InterConst.FRAG_BOOKINGS);
+
             imgBookings.setImageResource(R.mipmap.ic_booking_a);
             txtBookings.setTextColor(getContext().getResources().getColor(R.color.app_color));
             viewBookings.setBackgroundColor(getContext().getResources().getColor(R.color.app_color));
         } else if (selected == InterConst.FRAG_COINS) {
+            vpFrag.setCurrentItem(InterConst.FRAG_COINS);
+
             imgCoins.setImageResource(R.mipmap.ic_coins_a);
             txtCoins.setTextColor(getContext().getResources().getColor(R.color.app_color));
             viewCoins.setBackgroundColor(getContext().getResources().getColor(R.color.app_color));
         } else if (selected == InterConst.FRAG_PROFILE) {
+            vpFrag.setCurrentItem(InterConst.FRAG_PROFILE);
+
             imgProfile.setImageResource(R.mipmap.ic_profile_s);
             txtProfile.setTextColor(getContext().getResources().getColor(R.color.app_color));
             viewProfile.setBackgroundColor(getContext().getResources().getColor(R.color.app_color));
@@ -147,25 +160,23 @@ public class LandingActivity extends BaseActivity {
 
     @Override
     public void onClick(View view) {
+        Intent broadcastClickIntent;
         switch (view.getId()) {
             case R.id.ll_home:
                 loadFragment(InterConst.FRAG_HOME);
-                vpFrag.setCurrentItem(InterConst.FRAG_HOME);
                 break;
             case R.id.ll_bookings:
                 loadFragment(InterConst.FRAG_BOOKINGS);
-                vpFrag.setCurrentItem(InterConst.FRAG_BOOKINGS);
+
+                broadcastClickIntent = new Intent(InterConst.FRAG_MY_REQUEST_CLICK);
+                broadcaster.sendBroadcast(broadcastClickIntent);
 
                 break;
             case R.id.ll_coins:
                 loadFragment(InterConst.FRAG_COINS);
-                vpFrag.setCurrentItem(InterConst.FRAG_COINS);
-
                 break;
             case R.id.ll_profile:
                 loadFragment(InterConst.FRAG_PROFILE);
-                vpFrag.setCurrentItem(InterConst.FRAG_PROFILE);
-
                 break;
         }
 
