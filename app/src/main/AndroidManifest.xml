@@ -126,11 +126,11 @@
             android:theme="@style/Base.Theme.AppCompat" />
         <activity android:name=".activities.ServiceListingActivity"></activity>
 
-        <!--<service android:name=".service.MyFirebaseNotificationService">-->
-            <!--<intent-filter>-->
-                <!--<action android:name="com.google.firebase.MESSAGING_EVENT" />-->
-            <!--</intent-filter>-->
-        <!--</service>-->
+        <service android:name=".service.FirebaseNotificationService">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
     </application>
 
 </manifest>
