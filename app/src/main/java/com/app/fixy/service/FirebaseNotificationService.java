@@ -58,6 +58,7 @@ public class FirebaseNotificationService extends FirebaseMessagingService {
             sendBroadcast(new Intent(InterConst.FRAG_MY_REQUEST_CLICK));
         } else {
             // app closed
+
             notificationIntent = new Intent(this, LandingActivity.class);
             generateNotification(data, 1, notificationIntent);// 1 for new request
         }
