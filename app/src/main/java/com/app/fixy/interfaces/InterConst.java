@@ -62,6 +62,7 @@ public interface InterConst {
     String STATUS_BOOKING_REQUEST = "1";
 
     String FRAG_MY_REQUEST_CLICK = "FRAG_MY_REQUEST_CLICK";
+    String FORGROUND = "for_ground";
 
     public enum WEBVIEW {
         TERM_CONDITION;

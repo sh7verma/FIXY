@@ -14,6 +14,7 @@ import android.view.View;
 import com.app.fixy.R;
 import com.app.fixy.activities.BookingDetailActivity;
 import com.app.fixy.adapters.BookingAdapter;
+import com.app.fixy.adapters.PendingAdapter;
 import com.app.fixy.interfaces.InterConst;
 import com.app.fixy.interfaces.InterfacesCall;
 import com.app.fixy.models.RequestModel;
@@ -120,8 +121,8 @@ public class BookedFragment extends BaseFragment {
     private void notifyAdapter(List<RequestModel.ResponseBean> response) {
         mData=new ArrayList<>();
         mData.addAll(response);
-        mAdapter.notifyDataSetChanged();
-
+        mAdapter = new BookingAdapter(mContext, mData, click);
+        rvPast.setAdapter(mAdapter);
     }
 
 }

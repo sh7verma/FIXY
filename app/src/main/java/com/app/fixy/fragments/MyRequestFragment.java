@@ -2,12 +2,15 @@ package com.app.fixy.fragments;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.widget.TextView;
 
 import com.app.fixy.R;
 import com.app.fixy.adapters.MyPagerAdapter;
+import com.app.fixy.interfaces.InterConst;
 
 import butterknife.BindView;
 
@@ -27,6 +30,8 @@ public class MyRequestFragment extends BaseFragment {
     TextView txtBooked;
     @BindView(R.id.txt_pending)
     TextView txtPending;
+    private LocalBroadcastManager broadcaster;
+
 
     public static MyRequestFragment newInstance(Context mCont) {
         fragment = new MyRequestFragment();
@@ -55,9 +60,13 @@ public class MyRequestFragment extends BaseFragment {
 
             @Override
             public void onPageSelected(int position) {
+                Intent broadcastClickIntent = new Intent(InterConst.FRAG_MY_REQUEST_CLICK);
+                broadcaster.sendBroadcast(broadcastClickIntent);
+
                 if (position == 0) {
                     txtBooked.setBackground(mContext.getResources().getDrawable(R.drawable.black_round));
                     txtPending.setBackground(mContext.getResources().getDrawable(R.drawable.grey_round_stroke));
+
                 } else {
                     txtBooked.setBackground(mContext.getResources().getDrawable(R.drawable.grey_round_stroke));
                     txtPending.setBackground(mContext.getResources().getDrawable(R.drawable.black_round));
@@ -73,6 +82,8 @@ public class MyRequestFragment extends BaseFragment {
 
     @Override
     protected void initListeners() {
+        broadcaster = LocalBroadcastManager.getInstance(mContext);
+
         txtBooked.setOnClickListener(this);
         txtPending.setOnClickListener(this);
     }

@@ -62,7 +62,6 @@ public class LandingActivity extends BaseActivity {
     LandingPagerAdapter mFragAdapter;
     // Current fragment selected
     int mViewSelection = InterConst.FRAG_NULL;
-    private LocalBroadcastManager broadcaster;
 
     @Override
     protected int getContentView() {
@@ -93,7 +92,6 @@ public class LandingActivity extends BaseActivity {
 
     @Override
     protected void initListener() {
-        broadcaster = LocalBroadcastManager.getInstance(this);
 
         llHome.setOnClickListener(this);
         llBookings.setOnClickListener(this);
@@ -160,7 +158,6 @@ public class LandingActivity extends BaseActivity {
 
     @Override
     public void onClick(View view) {
-        Intent broadcastClickIntent;
         switch (view.getId()) {
             case R.id.ll_home:
                 loadFragment(InterConst.FRAG_HOME);
@@ -168,8 +165,6 @@ public class LandingActivity extends BaseActivity {
             case R.id.ll_bookings:
                 loadFragment(InterConst.FRAG_BOOKINGS);
 
-                broadcastClickIntent = new Intent(InterConst.FRAG_MY_REQUEST_CLICK);
-                broadcaster.sendBroadcast(broadcastClickIntent);
 
                 break;
             case R.id.ll_coins:

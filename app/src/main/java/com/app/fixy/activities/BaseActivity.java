@@ -5,7 +5,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
-import android.provider.Settings;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -29,6 +29,10 @@ import com.app.fixy.utils.Encode;
 import com.app.fixy.utils.LoadingDialog;
 import com.app.fixy.utils.MarshMallowPermission;
 import com.app.fixy.utils.Utils;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.InstanceIdResult;
 import com.google.gson.Gson;
 
 import java.io.File;
@@ -90,7 +94,7 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 //        FacebookSdk.sdkInitialize(this);
-        setContentView(getContentView());
+//        setContentView(getContentView());
         utils = new Utils(BaseActivity.this);
         mContext = getContext();
         ButterKnife.bind(this);
@@ -103,13 +107,15 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
         initListener();
         apiInterface = RetrofitClient.getInstance();
 
+        utils.getBoolean(InterConst.FORGROUND, true);
+
+        deviceToken = FirebaseInstanceId.getInstance().getToken();
+
         mPermission = new MarshMallowPermission(this);
         errorInternet = getResources().getString(R.string.internet);
         errorAPI = getResources().getString(R.string.error);
         errorAccessToken = getResources().getString(R.string.invalid_access_token);
-        deviceToken = Settings.Secure.getString(getContext().getContentResolver(),
-                Settings.Secure.ANDROID_ID);
-
+//        getDeviceToken();
     }
 
     @Override
@@ -284,4 +290,24 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
         utils.setString(InterConst.CITY_ID, response.getCity_id());
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        utils.getBoolean(InterConst.FORGROUND, false);
+    }
+
+
+    public void getDeviceToken() {
+        FirebaseInstanceId.getInstance().getInstanceId()
+                .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<InstanceIdResult> task) {
+                        if (!task.isSuccessful()) {
+                            Log.w("", "getInstanceId failed", task.getException());
+                        }
+                        // Get new Instance ID token
+                        deviceToken = task.getResult().getToken();
+                    }
+                });
+    }
 }

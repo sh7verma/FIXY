@@ -6,6 +6,9 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.support.multidex.MultiDex;
 
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.messaging.FirebaseMessaging;
+
 
 /**
  * Created by Shubham verma on 14-08-2018.
@@ -14,16 +17,9 @@ import android.support.multidex.MultiDex;
 
 public class FixyApplication extends Application {
 
-    private static FixyApplication instance;
-    public static final String TAG = NassApplication.class
+    public static final String TAG = FixyApplication.class
             .getSimpleName();
-    @Override
-    public void onCreate() {
-        super.onCreate();
-        instance = this;
-        MultiDex.install(this);
-
-    }
+    private static FixyApplication instance;
 
     public static FixyApplication getInstance() {
         return instance;
@@ -31,6 +27,14 @@ public class FixyApplication extends Application {
 
     public static boolean hasNetwork() {
         return instance.checkIfHasNetwork();
+    }
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        instance = this;
+        MultiDex.install(this);
+//        FirebaseApp.initializeApp(this);
     }
 
     public boolean checkIfHasNetwork() {
