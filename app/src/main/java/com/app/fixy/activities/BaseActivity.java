@@ -94,7 +94,7 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 //        FacebookSdk.sdkInitialize(this);
-//        setContentView(getContentView());
+        setContentView(getContentView());
         utils = new Utils(BaseActivity.this);
         mContext = getContext();
         ButterKnife.bind(this);
@@ -109,13 +109,11 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
 
         utils.getBoolean(InterConst.FORGROUND, true);
 
-        deviceToken = FirebaseInstanceId.getInstance().getToken();
-
         mPermission = new MarshMallowPermission(this);
         errorInternet = getResources().getString(R.string.internet);
         errorAPI = getResources().getString(R.string.error);
         errorAccessToken = getResources().getString(R.string.invalid_access_token);
-//        getDeviceToken();
+        getDeviceToken();
     }
 
     @Override
@@ -305,6 +303,7 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
                         if (!task.isSuccessful()) {
                             Log.w("", "getInstanceId failed", task.getException());
                         }
+
                         // Get new Instance ID token
                         deviceToken = task.getResult().getToken();
                     }

@@ -4,24 +4,7 @@
             "outputFile": "D:\\Work\\Live\\fixy\\cropper\\build\\intermediates\\incremental\\mergeDebugAndroidTestResources\\merged.dir\\values-zh-rCN\\values-zh-rCN.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\Shubham verma\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-27.1.0.aar\\0c7a249e1ba4a58e4403a1bc8bd26be9\\res\\values-zh-rCN\\values-zh-rCN.xml",
-                    "from": {
-                        "startLines": "2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19",
-                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
-                        "startOffsets": "105,201,296,396,478,575,681,757,833,911,1007,1103,1198,1295,1390,1488,1637,1731",
-                        "endColumns": "95,94,99,81,96,105,75,75,77,95,95,94,96,94,97,148,93,77",
-                        "endOffsets": "196,291,391,473,570,676,752,828,906,1002,1098,1193,1290,1385,1483,1632,1726,1804"
-                    },
-                    "to": {
-                        "startLines": "2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,28",
-                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
-                        "startOffsets": "105,201,296,396,478,575,681,757,833,911,1007,1103,1198,1295,1390,1488,1637,2276",
-                        "endColumns": "95,94,99,81,96,105,75,75,77,95,95,94,96,94,97,148,93,77",
-                        "endOffsets": "196,291,391,473,570,676,752,828,906,1002,1098,1193,1290,1385,1483,1632,1726,2349"
-                    }
-                },
-                {
-                    "source": "C:\\Users\\Shubham verma\\.gradle\\caches\\transforms-1\\files-1.1\\support-compat-27.1.0.aar\\8d4ad2870e74c30fc5052b1e832f59d2\\res\\values-zh-rCN\\values-zh-rCN.xml",
+                    "source": "C:\\Users\\Shubham verma\\.gradle\\caches\\transforms-1\\files-1.1\\support-compat-27.1.0.aar\\9fc4a15fa6c708e1005be2557c3db119\\res\\values-zh-rCN\\values-zh-rCN.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",
@@ -35,6 +18,23 @@
                         "startOffsets": "2354",
                         "endColumns": "100",
                         "endOffsets": "2450"
+                    }
+                },
+                {
+                    "source": "C:\\Users\\Shubham verma\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-27.1.0.aar\\b109ea420accc5b4536d9740bb6e28ff\\res\\values-zh-rCN\\values-zh-rCN.xml",
+                    "from": {
+                        "startLines": "2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19",
+                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
+                        "startOffsets": "105,201,296,396,478,575,681,757,833,911,1007,1103,1198,1295,1390,1488,1637,1731",
+                        "endColumns": "95,94,99,81,96,105,75,75,77,95,95,94,96,94,97,148,93,77",
+                        "endOffsets": "196,291,391,473,570,676,752,828,906,1002,1098,1193,1290,1385,1483,1632,1726,1804"
+                    },
+                    "to": {
+                        "startLines": "2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,28",
+                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
+                        "startOffsets": "105,201,296,396,478,575,681,757,833,911,1007,1103,1198,1295,1390,1488,1637,2276",
+                        "endColumns": "95,94,99,81,96,105,75,75,77,95,95,94,96,94,97,148,93,77",
+                        "endOffsets": "196,291,391,473,570,676,752,828,906,1002,1098,1193,1290,1385,1483,1632,1726,2349"
                     }
                 },
                 {

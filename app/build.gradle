@@ -56,11 +56,12 @@ dependencies {
     implementation 'com.google.firebase:firebase-core:16.0.3'
     implementation 'com.firebase:firebase-jobdispatcher:0.8.5'
     implementation 'com.google.firebase:firebase-messaging:17.3.2'
-    //    implementation 'com.theartofdev.edmodo:android-image-cropper:2.7.0'
-    //    implementation project(':sdkui')
+
     implementation project(':cropper')
 
     //glide
     implementation 'com.github.bumptech.glide:glide:4.8.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.8.0'
 }
+apply plugin: 'com.google.gms.google-services'
+

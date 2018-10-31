@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "592214900283",
+    "firebase_url": "https://fixy-6d8f5.firebaseio.com",
+    "project_id": "fixy-6d8f5",
+    "storage_bucket": "fixy-6d8f5.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:592214900283:android:2bd6d58d5ff92917",
+        "android_client_info": {
+          "package_name": "com.app.fixy"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "592214900283-4119kgf1rrcjo6sdn2a7b2q7hpsks4c2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDNYNMbQWDvH2_TChAjGfrxVRRMiARKtB0"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

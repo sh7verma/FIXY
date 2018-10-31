@@ -4,23 +4,6 @@
             "outputFile": "D:\\Work\\Live\\fixy\\cropper\\build\\intermediates\\incremental\\mergeDebugAndroidTestResources\\merged.dir\\values-vi\\values-vi.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\Shubham verma\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-27.1.0.aar\\0c7a249e1ba4a58e4403a1bc8bd26be9\\res\\values-vi\\values-vi.xml",
-                    "from": {
-                        "startLines": "2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19",
-                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
-                        "startOffsets": "105,219,327,436,520,623,742,819,896,980,1084,1193,1294,1399,1513,1618,1775,1874",
-                        "endColumns": "113,107,108,83,102,118,76,76,83,103,108,100,104,113,104,156,98,83",
-                        "endOffsets": "214,322,431,515,618,737,814,891,975,1079,1188,1289,1394,1508,1613,1770,1869,1953"
-                    },
-                    "to": {
-                        "startLines": "2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,28",
-                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
-                        "startOffsets": "105,219,327,436,520,623,742,819,896,980,1084,1193,1294,1399,1513,1618,1775,2515",
-                        "endColumns": "113,107,108,83,102,118,76,76,83,103,108,100,104,113,104,156,98,83",
-                        "endOffsets": "214,322,431,515,618,737,814,891,975,1079,1188,1289,1394,1508,1613,1770,1869,2594"
-                    }
-                },
-                {
                     "source": "D:\\Work\\Live\\fixy\\cropper\\build\\intermediates\\bundles\\debug\\res\\values-vi\\values-vi.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,7,8,9,10",
@@ -38,7 +21,24 @@
                     }
                 },
                 {
-                    "source": "C:\\Users\\Shubham verma\\.gradle\\caches\\transforms-1\\files-1.1\\support-compat-27.1.0.aar\\8d4ad2870e74c30fc5052b1e832f59d2\\res\\values-vi\\values-vi.xml",
+                    "source": "C:\\Users\\Shubham verma\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-27.1.0.aar\\b109ea420accc5b4536d9740bb6e28ff\\res\\values-vi\\values-vi.xml",
+                    "from": {
+                        "startLines": "2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19",
+                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
+                        "startOffsets": "105,219,327,436,520,623,742,819,896,980,1084,1193,1294,1399,1513,1618,1775,1874",
+                        "endColumns": "113,107,108,83,102,118,76,76,83,103,108,100,104,113,104,156,98,83",
+                        "endOffsets": "214,322,431,515,618,737,814,891,975,1079,1188,1289,1394,1508,1613,1770,1869,1953"
+                    },
+                    "to": {
+                        "startLines": "2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,28",
+                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
+                        "startOffsets": "105,219,327,436,520,623,742,819,896,980,1084,1193,1294,1399,1513,1618,1775,2515",
+                        "endColumns": "113,107,108,83,102,118,76,76,83,103,108,100,104,113,104,156,98,83",
+                        "endOffsets": "214,322,431,515,618,737,814,891,975,1079,1188,1289,1394,1508,1613,1770,1869,2594"
+                    }
+                },
+                {
+                    "source": "C:\\Users\\Shubham verma\\.gradle\\caches\\transforms-1\\files-1.1\\support-compat-27.1.0.aar\\9fc4a15fa6c708e1005be2557c3db119\\res\\values-vi\\values-vi.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",
