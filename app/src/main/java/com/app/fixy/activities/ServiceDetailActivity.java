@@ -71,7 +71,8 @@ public class ServiceDetailActivity extends BaseActivity {
     private void hitApi() {
         if (connectedToInternet(txtTitle)) {
             showProgress();
-            Call<ServicesModel> call = RetrofitClient.getInstance().create_request(utils.getString(InterConst.ACCESS_TOKEN, ""),
+            Call<ServicesModel> call = RetrofitClient.getInstance().create_request(
+                    utils.getString(InterConst.ACCESS_TOKEN, ""), deviceToken,
                     mServiceDetail.getId(), "0"
                     , utils.getString(InterConst.CITY_ID, ""), utils.getString(InterConst.CITY_NAME, "")
                     , "", "20", "20", "", "");
@@ -84,6 +85,7 @@ public class ServiceDetailActivity extends BaseActivity {
                         showSnackBar(txtTitle, response.body().getMessage());
                     }
                 }
+
                 @Override
                 public void onFailure(@NonNull Call<ServicesModel> call, @NonNull Throwable t) {
                     hideProgress();

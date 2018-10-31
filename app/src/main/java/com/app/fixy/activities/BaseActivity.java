@@ -301,11 +301,12 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
                     @Override
                     public void onComplete(@NonNull Task<InstanceIdResult> task) {
                         if (!task.isSuccessful()) {
-                            Log.w("", "getInstanceId failed", task.getException());
+                            Log.w("getInstanceId failed", task.getException());
                         }
 
                         // Get new Instance ID token
                         deviceToken = task.getResult().getToken();
+                        Log.e("deviceToken", deviceToken);
                     }
                 });
     }

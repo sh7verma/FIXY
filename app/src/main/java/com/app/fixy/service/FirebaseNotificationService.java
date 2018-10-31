@@ -52,16 +52,16 @@ public class FirebaseNotificationService extends FirebaseMessagingService {
     private void sendNotification(Map<String, String> data) {
 
         Intent notificationIntent = null;
-        if (data.get("push_type").equals("1")) {
-            if (utils.getBoolean(InterConst.FORGROUND, false)) {
-                // if app open
-                sendBroadcast(new Intent(InterConst.FRAG_MY_REQUEST_CLICK));
-            } else {
-                //app closed
-                notificationIntent = new Intent(this, LandingActivity.class);
-                generateNotification(data, 1, notificationIntent);// 1 for new request
-            }
+//        if (data.get("push_type").equals("1")) {
+        if (utils.getBoolean(InterConst.FORGROUND, false)) {
+            // if app open
+            sendBroadcast(new Intent(InterConst.FRAG_MY_REQUEST_CLICK));
+        } else {
+            // app closed
+            notificationIntent = new Intent(this, LandingActivity.class);
+            generateNotification(data, 1, notificationIntent);// 1 for new request
         }
+//        }
 
     }
 

@@ -34,7 +34,6 @@ public class FixyApplication extends Application {
         super.onCreate();
         instance = this;
         MultiDex.install(this);
-//        FirebaseApp.initializeApp(this);
     }
 
     public boolean checkIfHasNetwork() {

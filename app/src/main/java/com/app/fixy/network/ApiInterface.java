@@ -74,6 +74,7 @@ public interface ApiInterface {
     @FormUrlEncoded
     @POST("api/v1/requests/create_request")
     Call<ServicesModel> create_request(@Field("access_token") String access_token,
+                                       @Field("device_token") String device_token,
                                        @Field("category_id") String category_id,
                                        @Field("selected_user_id") String selected_user_id,
                                        @Field("city_id") String city_id,
