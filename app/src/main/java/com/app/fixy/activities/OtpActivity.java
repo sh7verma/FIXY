@@ -17,7 +17,6 @@ import com.app.fixy.customviews.MaterialEditText;
 import com.app.fixy.interfaces.InterConst;
 import com.app.fixy.models.UserModel;
 import com.app.fixy.network.RetrofitClient;
-import com.app.fixy.utils.Utils;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -239,7 +238,7 @@ public class OtpActivity extends BaseActivity {
             showProgress();
             Call<UserModel> call = RetrofitClient.getInstance().confirm_otp(
                     utils.getString(InterConst.ACCESS_TOKEN, ""),
-                    deviceToken,
+                    utils.getString(InterConst.DEVICE_ID,""),
                     makeOTP());
             call.enqueue(new Callback<UserModel>() {
                 @Override

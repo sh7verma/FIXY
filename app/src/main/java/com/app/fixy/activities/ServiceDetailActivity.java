@@ -72,7 +72,7 @@ public class ServiceDetailActivity extends BaseActivity {
         if (connectedToInternet(txtTitle)) {
             showProgress();
             Call<ServicesModel> call = RetrofitClient.getInstance().create_request(
-                    utils.getString(InterConst.ACCESS_TOKEN, ""), deviceToken,
+                    utils.getString(InterConst.ACCESS_TOKEN, ""), utils.getString(InterConst.DEVICE_ID,""),
                     mServiceDetail.getId(), "0"
                     , utils.getString(InterConst.CITY_ID, ""), utils.getString(InterConst.CITY_NAME, "")
                     , "", "20", "20", "", "");

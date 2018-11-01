@@ -181,7 +181,7 @@ public class HomeFragment extends BaseFragment {
         if (connectedToInternet(rvRecommendedServices)) {
             showProgress();
             Call<CityModel> call = RetrofitClient.getInstance().city(utils.getString(InterConst.ACCESS_TOKEN, ""),
-                    deviceToken);
+                    utils.getString(InterConst.DEVICE_ID, ""));
             call.enqueue(new Callback<CityModel>() {
                 @Override
                 public void onResponse(@NonNull Call<CityModel> call, @NonNull Response<CityModel> response) {
@@ -207,7 +207,7 @@ public class HomeFragment extends BaseFragment {
         if (connectedToInternet(rvRecommendedServices)) {
             showProgress();
             Call<ServicesModel> call = RetrofitClient.getInstance().services(utils.getString(InterConst.ACCESS_TOKEN, ""),
-                    deviceToken, utils.getString(InterConst.CITY_ID, ""));
+                    utils.getString(InterConst.DEVICE_ID, ""), utils.getString(InterConst.CITY_ID, ""));
             call.enqueue(new Callback<ServicesModel>() {
                 @Override
                 public void onResponse(@NonNull Call<ServicesModel> call, @NonNull Response<ServicesModel> response) {

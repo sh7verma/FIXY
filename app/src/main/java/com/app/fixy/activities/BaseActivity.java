@@ -5,7 +5,6 @@ import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -29,10 +28,6 @@ import com.app.fixy.utils.Encode;
 import com.app.fixy.utils.LoadingDialog;
 import com.app.fixy.utils.MarshMallowPermission;
 import com.app.fixy.utils.Utils;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.iid.FirebaseInstanceId;
-import com.google.firebase.iid.InstanceIdResult;
 import com.google.gson.Gson;
 
 import java.io.File;
@@ -57,7 +52,6 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
     protected String errorAccessToken;
     protected String terminateAccount;
     protected Db db;
-    protected String deviceToken;
     Utils utils;
     Gson mGson = new Gson();
     Encode encode;
@@ -113,7 +107,6 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
         errorInternet = getResources().getString(R.string.internet);
         errorAPI = getResources().getString(R.string.error);
         errorAccessToken = getResources().getString(R.string.invalid_access_token);
-        getDeviceToken();
     }
 
     @Override
@@ -295,19 +288,5 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
     }
 
 
-    public void getDeviceToken() {
-        FirebaseInstanceId.getInstance().getInstanceId()
-                .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<InstanceIdResult> task) {
-                        if (!task.isSuccessful()) {
-                            Log.w("getInstanceId failed", task.getException());
-                        }
 
-                        // Get new Instance ID token
-                        deviceToken = task.getResult().getToken();
-                        Log.e("deviceToken", deviceToken);
-                    }
-                });
-    }
 }

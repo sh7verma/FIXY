@@ -3,6 +3,8 @@ package com.app.fixy.activities;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -11,8 +13,11 @@ import com.app.fixy.R;
 import com.app.fixy.customviews.MaterialEditText;
 import com.app.fixy.interfaces.InterConst;
 import com.app.fixy.models.UserModel;
-import com.app.fixy.utils.Utils;
 import com.app.fixy.utils.Validations;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.InstanceIdResult;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -30,6 +35,7 @@ public class EnterNumberActivity extends BaseActivity {
     @BindView(R.id.txt_country_code)
     TextView txtCountryCode;
 
+    protected String deviceToken;
     @Override
     protected int getContentView() {
         return R.layout.activity_enter_number;
@@ -47,7 +53,7 @@ public class EnterNumberActivity extends BaseActivity {
 
     @Override
     protected void initListener() {
-
+    getDeviceToken();
     }
 
     @Override
@@ -58,7 +64,7 @@ public class EnterNumberActivity extends BaseActivity {
     @OnClick(R.id.ll_next)
     void next() {
         utils.hideKeyboard(this);
-        if (Validations.checkPhoneValidation(this, edNumber)) {
+        if (Validations.checkPhoneValidation(this, edNumber) && !TextUtils.isEmpty(utils.getString(InterConst.DEVICE_ID,""))) {
             hitUserSignUp();
         }
     }
@@ -113,5 +119,20 @@ public class EnterNumberActivity extends BaseActivity {
             });
         }
     }
+    public void getDeviceToken() {
+        FirebaseInstanceId.getInstance().getInstanceId()
+                .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<InstanceIdResult> task) {
+                        if (!task.isSuccessful()) {
+                            Log.w("getInstanceId failed", task.getException());
+                        }
 
+                        // Get new Instance ID token
+                        deviceToken = task.getResult().getToken();
+                        utils.setString(InterConst.DEVICE_ID,deviceToken);
+                        Log.e("deviceToken", deviceToken);
+                    }
+                });
+    }
 }

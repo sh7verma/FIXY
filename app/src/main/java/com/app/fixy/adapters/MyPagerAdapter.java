@@ -13,21 +13,25 @@ public class MyPagerAdapter extends FragmentPagerAdapter {
 
     int mNumOfTabs;
     Context mContext;
+    BookedFragment bookedFragment;
+    PendingFragment pendingFragment;
 
     public MyPagerAdapter(FragmentManager fm, int NumOfTabs, Context con) {
         super(fm);
         this.mNumOfTabs = NumOfTabs;
         mContext = con;
+        bookedFragment =BookedFragment.newInstance(mContext);
+        pendingFragment =PendingFragment.newInstance(mContext);
     }
 
     @Override
     public Fragment getItem(int pos) {
         switch (pos) {
             case 0:
-                return BookedFragment.newInstance(mContext);
+                return bookedFragment;
 
             default:
-                return PendingFragment.newInstance(mContext);
+                return pendingFragment;
         }
     }
 

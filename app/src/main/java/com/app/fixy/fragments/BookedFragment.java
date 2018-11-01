@@ -1,12 +1,9 @@
 package com.app.fixy.fragments;
 
 import android.annotation.SuppressLint;
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.support.annotation.NonNull;
-import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -14,7 +11,6 @@ import android.view.View;
 import com.app.fixy.R;
 import com.app.fixy.activities.BookingDetailActivity;
 import com.app.fixy.adapters.BookingAdapter;
-import com.app.fixy.adapters.PendingAdapter;
 import com.app.fixy.interfaces.InterConst;
 import com.app.fixy.interfaces.InterfacesCall;
 import com.app.fixy.models.RequestModel;
@@ -41,12 +37,6 @@ public class BookedFragment extends BaseFragment {
     RecyclerView rvPast;
     ArrayList<RequestModel.ResponseBean> mData = new ArrayList<>();
 
-    BroadcastReceiver receiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            hitApi();
-        }
-    };
 
     InterfacesCall.IndexClick click = new InterfacesCall.IndexClick() {
         @Override
@@ -75,31 +65,33 @@ public class BookedFragment extends BaseFragment {
 
         mAdapter = new BookingAdapter(mContext,mData, click);
         rvPast.setAdapter(mAdapter);
-        hitApi();
+//        hitApi();
     }
 
     @Override
     protected void initListeners() {
-        LocalBroadcastManager.getInstance(getContext()).registerReceiver((receiver),
-                new IntentFilter(InterConst.FRAG_MY_REQUEST_CLICK));
     }
 
     @Override
     public void onClick(View view) {
 
     }
+    public void updateAdater(){
 
+//        mAdapter = new NewRequestAdapter(mContext,click, mList);
+//        rvPast.setAdapter(mAdapter);
+        hitApi();
+    }
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        LocalBroadcastManager.getInstance(getContext()).unregisterReceiver(receiver);
     }
 
     void hitApi() {
         if (connectedToInternet(rvPast)) {
             Call<RequestModel> call = RetrofitClient.getInstance().request_history(
                     utils.getString(InterConst.ACCESS_TOKEN, ""),
-                    deviceToken, InterConst.STATUS_BOOKING_REQUEST);
+                    utils.getString(InterConst.DEVICE_ID, ""), InterConst.STATUS_BOOKING_REQUEST);
             call.enqueue(new Callback<RequestModel>() {
                 @Override
                 public void onResponse(@NonNull Call<RequestModel> call, @NonNull Response<RequestModel> response) {

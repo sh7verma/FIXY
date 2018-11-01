@@ -31,6 +31,7 @@ public interface InterConst {
     int FRAG_PROFILE = 3;
 
     String ACCESS_TOKEN = "access_token";
+    String DEVICE_ID = "device_id";
     String COUNTRY_CODE = "country_code";
     String PHONE_NUMBER = "phone_number";
     String GENDER = "gender";
@@ -63,6 +64,7 @@ public interface InterConst {
 
     String FRAG_MY_REQUEST_CLICK = "FRAG_MY_REQUEST_CLICK";
     String FORGROUND = "for_ground";
+    String BOOKED_FRAG = "booked_fragement_for_api";
 
     public enum WEBVIEW {
         TERM_CONDITION;
