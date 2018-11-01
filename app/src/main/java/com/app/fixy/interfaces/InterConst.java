@@ -64,7 +64,6 @@ public interface InterConst {
 
     String FRAG_MY_REQUEST_CLICK = "FRAG_MY_REQUEST_CLICK";
     String FORGROUND = "for_ground";
-    String BOOKED_FRAG = "booked_fragement_for_api";
 
     public enum WEBVIEW {
         TERM_CONDITION;

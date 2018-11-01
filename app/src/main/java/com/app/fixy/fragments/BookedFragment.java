@@ -7,6 +7,7 @@ import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.RelativeLayout;
 
 import com.app.fixy.R;
 import com.app.fixy.activities.BookingDetailActivity;
@@ -30,12 +31,13 @@ public class BookedFragment extends BaseFragment {
     static BookedFragment fragment;
     @SuppressLint("StaticFieldLeak")
     private static Context mContext;
-
-    BookingAdapter mAdapter;
-
+    @BindView(R.id.rl_main)
+    RelativeLayout rlMain;
     @BindView(R.id.recycleview)
     RecyclerView rvPast;
+
     ArrayList<RequestModel.ResponseBean> mData = new ArrayList<>();
+    BookingAdapter mAdapter;
 
 
     InterfacesCall.IndexClick click = new InterfacesCall.IndexClick() {
@@ -63,9 +65,8 @@ public class BookedFragment extends BaseFragment {
         rvPast.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false));
         rvPast.setNestedScrollingEnabled(false);
 
-        mAdapter = new BookingAdapter(mContext,mData, click);
+        mAdapter = new BookingAdapter(mContext, mData, click);
         rvPast.setAdapter(mAdapter);
-//        hitApi();
     }
 
     @Override
@@ -76,29 +77,21 @@ public class BookedFragment extends BaseFragment {
     public void onClick(View view) {
 
     }
-    public void updateAdater(){
 
-//        mAdapter = new NewRequestAdapter(mContext,click, mList);
-//        rvPast.setAdapter(mAdapter);
-        hitApi();
-    }
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-    }
 
     void hitApi() {
-        if (connectedToInternet(rvPast)) {
+        if (connectedToInternet(rlMain)) {
             Call<RequestModel> call = RetrofitClient.getInstance().request_history(
                     utils.getString(InterConst.ACCESS_TOKEN, ""),
-                    utils.getString(InterConst.DEVICE_ID, ""), InterConst.STATUS_BOOKING_REQUEST);
+                    utils.getString(InterConst.DEVICE_ID, ""),
+                    InterConst.STATUS_BOOKING_REQUEST);
             call.enqueue(new Callback<RequestModel>() {
                 @Override
                 public void onResponse(@NonNull Call<RequestModel> call, @NonNull Response<RequestModel> response) {
                     if (response.body().getCode().equals(InterConst.SUCCESS_RESULT)) {
                         notifyAdapter(response.body().getResponse());
                     } else if (response.body().getCode().equals(InterConst.ERROR_RESULT)) {
-                        showSnackBar(rvPast, response.body().getMessage());
+                        showSnackBar(rlMain, response.body().getMessage());
                     }
                 }
 
@@ -111,7 +104,7 @@ public class BookedFragment extends BaseFragment {
     }
 
     private void notifyAdapter(List<RequestModel.ResponseBean> response) {
-        mData=new ArrayList<>();
+        mData = new ArrayList<>();
         mData.addAll(response);
         mAdapter = new BookingAdapter(mContext, mData, click);
         rvPast.setAdapter(mAdapter);

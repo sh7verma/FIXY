@@ -10,6 +10,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
 import com.app.fixy.R;
@@ -30,6 +31,7 @@ public class FirebaseNotificationService extends FirebaseMessagingService {
 
     private static final String TAG = "Notification";
     Utils utils;
+    LocalBroadcastManager broadcastManager;
 
     @Override
     public void onCreate() {
@@ -40,6 +42,7 @@ public class FirebaseNotificationService extends FirebaseMessagingService {
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
         super.onMessageReceived(remoteMessage);
+        broadcastManager = LocalBroadcastManager.getInstance(this);
         if (remoteMessage.getData().size() > 0) {
             Map<String, String> data = remoteMessage.getData();
             Log.d(TAG, "Message data: " + remoteMessage.getData());
@@ -55,10 +58,9 @@ public class FirebaseNotificationService extends FirebaseMessagingService {
 //        if (data.get("push_type").equals("1")) {
         if (utils.getBoolean(InterConst.FORGROUND, false)) {
             // if app open
-            sendBroadcast(new Intent(InterConst.FRAG_MY_REQUEST_CLICK));
+            broadcastManager.sendBroadcast(new Intent(InterConst.FRAG_MY_REQUEST_CLICK));
         } else {
             // app closed
-
             notificationIntent = new Intent(this, LandingActivity.class);
             generateNotification(data, 1, notificationIntent);// 1 for new request
         }

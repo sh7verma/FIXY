@@ -37,7 +37,6 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
     protected String errorAccessToken;
     protected String terminateAccount;
     //    RoomDb mRoomDb;
-    protected String deviceToken;
     //    protected Db db;
     Utils utils;
     Gson mGson = new Gson();
@@ -70,12 +69,8 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(getContentView(), container, false);
-        ButterKnife.bind(BaseFragment.this, view);
         mContext = getContext();
-//        mRoomDb = Room.databaseBuilder(mContext.getApplicationContext(),
-//                RoomDb.class, "nass-db").allowMainThreadQueries().fallbackToDestructiveMigration().build();
-        deviceToken = Settings.Secure.getString(getContext().getContentResolver(),
-                Settings.Secure.ANDROID_ID);
+        ButterKnife.bind(BaseFragment.this, view);
         return view;
     }
 
@@ -89,7 +84,6 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
         super.onActivityCreated(savedInstanceState);
         onCreateStuff();
         initListeners();
-
     }
 
     protected abstract int getContentView();
@@ -130,7 +124,6 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
 
     public boolean connectedToInternet() {
         if ((new Connection_Detector(mContext)).isConnectingToInternet()) {
-//            Consts.NO_INTERNET = false;
             return true;
         } else {
             return false;
@@ -147,10 +140,10 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
     }
 
     protected void showInternetAlert(View view) {
-        mSnackbar = Snackbar.make(view, "Internet connection not available!", Snackbar.LENGTH_SHORT);
+        mSnackbar = Snackbar.make(view, errorInternet, Snackbar.LENGTH_SHORT);
         mSnackbar.show();
     }
-//
+
 //    void showInternetDialog() {
 //        if (!Consts.NO_INTERNET) {
 //            AlertDialog.Builder builder1 = new AlertDialog.Builder(mContext);
@@ -170,6 +163,5 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
     public void toast(String message) {
         Toast.makeText(mContext, message, Toast.LENGTH_SHORT).show();
     }
-
 
 }

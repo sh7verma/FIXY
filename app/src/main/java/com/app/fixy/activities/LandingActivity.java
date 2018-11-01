@@ -168,7 +168,6 @@ public class LandingActivity extends BaseActivity {
                 loadFragment(InterConst.FRAG_BOOKINGS);
                 Intent broadcastClickIntent = new Intent(InterConst.FRAG_MY_REQUEST_CLICK);
                 broadcaster.sendBroadcast(broadcastClickIntent);
-
                 break;
             case R.id.ll_coins:
                 loadFragment(InterConst.FRAG_COINS);

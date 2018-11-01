@@ -19,15 +19,17 @@ import butterknife.BindView;
 public class ProfileFragment extends BaseFragment {
 
     @SuppressLint("StaticFieldLeak")
+    public static Context mContext;
+    @SuppressLint("StaticFieldLeak")
     static ProfileFragment fragment;
-
     @BindView(R.id.ll_address)
     LinearLayout llAddress;
     @BindView(R.id.ll_settings)
     LinearLayout llSettings;
 
-    public static ProfileFragment newInstance(Context mContext) {
+    public static ProfileFragment newInstance(Context context) {
         fragment = new ProfileFragment();
+        mContext = context;
         return fragment;
     }
 

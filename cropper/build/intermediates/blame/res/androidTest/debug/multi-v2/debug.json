@@ -523,38 +523,6 @@
             ]
         },
         {
-            "outputFile": "D:\\Work\\Live\\fixy\\cropper\\build\\intermediates\\res\\merged\\androidTest\\debug\\values-kn_values-kn.arsc.flat",
-            "map": [
-                {
-                    "source": "C:\\Users\\Shubham verma\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-27.1.0.aar\\b109ea420accc5b4536d9740bb6e28ff\\res\\values-kn\\values-kn.xml",
-                    "from": {
-                        "startLines": "2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19",
-                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
-                        "startOffsets": "105,223,335,448,536,643,770,847,924,1006,1122,1233,1332,1445,1549,1663,1827,1927",
-                        "endColumns": "117,111,112,87,106,126,76,76,81,115,110,98,112,103,113,163,99,81",
-                        "endOffsets": "218,330,443,531,638,765,842,919,1001,1117,1228,1327,1440,1544,1658,1822,1922,2004"
-                    }
-                },
-                {
-                    "source": "C:\\Users\\Shubham verma\\.gradle\\caches\\transforms-1\\files-1.1\\support-compat-27.1.0.aar\\9fc4a15fa6c708e1005be2557c3db119\\res\\values-kn\\values-kn.xml",
-                    "from": {
-                        "startLines": "2",
-                        "startColumns": "4",
-                        "startOffsets": "55",
-                        "endColumns": "100",
-                        "endOffsets": "151"
-                    },
-                    "to": {
-                        "startLines": "20",
-                        "startColumns": "4",
-                        "startOffsets": "2009",
-                        "endColumns": "100",
-                        "endOffsets": "2105"
-                    }
-                }
-            ]
-        },
-        {
             "outputFile": "D:\\Work\\Live\\fixy\\cropper\\build\\intermediates\\res\\merged\\androidTest\\debug\\values-iw_values-iw.arsc.flat",
             "map": [
                 {
@@ -582,6 +550,38 @@
                         "startOffsets": "105,209,308,416,500,600,714,792,870,951,1053,1157,1255,1358,1459,1559,1711,1807",
                         "endColumns": "103,98,107,83,99,113,77,77,80,101,103,97,102,100,99,151,95,80",
                         "endOffsets": "204,303,411,495,595,709,787,865,946,1048,1152,1250,1353,1454,1554,1706,1802,1883"
+                    }
+                }
+            ]
+        },
+        {
+            "outputFile": "D:\\Work\\Live\\fixy\\cropper\\build\\intermediates\\res\\merged\\androidTest\\debug\\values-kn_values-kn.arsc.flat",
+            "map": [
+                {
+                    "source": "C:\\Users\\Shubham verma\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-27.1.0.aar\\b109ea420accc5b4536d9740bb6e28ff\\res\\values-kn\\values-kn.xml",
+                    "from": {
+                        "startLines": "2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19",
+                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
+                        "startOffsets": "105,223,335,448,536,643,770,847,924,1006,1122,1233,1332,1445,1549,1663,1827,1927",
+                        "endColumns": "117,111,112,87,106,126,76,76,81,115,110,98,112,103,113,163,99,81",
+                        "endOffsets": "218,330,443,531,638,765,842,919,1001,1117,1228,1327,1440,1544,1658,1822,1922,2004"
+                    }
+                },
+                {
+                    "source": "C:\\Users\\Shubham verma\\.gradle\\caches\\transforms-1\\files-1.1\\support-compat-27.1.0.aar\\9fc4a15fa6c708e1005be2557c3db119\\res\\values-kn\\values-kn.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endColumns": "100",
+                        "endOffsets": "151"
+                    },
+                    "to": {
+                        "startLines": "20",
+                        "startColumns": "4",
+                        "startOffsets": "2009",
+                        "endColumns": "100",
+                        "endOffsets": "2105"
                     }
                 }
             ]
@@ -619,6 +619,21 @@
             ]
         },
         {
+            "outputFile": "D:\\Work\\Live\\fixy\\cropper\\build\\intermediates\\res\\merged\\androidTest\\debug\\values-en-rXC_values-en-rXC.arsc.flat",
+            "map": [
+                {
+                    "source": "C:\\Users\\Shubham verma\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-27.1.0.aar\\b109ea420accc5b4536d9740bb6e28ff\\res\\values-en-rXC\\values-en-rXC.xml",
+                    "from": {
+                        "startLines": "2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19",
+                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
+                        "startOffsets": "105,310,510,719,904,1106,1321,1494,1671,1855,2059,2264,2465,2672,2874,3079,3351,3551",
+                        "endColumns": "204,199,208,184,201,214,172,176,183,203,204,200,206,201,204,271,199,178",
+                        "endOffsets": "305,505,714,899,1101,1316,1489,1666,1850,2054,2259,2460,2667,2869,3074,3346,3546,3725"
+                    }
+                }
+            ]
+        },
+        {
             "outputFile": "D:\\Work\\Live\\fixy\\cropper\\build\\intermediates\\res\\merged\\androidTest\\debug\\values-en-rGB_values-en-rGB.arsc.flat",
             "map": [
                 {
@@ -646,21 +661,6 @@
                         "startOffsets": "105,209,309,417,501,601,716,793,869,951,1054,1158,1257,1362,1465,1569,1725,1825",
                         "endColumns": "103,99,107,83,99,114,76,75,81,102,103,98,104,102,103,155,99,81",
                         "endOffsets": "204,304,412,496,596,711,788,864,946,1049,1153,1252,1357,1460,1564,1720,1820,1902"
-                    }
-                }
-            ]
-        },
-        {
-            "outputFile": "D:\\Work\\Live\\fixy\\cropper\\build\\intermediates\\res\\merged\\androidTest\\debug\\values-en-rXC_values-en-rXC.arsc.flat",
-            "map": [
-                {
-                    "source": "C:\\Users\\Shubham verma\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-27.1.0.aar\\b109ea420accc5b4536d9740bb6e28ff\\res\\values-en-rXC\\values-en-rXC.xml",
-                    "from": {
-                        "startLines": "2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19",
-                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
-                        "startOffsets": "105,310,510,719,904,1106,1321,1494,1671,1855,2059,2264,2465,2672,2874,3079,3351,3551",
-                        "endColumns": "204,199,208,184,201,214,172,176,183,203,204,200,206,201,204,271,199,178",
-                        "endOffsets": "305,505,714,899,1101,1316,1489,1666,1850,2054,2259,2460,2667,2869,3074,3346,3546,3725"
                     }
                 }
             ]
@@ -1181,21 +1181,6 @@
             ]
         },
         {
-            "outputFile": "D:\\Work\\Live\\fixy\\cropper\\build\\intermediates\\res\\merged\\androidTest\\debug\\values-port_values-port.arsc.flat",
-            "map": [
-                {
-                    "source": "C:\\Users\\Shubham verma\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-27.1.0.aar\\b109ea420accc5b4536d9740bb6e28ff\\res\\values-port\\values-port.xml",
-                    "from": {
-                        "startLines": "2",
-                        "startColumns": "4",
-                        "startOffsets": "55",
-                        "endColumns": "55",
-                        "endOffsets": "106"
-                    }
-                }
-            ]
-        },
-        {
             "outputFile": "D:\\Work\\Live\\fixy\\cropper\\build\\intermediates\\res\\merged\\androidTest\\debug\\values-sw_values-sw.arsc.flat",
             "map": [
                 {
@@ -1223,6 +1208,21 @@
                         "startOffsets": "105,208,306,414,504,609,726,808,891,973,1074,1183,1282,1389,1498,1603,1765,1862",
                         "endColumns": "102,97,107,89,104,116,81,82,81,100,108,98,106,108,104,161,96,81",
                         "endOffsets": "203,301,409,499,604,721,803,886,968,1069,1178,1277,1384,1493,1598,1760,1857,1939"
+                    }
+                }
+            ]
+        },
+        {
+            "outputFile": "D:\\Work\\Live\\fixy\\cropper\\build\\intermediates\\res\\merged\\androidTest\\debug\\values-port_values-port.arsc.flat",
+            "map": [
+                {
+                    "source": "C:\\Users\\Shubham verma\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-27.1.0.aar\\b109ea420accc5b4536d9740bb6e28ff\\res\\values-port\\values-port.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endColumns": "55",
+                        "endOffsets": "106"
                     }
                 }
             ]

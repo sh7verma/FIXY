@@ -7,7 +7,7 @@ import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 import com.app.fixy.R;
 import com.app.fixy.activities.PendingDetailActivity;
@@ -33,15 +33,14 @@ public class PendingFragment extends BaseFragment {
     @SuppressLint("StaticFieldLeak")
     static Context mContext;
 
-    @BindView(R.id.ll_main)
-    LinearLayout llMain;
+    @BindView(R.id.rl_main)
+    RelativeLayout rlMain;
+
     @BindView(R.id.recycleview)
     RecyclerView rvPast;
 
     PendingAdapter mAdapter;
     ArrayList<RequestModel.ResponseBean> mData = new ArrayList<>();
-
-
 
     InterfacesCall.IndexClick click = new InterfacesCall.IndexClick() {
         @Override
@@ -70,17 +69,10 @@ public class PendingFragment extends BaseFragment {
 
         mAdapter = new PendingAdapter(mContext, mData, click);
         rvPast.setAdapter(mAdapter);
-
-//        hitApi();
     }
-    public void updateAdater(){
 
-//        mAdapter = new NewRequestAdapter(mContext,click, mList);
-//        rvPast.setAdapter(mAdapter);
-        hitApi();
-    }
     void hitApi() {
-        if (connectedToInternet(llMain)) {
+        if (connectedToInternet(rlMain)) {
             Call<RequestModel> call = RetrofitClient.getInstance().request_history(
                     utils.getString(InterConst.ACCESS_TOKEN, ""),
                     utils.getString(InterConst.DEVICE_ID, ""), InterConst.STATUS_PENDING_REQUEST);
@@ -90,7 +82,7 @@ public class PendingFragment extends BaseFragment {
                     if (response.body().getCode().equals(InterConst.SUCCESS_RESULT)) {
                         notifyAdapter(response.body().getResponse());
                     } else if (response.body().getCode().equals(InterConst.ERROR_RESULT)) {
-                        showSnackBar(llMain, response.body().getMessage());
+                        showSnackBar(rlMain, response.body().getMessage());
                     }
                 }
 
@@ -117,7 +109,5 @@ public class PendingFragment extends BaseFragment {
     public void onClick(View view) {
 
     }
-
-
 
 }
