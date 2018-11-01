@@ -19,9 +19,10 @@ import butterknife.BindView;
 public class ProfileFragment extends BaseFragment {
 
     @SuppressLint("StaticFieldLeak")
-    public static Context mContext;
+    static Context mContext;
     @SuppressLint("StaticFieldLeak")
     static ProfileFragment fragment;
+
     @BindView(R.id.ll_address)
     LinearLayout llAddress;
     @BindView(R.id.ll_settings)
@@ -48,7 +49,6 @@ public class ProfileFragment extends BaseFragment {
     protected void initListeners() {
         llAddress.setOnClickListener(this);
         llSettings.setOnClickListener(this);
-
     }
 
     @Override
